@@ -1,0 +1,28 @@
+Configuration:
+    name: Default
+    properties:
+        property:
+            name: filename
+            value: "YamlToBot/logs/log-latest.log"
+    thresholdFilter:
+        level: all
+    appenders:
+        Console:
+            name: STDOUT
+            target: SYSTEM_OUT
+            PatternLayout:
+                Pattern: "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"
+        File:
+            name: File
+            fileName: ${filename}
+            PatternLayout:
+                Pattern: "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"
+            Filters:
+                ThresholdFilter:
+                    level: all
+    Loggers:
+        Root:
+          level: all
+          AppenderRef:
+            ref: STDOUT
+            ref: File
