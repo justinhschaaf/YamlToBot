@@ -9,5 +9,6 @@
   <modules>
   	<module>core</module>
   	<module>discord</module>
+  	<module>twitch</module>
   </modules>
 </project>

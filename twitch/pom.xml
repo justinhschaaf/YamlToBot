@@ -6,9 +6,9 @@
 		<version>0.0.1</version>
 	</parent>
 	<groupId>net.jusanov.yamltobot</groupId>
-	<artifactId>core</artifactId>
-	<name>YAML to Bot - Core</name>
-	<description>Create a bot from the given YAML file.</description>
+	<artifactId>twitch</artifactId>
+	<name>YAML to Bot - Twitch</name>
+	<description>Create a Twitch bot from the given YAML file.</description>
 	<repositories>
 	    <repository>
 	        <id>jitpack.io</id>
@@ -16,25 +16,20 @@
 	    </repository>
 	</repositories>
 	<dependencies>
+		<dependency>
+			<groupId>pircbot</groupId>
+			<artifactId>pircbot</artifactId>
+			<version>1.5.0</version>
+		</dependency>
+	    <dependency>
+			<groupId>net.jusanov.yamltobot</groupId>
+			<artifactId>core</artifactId>
+			<version>0.0.1</version>
+	    </dependency>
 	    <dependency>
 	        <groupId>net.jusanov</groupId>
 	        <artifactId>jusanovsutils</artifactId>
 	        <version>6c64cd4629</version>
 	    </dependency>
-	  	<dependency>
-	    	<groupId>com.amihaiemil.web</groupId>
-	    	<artifactId>camel</artifactId>
-	    	<version>1.0.2</version>
-		</dependency>
-      	<dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-api</artifactId>
-		    <version>2.11.0</version>
-		</dependency>
-  		<dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-core</artifactId>
-		    <version>2.11.0</version>
-  		</dependency>
 	</dependencies>
 </project>

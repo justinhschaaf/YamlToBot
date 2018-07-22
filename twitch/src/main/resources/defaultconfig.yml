@@ -1,0 +1,11 @@
+token: 123456789012345678
+prefix: "::"
+name: MyTestBot
+channels:
+    - jusanov
+commands:
+    pingcommand:
+        name: ping
+        message:
+            - "pong!"
+        enabled: true

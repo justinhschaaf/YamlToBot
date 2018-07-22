@@ -43,6 +43,45 @@ public class ConfigHandler {
 		
 	}
 	
+	public static String getName() {
+		
+		try {
+			return Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().string("name");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+		
+	}
+	
+	// Twitch
+	public static ArrayList<String> getChannels() {
+		
+		try {
+			
+			YamlSequence channelsYaml = Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().yamlSequence("channels");
+			//.yamlSequence(index)
+			
+			ArrayList<String> channels = new ArrayList<String>();
+			for (int i = 0; i < channelsYaml.size(); i++) {
+				channels.add(channelsYaml.string(i));
+			}
+			
+			return channels;
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+		
+	}
+	
 	// Commands
 	public static ArrayList<String> getCommands() {
 		
