@@ -6,6 +6,7 @@ import org.javacord.api.DiscordApiBuilder;
 
 import net.jusanov.yamltobot.core.handler.ConfigHandler;
 import net.jusanov.yamltobot.core.setup.Setup;
+import net.jusanov.yamltobot.core.setup.SetupWindow;
 
 public class BotHandler {
 
@@ -16,6 +17,7 @@ public class BotHandler {
 		// Yaml to Bot Setup
 		Setup.setupLogs();
 		Setup.setupDefaultConfig(new File(ClassLoader.getSystemResource("defaultconfig.yml").getFile()));
+		SetupWindow.setupWindow();
 		
 		// Discord Bot Setup
 		api = new DiscordApiBuilder().setToken(ConfigHandler.getString("token")).login().join();

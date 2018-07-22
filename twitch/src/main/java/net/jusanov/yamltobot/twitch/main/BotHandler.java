@@ -9,6 +9,7 @@ import org.jibble.pircbot.IrcException;
 import net.jusanov.yamltobot.core.handler.ConfigHandler;
 import net.jusanov.yamltobot.core.handler.LogHandler;
 import net.jusanov.yamltobot.core.setup.Setup;
+import net.jusanov.yamltobot.core.setup.SetupWindow;
 
 public class BotHandler {
 
@@ -19,6 +20,7 @@ public class BotHandler {
 			// Yaml to Bot Setup
 			Setup.setupLogs();
 			Setup.setupDefaultConfig(new File(ClassLoader.getSystemResource("defaultconfig.yml").getFile()));
+			SetupWindow.setupWindow();
 			
 			// Twitch Bot Setup
 			TwitchBot bot = new TwitchBot(ConfigHandler.getString("name"));
