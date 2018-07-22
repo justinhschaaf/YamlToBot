@@ -18,7 +18,7 @@ public class BotHandler {
 		Setup.setupDefaultConfig(new File(ClassLoader.getSystemResource("defaultconfig.yml").getFile()));
 		
 		// Discord Bot Setup
-		api = new DiscordApiBuilder().setToken(ConfigHandler.getToken()).login().join();
+		api = new DiscordApiBuilder().setToken(ConfigHandler.getString("token")).login().join();
 		api.addMessageCreateListener(new MessageHandler());
 
 	}

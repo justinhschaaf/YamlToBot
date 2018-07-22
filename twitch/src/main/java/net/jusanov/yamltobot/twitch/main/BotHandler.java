@@ -21,12 +21,12 @@ public class BotHandler {
 			Setup.setupDefaultConfig(new File(ClassLoader.getSystemResource("defaultconfig.yml").getFile()));
 			
 			// Twitch Bot Setup
-			TwitchBot bot = new TwitchBot(ConfigHandler.getName());
+			TwitchBot bot = new TwitchBot(ConfigHandler.getString("name"));
 			bot.setVerbose(true);
-			bot.connect("irc.twitch.tv", 6667, ConfigHandler.getToken());
+			bot.connect("irc.twitch.tv", 6667, ConfigHandler.getString("token"));
 			
 			// Join Channels
-			ArrayList<String> channels = ConfigHandler.getChannels();
+			ArrayList<String> channels = ConfigHandler.getArray("channels");
 			for(int c = 0; c < channels.size(); c++) {
 				
 				String channel = channels.get(c);

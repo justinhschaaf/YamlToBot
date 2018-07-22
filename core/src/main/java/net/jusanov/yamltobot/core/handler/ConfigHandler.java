@@ -15,10 +15,10 @@ public class ConfigHandler {
 	public static final File config = new File("YamlToBot/config.yml");
 	
 	// General
-	public static String getPrefix() {
+	public static String getString(String key) {
 		
 		try {
-			return Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().string("prefix");
+			return Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().string(key);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -29,41 +29,11 @@ public class ConfigHandler {
 		
 	}
 	
-	public static String getToken() {
-		
-		try {
-			return Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().string("token");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
-		
-	}
-	
-	public static String getName() {
-		
-		try {
-			return Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().string("name");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
-		
-	}
-	
-	// Twitch
-	public static ArrayList<String> getChannels() {
+	public static ArrayList<String> getArray(String key) {
 		
 		try {
 			
-			YamlSequence channelsYaml = Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().yamlSequence("channels");
-			//.yamlSequence(index)
+			YamlSequence channelsYaml = Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().yamlSequence(key);
 			
 			ArrayList<String> channels = new ArrayList<String>();
 			for (int i = 0; i < channelsYaml.size(); i++) {
@@ -88,7 +58,6 @@ public class ConfigHandler {
 		try {
 			
 			YamlSequence commandYaml = Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().yamlSequence("commands");
-			//.yamlSequence(index)
 			
 			ArrayList<String> commands = new ArrayList<String>();
 			for (int i = 0; i < commandYaml.size(); i++) {
@@ -149,16 +118,20 @@ public class ConfigHandler {
 		
 	}
 	
-	public static ArrayList<String> getMessage(String command) {
-			
-		YamlSequence commandYaml = getCommand(command).yamlSequence("message");
-		ArrayList<String> message = new ArrayList<String>();
+	public static String getCommandString(String command, String key) {
+		return getCommand(command).string(key);
+	}
+	
+	public static ArrayList<String> getCommandArray(String command, String key) {
+		
+		YamlSequence commandYaml = getCommand(command).yamlSequence(key);
+		ArrayList<String> array = new ArrayList<String>();
 		
 		for (int i = 0; i < commandYaml.size(); i++) {
-			message.add(commandYaml.string(i));
+			array.add(commandYaml.string(i));
 		}
 		
-		return message;
+		return array;
 		
 	}
 	

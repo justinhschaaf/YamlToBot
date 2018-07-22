@@ -18,13 +18,13 @@ public class MessageHandler implements MessageCreateListener {
 		
 		for(int i = 0; i < commands.size(); i++) {
 			
-			String commandName = commands.get(i);
+			String command = commands.get(i);
 			
-			if(event.getMessage().getContent().startsWith(ConfigHandler.getPrefix() + commandName)) {
+			if(event.getMessage().getContent().startsWith(ConfigHandler.getString("prefix") + command)) {
 				
-				LogHandler.log.debug("Command " + commandName + " detected!");
+				LogHandler.log.debug("Command " + command + " detected!");
 				
-				if(ConfigHandler.getEnabled(commandName) == false) {
+				if(ConfigHandler.getEnabled(command) == false) {
 					
 					continue;
 					
@@ -32,7 +32,7 @@ public class MessageHandler implements MessageCreateListener {
 					
 					StringBuilder messageBuilder = new StringBuilder();
 					
-					ArrayList<String> message = ConfigHandler.getMessage(commandName);
+					ArrayList<String> message = ConfigHandler.getCommandArray(command, "message");
 					
 					for (int j = 0; j < message.size(); j++) {
 						

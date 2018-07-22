@@ -28,7 +28,7 @@ public class TwitchBot extends PircBot {
 			
 			String command = commands.get(i);
 			
-			if(message.startsWith(ConfigHandler.getPrefix() + command)) {
+			if(message.startsWith(ConfigHandler.getString("prefix") + command)) {
 				
 				LogHandler.log.debug("Command " + command + " detected!");
 				
@@ -40,7 +40,7 @@ public class TwitchBot extends PircBot {
 					
 					StringBuilder messageBuilder = new StringBuilder();
 					
-					ArrayList<String> returnMessage = ConfigHandler.getMessage(command);
+					ArrayList<String> returnMessage = ConfigHandler.getCommandArray(command, "message");
 					
 					for (int j = 0; j < returnMessage.size(); j++) {
 						
