@@ -19,7 +19,7 @@ public class BotHandler {
 			
 			// Yaml to Bot Setup
 			Setup.setupLogs();
-			Setup.setupDefaultConfig(new File(ClassLoader.getSystemResource("defaultconfig.yml").getFile()));
+			Setup.setupDefaultConfig(new File(ClassLoader.getSystemClassLoader().getResource("defaultconfig.yml").getFile()));
 			SetupWindow.setupWindow();
 			
 			// Twitch Bot Setup
@@ -33,7 +33,7 @@ public class BotHandler {
 				
 				String channel = channels.get(c);
 				bot.joinChannel("#" + channel);
-				LogHandler.log.debug("Channel " + channel + " joined!");
+				LogHandler.debug("Channel " + channel + " joined!");
 				
 			}
 			

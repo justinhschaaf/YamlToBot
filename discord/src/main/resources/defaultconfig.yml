@@ -1,8 +1,0 @@
-token: 123456789012345678
-prefix: "::"
-commands:
-    pingcommand:
-        name: ping
-        message:
-            - "pong!"
-        enabled: true

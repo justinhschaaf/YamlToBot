@@ -12,7 +12,7 @@ public class MessageHandler implements MessageCreateListener {
 
 	public void onMessageCreate(MessageCreateEvent event) {
 		
-		LogHandler.log.info("[" + event.getChannel() + "]" + event.getMessage().getAuthor().getDisplayName() + ": " + event.getMessage().getContent());
+		LogHandler.info("[" + event.getChannel().toString() + ", " + event.getServer().get().getName() + "]" + event.getMessage().getAuthor().getDisplayName() + ": " + event.getMessage().getContent());
 		
 		ArrayList<String> commands = ConfigHandler.getCommands();
 		
@@ -22,7 +22,7 @@ public class MessageHandler implements MessageCreateListener {
 			
 			if(event.getMessage().getContent().startsWith(ConfigHandler.getString("prefix") + command)) {
 				
-				LogHandler.log.debug("Command " + command + " detected!");
+				LogHandler.debug("Command " + command + " detected!");
 				
 				if(ConfigHandler.getEnabled(command) == false) {
 					

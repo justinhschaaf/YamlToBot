@@ -16,3 +16,6 @@ buildNumber.properties
 .settings/
 .classpath
 .project
+
+# Testing Paths
+*/YamlToBot/

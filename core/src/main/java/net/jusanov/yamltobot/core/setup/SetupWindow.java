@@ -24,14 +24,14 @@ public class SetupWindow {
 		window.setVisible(true);
 		window.setSize(Toolkit.getDefaultToolkit().getScreenSize().width / 2, Toolkit.getDefaultToolkit().getScreenSize().height / 2);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setResizable(true);
+		window.setResizable(false);
 		window.setTitle("Yaml to Bot | " + ConfigHandler.getString("name"));
-		window.setIconImage(new ImageIcon(ClassLoader.getSystemResource("assets/icon.svg")).getImage());
+		window.setIconImage(new ImageIcon(ClassLoader.getSystemClassLoader().getResource("assets/icon.svg")).getImage());
 		
 		JPanel header = new JPanel();
 		header.setSize(window.getSize().width, window.getSize().height / 10);
 		header.setBackground(new Color(Integer.parseInt("283F50",16)));
-		JLabel logo = new JLabel(new ImageIcon(ClassLoader.getSystemResource("assets/icon.svg")));
+		JLabel logo = new JLabel(new ImageIcon(ClassLoader.getSystemClassLoader().getResource("assets/icon.svg")));
 		logo.setSize(window.getHeight(), window.getHeight());
 		logo.setVisible(true);
 		header.add(logo);
@@ -49,6 +49,7 @@ public class SetupWindow {
 		log.setLineWrap(true);
 		log.setVisible(true);
 		log.setAlignmentY(Component.CENTER_ALIGNMENT);
+		log.setEditable(false);
 		body.add(log);
 		
 		JPanel footer = new JPanel();
@@ -60,7 +61,7 @@ public class SetupWindow {
 		window.add(body);
 		window.add(footer);
 		
-		while (true) {
+		/*while (true) {
 			
 			try {
 				FileInputStream logText = new FileInputStream(new File("YamlToBot/logs/log-latest.log"));
@@ -72,7 +73,7 @@ public class SetupWindow {
 				e.printStackTrace();
 			}
 			
-		}
+		}*/
 		
 	}
 	

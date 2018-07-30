@@ -1,16 +1,11 @@
 package net.jusanov.yamltobot.core.setup;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import net.jusanov.utils.io.FileManager;
-import net.jusanov.yamltobot.core.handler.ConfigHandler;
 import net.jusanov.yamltobot.core.handler.LogHandler;
 
 public class Setup {
@@ -24,8 +19,9 @@ public class Setup {
 		logDir.mkdirs();
 		File logFile = (new File(logDir, "log-" + dateOfRun + ".log"));
 		File latestLog = (new File(logDir, "log-latest.log"));
-		
 
+		LogHandler.setOutputLog(latestLog);
+		
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 
 	        public void run() {
@@ -41,21 +37,12 @@ public class Setup {
 		
 	}
 	
-	public static void setupDefaultConfig(File defaultConfig) {
-		
-		File config = ConfigHandler.config;
+	public static void setupDefaultConfig(File config) {
 		
 		if (config.exists() == false) {
 			
-			try {
-				Files.copy(defaultConfig.toPath(), new FileOutputStream(config));
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			LogHandler.log.fatal("The config was not found!");
+			SetupDefaultConfig.setupDefaultConfig(config);
+			LogHandler.warn("The config was not found!");
 			Runtime.getRuntime().exit(0);
 			
 		}

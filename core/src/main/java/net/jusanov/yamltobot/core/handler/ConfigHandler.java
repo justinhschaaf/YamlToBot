@@ -12,13 +12,17 @@ import com.amihaiemil.camel.YamlSequence;
 
 public class ConfigHandler {
 
-	public static final File config = new File("YamlToBot/config.yml");
+	public static File config;
+	
+	public static void setConfig(File file) {
+		config = file;
+	}
 	
 	// General
 	public static String getString(String key) {
 		
 		try {
-			return Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().string(key);
+			return Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().string(key).replace("\"", "");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -37,7 +41,7 @@ public class ConfigHandler {
 			
 			ArrayList<String> channels = new ArrayList<String>();
 			for (int i = 0; i < channelsYaml.size(); i++) {
-				channels.add(channelsYaml.string(i));
+				channels.add(channelsYaml.string(i).replace("\"", ""));
 			}
 			
 			return channels;
@@ -58,10 +62,9 @@ public class ConfigHandler {
 		try {
 			
 			YamlSequence commandYaml = Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().yamlSequence("commands");
-			
 			ArrayList<String> commands = new ArrayList<String>();
 			for (int i = 0; i < commandYaml.size(); i++) {
-				commands.add(commandYaml.yamlMapping(i).string("name"));
+				commands.add(commandYaml.yamlMapping(i).string("name").replace("\"", ""));
 			}
 			
 			return commands;
@@ -76,30 +79,20 @@ public class ConfigHandler {
 		
 	}
 	
-	public static int getIndex(String command) {
+	public static int getIndex(String command) throws FileNotFoundException {
 		
-		try {
-			
-			YamlSequence commandYaml = Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping()
-			.yamlSequence("commands");
-			
-			int index = -1;
-			for (int i = 0; i < commandYaml.size(); i++) {
-				if (commandYaml.yamlMapping(i).string("name") == command) {
-					index = i;
-					break;
-				}
+		ArrayList<String> commands = getCommands();
+		
+		int index = -1;
+		for (int i = 0; i < commands.size(); i++) {
+			if (commands.get(i).trim().equalsIgnoreCase(command.trim())) {
+				System.out.println(i);
+				return i;
 			}
-			
-			return index;
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
+		System.out.println(index);
 		
-		return -1;
+		return index;
 		
 	}
 	
@@ -107,7 +100,9 @@ public class ConfigHandler {
 		
 		try {
 			YamlMapping commandYaml;
+			
 			commandYaml = Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().yamlSequence("commands").yamlMapping(getIndex(command));
+			
 			return commandYaml;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -119,7 +114,7 @@ public class ConfigHandler {
 	}
 	
 	public static String getCommandString(String command, String key) {
-		return getCommand(command).string(key);
+		return getCommand(command).string(key).replace("\"", "");
 	}
 	
 	public static ArrayList<String> getCommandArray(String command, String key) {
@@ -128,7 +123,7 @@ public class ConfigHandler {
 		ArrayList<String> array = new ArrayList<String>();
 		
 		for (int i = 0; i < commandYaml.size(); i++) {
-			array.add(commandYaml.string(i));
+			array.add(commandYaml.string(i).replace("\"", ""));
 		}
 		
 		return array;
@@ -137,9 +132,9 @@ public class ConfigHandler {
 	
 	public static boolean getEnabled(String command) {
 		
-		String enabled = getCommand(command).string("enabled");
+		String enabled = getCommandString(command, "enabled");
 		
-		if (enabled.equalsIgnoreCase("false")) {
+		if (enabled.equalsIgnoreCase("false".replace("\"", ""))) {
 			return false;
 		} else {
 			return true;
