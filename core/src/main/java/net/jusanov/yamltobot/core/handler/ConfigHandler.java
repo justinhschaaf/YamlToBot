@@ -37,14 +37,14 @@ public class ConfigHandler {
 		
 		try {
 			
-			YamlSequence channelsYaml = Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().yamlSequence(key);
+			YamlSequence yaml = Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().yamlSequence(key);
 			
-			ArrayList<String> channels = new ArrayList<String>();
-			for (int i = 0; i < channelsYaml.size(); i++) {
-				channels.add(channelsYaml.string(i).replace("\"", ""));
+			ArrayList<String> array = new ArrayList<String>();
+			for (int i = 0; i < yaml.size(); i++) {
+				array.add(yaml.string(i).replace("\"", ""));
 			}
 			
-			return channels;
+			return array;
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -53,6 +53,20 @@ public class ConfigHandler {
 		}
 		
 		return null;
+		
+	}
+	
+	public static boolean getBoolean(String key, boolean defaultVal) {
+		
+		String value = getString(key);
+		
+		if (value.equalsIgnoreCase("false".replace("\"", "")) && defaultVal == true) {
+			return false;
+		}
+		if (value.equalsIgnoreCase("true".replace("\"", "")) && defaultVal == false) {
+			return true;
+		}
+		return defaultVal;
 		
 	}
 	
@@ -86,11 +100,9 @@ public class ConfigHandler {
 		int index = -1;
 		for (int i = 0; i < commands.size(); i++) {
 			if (commands.get(i).trim().equalsIgnoreCase(command.trim())) {
-				System.out.println(i);
 				return i;
 			}
 		}
-		System.out.println(index);
 		
 		return index;
 		
@@ -114,7 +126,12 @@ public class ConfigHandler {
 	}
 	
 	public static String getCommandString(String command, String key) {
-		return getCommand(command).string(key).replace("\"", "");
+		String configValue = getCommand(command).string(key).replace("\"", "");
+		if (!configValue.isEmpty()) {
+			return configValue;
+		} else {
+			return null;
+		}
 	}
 	
 	public static ArrayList<String> getCommandArray(String command, String key) {
@@ -130,15 +147,17 @@ public class ConfigHandler {
 		
 	}
 	
-	public static boolean getEnabled(String command) {
+	public static boolean getCommandBoolean(String command, String key, boolean defaultVal) {
 		
-		String enabled = getCommandString(command, "enabled");
+		String value = getCommandString(command, key);
 		
-		if (enabled.equalsIgnoreCase("false".replace("\"", ""))) {
+		if (value.equalsIgnoreCase("false".replace("\"", "")) && defaultVal == true) {
 			return false;
-		} else {
+		}
+		if (value.equalsIgnoreCase("true".replace("\"", "")) && defaultVal == false) {
 			return true;
 		}
+		return defaultVal;
 		
 	}
 	

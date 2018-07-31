@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.jibble.pircbot.PircBot;
 
+import net.jusanov.yamltobot.core.commands.HelpCommand;
 import net.jusanov.yamltobot.core.handler.ConfigHandler;
 import net.jusanov.yamltobot.core.handler.LogHandler;
 
@@ -24,31 +25,42 @@ public class TwitchBot extends PircBot {
 		
 		ArrayList<String> commands = ConfigHandler.getCommands();
 		
-		for(int i = 0; i < commands.size(); i++) {
+		for (int i = 0; i < commands.size(); i++) {
 			
 			String command = commands.get(i);
 			
-			if(message.startsWith(ConfigHandler.getString("prefix") + command)) {
+			if (message.startsWith(ConfigHandler.getString("prefix") + command)) {
 				
 				LogHandler.debug("Command " + command + " detected!");
 				
-				if(ConfigHandler.getEnabled(command) == false) {
+				if (ConfigHandler.getCommandBoolean(command, "enabled", true) == false) {
 					
 					continue;
 					
 				} else {
 					
-					StringBuilder messageBuilder = new StringBuilder();
-					
-					ArrayList<String> returnMessage = ConfigHandler.getCommandArray(command, "message");
-					
-					for (int j = 0; j < returnMessage.size(); j++) {
+					if (ConfigHandler.getCommandBoolean(command, "builtin", false) == true) {
 						
-						messageBuilder.append(returnMessage.get(j) + "\n");
+						if (ConfigHandler.getCommandString(command, "predefined-function").equals("HelpCommand")) {
+							HelpCommand builtinCommand = new HelpCommand(command, new ArrayList<String>()); // Help Command has no args
+							sendMessage(channel, builtinCommand.onCommandExecuted());
+						}
 						
+					} else {
+					
+						StringBuilder messageBuilder = new StringBuilder();
+						
+						ArrayList<String> returnMessage = ConfigHandler.getCommandArray(command, "message");
+						
+						for (int j = 0; j < returnMessage.size(); j++) {
+							
+							messageBuilder.append(returnMessage.get(j).replace("%" + i + "%", "") + "\n");
+							
+						}
+						
+						sendMessage(channel, messageBuilder.toString());
+					
 					}
-					
-					sendMessage(channel, messageBuilder.toString());
 					
 				}
 				
