@@ -1,10 +1,13 @@
 package net.jusanov.yamltobot.core.handler;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -54,10 +57,26 @@ public class LogHandler {
 	public static void log(LogLevel level, Object text) {
 		if (level.getLevel() >= minLevel.getLevel()) {
 			try {
+
+				StringBuilder old = new StringBuilder();
+				
+				if (output.exists()) {
+				
+					BufferedReader oldLog = new BufferedReader(new InputStreamReader(new FileInputStream(output)));
+					String line = new String();
+					
+					while ((line = oldLog.readLine()) != null) {
+						old.append(line + "\n");
+					}
+					
+					oldLog.close();
+				
+				}
 				
 				String timestamp = dateFormat.format(new Date()).toString();
 				BufferedWriter logger = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(output)));
 				
+				if (output.exists()) logger.write(old.toString());
 				logger.write(level.getLevel() + " " + timestamp + " " + level.getName() + " " + text + "\n");
 				
 				logger.close();

@@ -68,7 +68,7 @@ public class SetupWindow extends JFrame {
 		JTextArea log = new JTextArea();
 		log.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			public void mouseEntered(MouseEvent arg0) {
 
 				try {
 					
@@ -78,7 +78,7 @@ public class SetupWindow extends JFrame {
 					String line;
 					
 					while ((line = logText.readLine()) != null) {
-						text.append(line);
+						text.append(line + "\n");
 					}
 
 					logText.close();
@@ -94,7 +94,7 @@ public class SetupWindow extends JFrame {
 		});
 		log.setFont(new Font("Monospaced", Font.PLAIN, 18));
 		log.setEditable(false);
-		log.setText("LOG");
+		log.setText("Move the cursor here to update the log!");
 		GridBagConstraints gbc_log = new GridBagConstraints();
 		gbc_log.gridheight = 3;
 		gbc_log.fill = GridBagConstraints.BOTH;
