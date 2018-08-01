@@ -35,6 +35,8 @@ public class Setup {
 	        
 	    }));
 		
+		LogHandler.debug("Logs setup!");
+		
 	}
 	
 	public static void setupDefaultConfig(File config) {

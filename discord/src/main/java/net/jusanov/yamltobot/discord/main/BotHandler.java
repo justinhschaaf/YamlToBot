@@ -1,8 +1,10 @@
 package net.jusanov.yamltobot.discord.main;
 
 import java.io.File;
+
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
+
 import net.jusanov.yamltobot.core.handler.ConfigHandler;
 import net.jusanov.yamltobot.core.setup.Setup;
 import net.jusanov.yamltobot.core.setup.SetupWindow;
@@ -17,7 +19,8 @@ public class BotHandler {
 		Setup.setupLogs();
 		ConfigHandler.setConfig(new File("YamlToBot/config.yml"));
 		Setup.setupDefaultConfig(new File("YamlToBot/config.yml"));
-		SetupWindow.setupWindow();
+		SetupWindow frame = new SetupWindow();
+		frame.setVisible(true);
 		
 		// Discord Bot Setup
 		api = new DiscordApiBuilder().setToken(ConfigHandler.getString("token")).login().join();

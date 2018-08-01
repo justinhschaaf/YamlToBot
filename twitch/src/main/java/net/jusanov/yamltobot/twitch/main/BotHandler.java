@@ -20,7 +20,8 @@ public class BotHandler {
 			// Yaml to Bot Setup
 			Setup.setupLogs();
 			Setup.setupDefaultConfig(new File(ClassLoader.getSystemClassLoader().getResource("defaultconfig.yml").getFile()));
-			SetupWindow.setupWindow();
+			SetupWindow frame = new SetupWindow();
+			frame.setVisible(true);
 			
 			// Twitch Bot Setup
 			TwitchBot bot = new TwitchBot(ConfigHandler.getString("name"));
