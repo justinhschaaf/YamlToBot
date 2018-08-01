@@ -12,20 +12,20 @@ public class VersionChecker {
 
 	public static boolean isUpdated() {
 		
-		String latestVersion = getLatestVersion();
-		String currentVersion = Reference.version;
+		ArrayList<String> latestVersion = split(getLatestVersion(), ".");
+		ArrayList<String> currentVersion = split(Reference.version, ".");
 		
-		if (Integer.parseInt(latestVersion.charAt(0) + "") > Integer.parseInt(currentVersion.charAt(0) + "")) {
+		if (Integer.parseInt(latestVersion.get(0) + "") > Integer.parseInt(currentVersion.get(0) + "")) {
 			return false;
 		}
-		if (Integer.parseInt(latestVersion.charAt(2) + "") > Integer.parseInt(currentVersion.charAt(2) + "")) {
-			if (Integer.parseInt(latestVersion.charAt(0) + "") >= Integer.parseInt(currentVersion.charAt(0) + "")) {
+		if (Integer.parseInt(latestVersion.get(1) + "") > Integer.parseInt(currentVersion.get(1) + "")) {
+			if (Integer.parseInt(latestVersion.get(0) + "") >= Integer.parseInt(currentVersion.get(0) + "")) {
 				return false;
 			}
 		}
-		if (Integer.parseInt(latestVersion.charAt(4) + "") > Integer.parseInt(currentVersion.charAt(4) + "")) {
-			if (Integer.parseInt(latestVersion.charAt(0) + "") >= Integer.parseInt(currentVersion.charAt(0) + "")) {
-				if (Integer.parseInt(latestVersion.charAt(2) + "") >= Integer.parseInt(currentVersion.charAt(2) + "")) {
+		if (Integer.parseInt(latestVersion.get(2) + "") > Integer.parseInt(currentVersion.get(2) + "")) {
+			if (Integer.parseInt(latestVersion.get(0) + "") >= Integer.parseInt(currentVersion.get(0) + "")) {
+				if (Integer.parseInt(latestVersion.get(1) + "") >= Integer.parseInt(currentVersion.get(1) + "")) {
 					return false;
 				}
 			}
@@ -103,6 +103,27 @@ public class VersionChecker {
 		}
 		
 		return null;
+		
+	}
+	
+	private static ArrayList<String> split(String str, String regex) {
+		
+		String num = "";
+		ArrayList<String> returnStr = new ArrayList<String>();;
+		
+		for (int i = 0; i < str.length(); i++) {
+			String chr = str.charAt(i) + "";
+			if (chr.equalsIgnoreCase(regex)) {
+				returnStr.add(num);
+				num = "";
+			} else {
+				num += chr;
+			}
+		}
+		
+		returnStr.add(num);
+		
+		return returnStr;
 		
 	}
 	
