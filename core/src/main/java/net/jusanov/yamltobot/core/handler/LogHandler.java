@@ -77,7 +77,7 @@ public class LogHandler {
 				BufferedWriter logger = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(output)));
 				
 				if (output.exists()) logger.write(old.toString());
-				logger.write(level.getLevel() + " " + timestamp + " " + level.getName() + " " + text + "\n");
+				logger.write(timestamp + " " + level.getName() + " " + text + "\n");
 				
 				logger.close();
 				

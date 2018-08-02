@@ -5,20 +5,13 @@ import java.util.ArrayList;
 import net.jusanov.yamltobot.core.handler.ConfigHandler;
 
 public class HelpCommand extends Command {
-
-	String commandName;
-	ArrayList<String> args;
 	
-	public HelpCommand(String commandName, ArrayList<String> args) {
-		super(commandName, args);
-		
-		this.commandName = commandName;
-		this.args = args;
-		
+	public HelpCommand() {
+		super();
 	}
 
 	@Override
-	public String onCommandExecuted() {
+	public String onCommandExecuted(String commandName) {
 		
 		StringBuilder helpCommand = new StringBuilder();
 		ArrayList<String> commands = ConfigHandler.getCommands();

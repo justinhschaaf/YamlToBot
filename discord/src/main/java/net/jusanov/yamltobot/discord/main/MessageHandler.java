@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
 
-import net.jusanov.yamltobot.core.commands.HelpCommand;
+import net.jusanov.yamltobot.core.commands.BuiltinCommandHandler;
 import net.jusanov.yamltobot.core.handler.ConfigHandler;
 import net.jusanov.yamltobot.core.handler.LogHandler;
 
@@ -13,7 +13,7 @@ public class MessageHandler implements MessageCreateListener {
 
 	public void onMessageCreate(MessageCreateEvent event) {
 		
-		LogHandler.info("[" + event.getChannel().toString() + ", " + event.getServer().get().getName() + "]" + event.getMessage().getAuthor().getDisplayName() + ": " + event.getMessage().getContent());
+		LogHandler.info("[" + event.getChannel().toString() + ", " + event.getServer().get().getName() + "]" + " " + event.getMessage().getAuthor().getDisplayName() + ": " + event.getMessage().getContent());
 		
 		ArrayList<String> commands = ConfigHandler.getCommands();
 		
@@ -33,15 +33,10 @@ public class MessageHandler implements MessageCreateListener {
 					
 					if (ConfigHandler.getCommandBoolean(command, "builtin", false) == true) {
 						
-						/*try {
-							event.getChannel().sendMessage(BuiltinCommandHandler.getCommandByName(command, new ArrayList<String>()).toString());
+						try {
+							event.getChannel().sendMessage(BuiltinCommandHandler.getCommand(ConfigHandler.getCommandString(command, "predefined-function"), command, new ArrayList<String>()).toString());
 						} catch (SecurityException e) {
 							e.printStackTrace();
-						}*/
-						
-						if (ConfigHandler.getCommandString(command, "predefined-function").equals("HelpCommand")) {
-							HelpCommand builtinCommand = new HelpCommand(command, new ArrayList<String>()); // Help Command has no args
-							event.getChannel().sendMessage(builtinCommand.onCommandExecuted());
 						}
 						
 					} else {
