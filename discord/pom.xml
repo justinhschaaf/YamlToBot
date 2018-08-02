@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>net.jusanov</groupId>
 		<artifactId>yamltobot</artifactId>
-		<version>0.0.1</version>
+		<version>1.0.0</version>
 	</parent>
 	<groupId>net.jusanov.yamltobot</groupId>
 	<artifactId>discord</artifactId>
@@ -29,7 +29,7 @@
 	    <dependency>
 			<groupId>net.jusanov.yamltobot</groupId>
 			<artifactId>core</artifactId>
-			<version>0.0.1</version>
+			<version>1.0.0</version>
 	    </dependency>
 	    <dependency>
 	        <groupId>net.jusanov</groupId>

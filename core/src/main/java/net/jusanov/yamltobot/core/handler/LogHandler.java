@@ -13,8 +13,24 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * 
+ * The primary class for handling the logs
+ * 
+ * @author Jusanov
+ * @since 1.0.0
+ *
+ */
 public class LogHandler {
 	
+	/**
+	 * 
+	 * Enum containing all the different default log levels
+	 * 
+	 * @author Jusanov
+	 * @since 1.0.0
+	 *
+	 */
 	public enum LogLevel {
 		
 		ALL("ALL", 0),
@@ -42,18 +58,50 @@ public class LogHandler {
 		
 	}
 	
+	/**
+	 * The minimum log level to track output from
+	 * @since 1.0.0
+	 */
 	static LogLevel minLevel = LogLevel.ALL;
+	
+	/**
+	 * The formatting for the timestamp in the log
+	 * @since 1.0.0
+	 */
 	static DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd-hh.mm.ss");
+	
+	/**
+	 * The default log output file
+	 * @since 1.0.0
+	 */
 	static File output = new File("YamlToBot/logs/log-latest.log");
 	
+	/**
+	 * Set the output log file
+	 * @param outputLog The file to output the log to
+	 * @since 1.0.0
+	 */
 	public static void setOutputLog(File outputLog) {
 		output = outputLog;
 	}
 	
+	/**
+	 * Set the lowest log level
+	 * @param level The lowest LogLevel to track
+	 * @since 1.0.0
+	 */
 	public static void setLowestLevel(LogLevel level) {
 		minLevel = level;
 	}
 	
+	/**
+	 * Log a string of text at the given level
+	 * 
+	 * @param level The level to log at
+	 * @param text The string of text to log
+	 * @since 1.0.0
+	 * 
+	 */
 	public static void log(LogLevel level, Object text) {
 		if (level.getLevel() >= minLevel.getLevel()) {
 			try {
@@ -91,31 +139,59 @@ public class LogHandler {
 		}
 	}
 	
+	/**
+	 * Logs a string of text at the "ALL" level
+	 * @param text The string of text to log
+	 * @since 1.0.0
+	 */
 	public static void all(Object text) {
 		log(LogLevel.ALL, text);
 	}
 	
+	/**
+	 * Logs a string of text at the "DEBUG" level
+	 * @param text The string of text to log
+	 * @since 1.0.0
+	 */
 	public static void debug(Object text) {
 		log(LogLevel.DEBUG, text);
 	}
 	
+	/**
+	 * Logs a string of text at the "INFO" level
+	 * @param text The string of text to log
+	 * @since 1.0.0
+	 */
 	public static void info(Object text) {
 		log(LogLevel.INFO, text);
 	}
 	
+	/**
+	 * Logs a string of text at the "WARN" level
+	 * @param text The string of text to log
+	 * @since 1.0.0
+	 */
 	public static void warn(Object text) {
 		log(LogLevel.WARN, text);
 	}
 	
+	/**
+	 * Logs a string of text at the "ERROR" level
+	 * @param text The string of text to log
+	 * @since 1.0.0
+	 */
 	public static void error(Object text) {
 		log(LogLevel.ERROR, text);
 	}
 	
+	/**
+	 * Logs a string of text at the "FATAL" level and exits runtime because what happened is fatal to the application
+	 * @param text The string of text to log
+	 * @since 1.0.0
+	 */
 	public static void fatal(Object text) {
 		log(LogLevel.FATAL, text);
 		Runtime.getRuntime().exit(0);
 	}
-
-	//public static final org.slf4j.Logger log = LoggerFactory.getLogger(LogHandler.class);
 	
 }

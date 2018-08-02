@@ -10,15 +10,44 @@ import com.amihaiemil.camel.Yaml;
 import com.amihaiemil.camel.YamlMapping;
 import com.amihaiemil.camel.YamlSequence;
 
+/**
+ * 
+ * The primary class for pulling information from the config
+ * 
+ * @author Jusanov
+ * @since 1.0.0
+ *
+ */
 public class ConfigHandler {
 
+	/**
+	 * The config file to read from
+	 * @since 1.0.0
+	 */
 	public static File config;
 	
+	/**
+	 * Sets the config file
+	 * @param file the file to set the config file to
+	 * @since 1.0.0
+	 */
 	public static void setConfig(File file) {
 		config = file;
 	}
 	
-	// General
+	/*
+	 * GENERAL
+	 */
+	
+	/**
+	 * 
+	 * Gets a string value from the config
+	 * 
+	 * @param key The key to take the value from
+	 * @return The string value of the given key, or null if the key isn't found
+	 * @since 1.0.0
+	 * 
+	 */
 	public static String getString(String key) {
 		
 		try {
@@ -32,7 +61,16 @@ public class ConfigHandler {
 		return null;
 		
 	}
-	
+
+	/**
+	 * 
+	 * Gets an array from the config
+	 * 
+	 * @param key The key to take the value from
+	 * @return An ArrayList<String> of the values of the given key, or an empty array if the key isn't found
+	 * @since 1.0.0
+	 * 
+	 */
 	public static ArrayList<String> getArray(String key) {
 		
 		try {
@@ -55,7 +93,16 @@ public class ConfigHandler {
 		return null;
 		
 	}
-	
+
+	/**
+	 * 
+	 * Gets a boolean value from the config
+	 * 
+	 * @param key The key to take the value from
+	 * @return The boolean value of the given key, or the default value if the key isn't found
+	 * @since 1.0.0
+	 * 
+	 */
 	public static boolean getBoolean(String key, boolean defaultVal) {
 		
 		String value = getString(key);
@@ -70,7 +117,18 @@ public class ConfigHandler {
 		
 	}
 	
-	// Commands
+	/*
+	 * COMMANDS
+	 */
+	
+	/**
+	 * 
+	 * Gets the names of all the commands registered in the config
+	 * 
+	 * @return An ArrayList<String> of all the command names
+	 * @since 1.0.0
+	 * 
+	 */
 	public static ArrayList<String> getCommands() {
 		
 		try {
@@ -93,7 +151,16 @@ public class ConfigHandler {
 		
 	}
 	
-	public static int getIndex(String command) throws FileNotFoundException {
+	/**
+	 * 
+	 * Gets the index of the given command
+	 * 
+	 * @param command The name of the command to get the index of
+	 * @return The index of the given command
+	 * @since 1.0.0
+	 * 
+	 */
+	public static int getIndex(String command) {
 		
 		ArrayList<String> commands = getCommands();
 		
@@ -108,6 +175,15 @@ public class ConfigHandler {
 		
 	}
 	
+	/**
+	 * 
+	 * Gets all the Yaml data of the given command name
+	 * 
+	 * @param command The name of the command to get the index of
+	 * @return A YamlMapping of the command's values, or null if the data is not found
+	 * @since 1.0.0
+	 * 
+	 */
 	public static YamlMapping getCommand(String command) {
 		
 		try {
@@ -125,6 +201,16 @@ public class ConfigHandler {
 		
 	}
 	
+	/**
+	 * 
+	 * Gets a command's string value from the given key
+	 * 
+	 * @param command The name of the command to get the string value from
+	 * @param key The key to take the value from
+	 * @return The string value of the given key
+	 * @since 1.0.0
+	 * 
+	 */
 	public static String getCommandString(String command, String key) {
 		String configValue = getCommand(command).string(key).replace("\"", "");
 		if (!configValue.isEmpty()) {
@@ -134,6 +220,16 @@ public class ConfigHandler {
 		}
 	}
 	
+	/**
+	 * 
+	 * Gets a command's array from the given key
+	 * 
+	 * @param command The name of the command to get the array from
+	 * @param key The key to take the value from
+	 * @return An ArrayList<String> of the values of the given key, or an empty array if the key is not found
+	 * @since 1.0.0
+	 * 
+	 */
 	public static ArrayList<String> getCommandArray(String command, String key) {
 		
 		YamlSequence commandYaml = getCommand(command).yamlSequence(key);
@@ -147,6 +243,16 @@ public class ConfigHandler {
 		
 	}
 	
+	/**
+	 * 
+	 * Gets a command's boolean value from the given key
+	 * 
+	 * @param command The name of the command to get the boolean value from
+	 * @param key The key to take the value from
+	 * @return The boolean value of the given key, or null if the key is not found
+	 * @since 1.0.0
+	 * 
+	 */
 	public static boolean getCommandBoolean(String command, String key, boolean defaultVal) {
 		
 		String value = getCommandString(command, key);

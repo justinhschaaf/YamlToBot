@@ -4,6 +4,14 @@ import java.util.ArrayList;
 
 import net.jusanov.yamltobot.core.handler.ConfigHandler;
 
+/**
+ * 
+ * Predefined help command. Lists all other registered commands.
+ * 
+ * @author Jusanov
+ * @since 1.0.0
+ *
+ */
 public class HelpCommand extends Command {
 	
 	public HelpCommand() {

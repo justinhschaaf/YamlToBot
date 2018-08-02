@@ -9,6 +9,14 @@ import net.jusanov.yamltobot.core.handler.ConfigHandler;
 import net.jusanov.yamltobot.core.setup.Setup;
 import net.jusanov.yamltobot.core.setup.SetupWindow;
 
+/**
+ * 
+ * The primary class for setting up the DiscordBot
+ * 
+ * @author Jusanov
+ * @since 1.0.0
+ *
+ */
 public class BotHandler {
 
 	static DiscordApi api;

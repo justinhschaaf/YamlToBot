@@ -11,6 +11,14 @@ import net.jusanov.yamltobot.core.handler.LogHandler;
 import net.jusanov.yamltobot.core.setup.Setup;
 import net.jusanov.yamltobot.core.setup.SetupWindow;
 
+/**
+ * 
+ * The primary class for setting up the TwitchBot
+ * 
+ * @author Jusanov
+ * @since 1.0.0
+ *
+ */
 public class BotHandler {
 
 	public static void main(String[] args) {
@@ -19,7 +27,8 @@ public class BotHandler {
 			
 			// Yaml to Bot Setup
 			Setup.setupLogs();
-			Setup.setupDefaultConfig(new File(ClassLoader.getSystemClassLoader().getResource("defaultconfig.yml").getFile()));
+			ConfigHandler.setConfig(new File("YamlToBot/config.yml"));
+			Setup.setupDefaultConfig(new File("YamlToBot/config.yml"));
 			SetupWindow frame = new SetupWindow();
 			frame.setVisible(true);
 			

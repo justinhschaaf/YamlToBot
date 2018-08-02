@@ -10,8 +10,24 @@ import java.io.OutputStreamWriter;
 import com.amihaiemil.camel.Yaml;
 import com.amihaiemil.camel.YamlMapping;
 
+/**
+ * 
+ * The primary class for setting up the default config
+ * 
+ * @author Jusanov
+ * @since 1.0.0
+ *
+ */
 public class SetupDefaultConfig {
 
+	/**
+	 * 
+	 * Create the default config file and add data to it
+	 * 
+	 * @param config The config file to write to
+	 * @since 1.0.0
+	 * 
+	 */
 	public static void setupDefaultConfig(File config) {
 		
 		try {

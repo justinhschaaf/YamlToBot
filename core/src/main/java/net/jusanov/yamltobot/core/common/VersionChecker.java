@@ -8,8 +8,24 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * 
+ * Class that checks if the jar is up-to-date
+ * 
+ * @author Jusanov
+ * @since 1.0.0
+ *
+ */
 public class VersionChecker {
 
+	/**
+	 * 
+	 * Check if the jar is up-to-date
+	 * 
+	 * @return True if up-to-date, else it returns false
+	 * @since 1.0.0
+	 * 
+	 */
 	public static boolean isUpdated() {
 		
 		ArrayList<String> latestVersion = split(getLatestVersion(), ".");
@@ -36,6 +52,14 @@ public class VersionChecker {
 		
 	}
 	
+	/**
+	 * 
+	 * Gets the number of the latest version from the GitHub repository
+	 * 
+	 * @return The number of the latest version
+	 * @since 1.0.0
+	 * 
+	 */
 	public static String getLatestVersion() {
 		
 		ArrayList<String> versions = getVersions();
@@ -74,6 +98,14 @@ public class VersionChecker {
 		
 	}
 	
+	/**
+	 * 
+	 * Gets the versions from the GitHub repository
+	 * 
+	 * @return ArrayList<String> of all version numbers
+	 * @since 1.0.0
+	 * 
+	 */
 	private static ArrayList<String> getVersions() {
 		
 		try {
@@ -106,6 +138,16 @@ public class VersionChecker {
 		
 	}
 	
+	/**
+	 * 
+	 * Splits a string at the given regex. This is used here because the normal string split method is not 100% functional
+	 * 
+	 * @param str The string to split
+	 * @param regex The character to split the string at
+	 * @return ArrayList<String> of the different elements
+	 * @since 1.0.0
+	 * 
+	 */
 	private static ArrayList<String> split(String str, String regex) {
 		
 		String num = "";

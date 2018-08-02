@@ -29,10 +29,22 @@ import javax.swing.JTextPane;
 import net.jusanov.yamltobot.core.common.VersionChecker;
 import net.jusanov.yamltobot.core.handler.ConfigHandler;
 
+/**
+ * 
+ * The primary class for setting up the window for YamlToBot
+ * 
+ * @author Jusanov
+ * @since 1.0.0
+ *
+ */
 public class SetupWindow extends JFrame {
 
 	private JPanel contentPane;
 
+	/**
+	 * The primary function for setting up the window
+	 * @since 1.0.0
+	 */
 	public SetupWindow() {
 		setTitle("YamlToBot | " + ConfigHandler.getString("name"));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(SetupWindow.class.getResource("/assets/icon.png")));
@@ -148,6 +160,11 @@ public class SetupWindow extends JFrame {
 		footer.add(update);
 	}
 	
+	/**
+	 * Checks if the jar is updated and returns text accordingly
+	 * @return The text stating whether or not the jar is up to date
+	 * @since 1.0.0
+	 */
 	private String updateText() {
 		
 		if (VersionChecker.isUpdated() == false) return "A new update is available: " + VersionChecker.getLatestVersion();

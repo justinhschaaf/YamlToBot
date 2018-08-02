@@ -6,8 +6,27 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 
+/**
+ * 
+ * The class for importing predefined commands.
+ * 
+ * @author Jusanov
+ * @since 1.0.0
+ *
+ */
 public class BuiltinCommandHandler {
 	
+	/**
+	 * 
+	 * Gets a predefined command from the given class, name, and args.
+	 * 
+	 * @param cmdClass The class of the command, including the internal or external tag, e.g. %int%HelpCommand
+	 * @param name The name of the command, e.g. help
+	 * @param args The arguments of the command. Work In Progress.
+	 * @return The string message that the command returns
+	 * @since 1.0.0
+	 * 
+	 */
 	public static Object getCommand(String cmdClass, String name, ArrayList<String> args) {
 		
 		try {
@@ -36,6 +55,15 @@ public class BuiltinCommandHandler {
 		
 	}
 	
+	/**
+	 * 
+	 * Loads command classes from the given directory.
+	 * 
+	 * @param dir Where to load the classes from
+	 * @return The ClassLoader of all the commands loaded
+	 * @since 1.0.0
+	 * 
+	 */
 	private static ClassLoader loadCmds(String dir) {
 		
 		File[] cmdRaw = new File(dir).listFiles();

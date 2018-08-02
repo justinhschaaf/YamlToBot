@@ -4,10 +4,18 @@ import java.util.ArrayList;
 
 import org.jibble.pircbot.PircBot;
 
-import net.jusanov.yamltobot.core.commands.HelpCommand;
+import net.jusanov.yamltobot.core.commands.BuiltinCommandHandler;
 import net.jusanov.yamltobot.core.handler.ConfigHandler;
 import net.jusanov.yamltobot.core.handler.LogHandler;
 
+/**
+ * 
+ * The primary class for handling messages and commands in Twitch, and the primary class for setting up the root TwitchBot
+ * 
+ * @author Justin
+ * @since 1.0.0
+ *
+ */
 public class TwitchBot extends PircBot {
 	
 	public TwitchBot(String botname) {
@@ -41,9 +49,10 @@ public class TwitchBot extends PircBot {
 					
 					if (ConfigHandler.getCommandBoolean(command, "builtin", false) == true) {
 						
-						if (ConfigHandler.getCommandString(command, "predefined-function").equals("HelpCommand")) {
-							HelpCommand builtinCommand = new HelpCommand(command, new ArrayList<String>()); // Help Command has no args
-							sendMessage(channel, builtinCommand.onCommandExecuted());
+						try {
+							sendMessage(channel, BuiltinCommandHandler.getCommand(ConfigHandler.getCommandString(command, "predefined-function"), command, new ArrayList<String>()).toString());
+						} catch (SecurityException e) {
+							e.printStackTrace();
 						}
 						
 					} else {

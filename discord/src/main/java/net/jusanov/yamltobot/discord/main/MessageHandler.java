@@ -9,6 +9,14 @@ import net.jusanov.yamltobot.core.commands.BuiltinCommandHandler;
 import net.jusanov.yamltobot.core.handler.ConfigHandler;
 import net.jusanov.yamltobot.core.handler.LogHandler;
 
+/**
+ * 
+ * The primary class for handling messages and commands in Discord
+ * 
+ * @author Justin
+ * @since 1.0.0
+ *
+ */
 public class MessageHandler implements MessageCreateListener {
 
 	public void onMessageCreate(MessageCreateEvent event) {

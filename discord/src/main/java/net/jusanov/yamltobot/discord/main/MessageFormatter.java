@@ -6,8 +6,28 @@ import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.emoji.KnownCustomEmoji;
 import org.javacord.api.entity.permission.Role;
 
+/**
+ * 
+ * The primary class for formatting Discord Messages
+ * 
+ * @author Jusanov
+ * @since 1.0.0
+ *
+ */
 public class MessageFormatter {
-
+	
+	/**
+	 * 
+	 * The function for formatting a discord message's custom parameters
+	 * :<text>: represents a custom emoji
+	 * @<text> represents a user mention tag
+	 * #<text> represents a channel's mention tag
+	 * ^<text> represents a role's mention tag
+	 * 
+	 * @param message The message to format
+	 * @since 1.0.0
+	 *
+	 */
 	public static String formatMessage(String message) {
 		
 		// Custom Emojis
