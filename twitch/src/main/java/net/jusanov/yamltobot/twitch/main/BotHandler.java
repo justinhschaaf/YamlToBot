@@ -25,7 +25,7 @@ public class BotHandler {
 		// Yaml to Bot Setup
 		Setup.setupLogs();
 		ConfigHandler.setConfig(new File("YamlToBot/config.yml"));
-		Setup.setupDefaultConfig(new File("YamlToBot/config.yml"));
+		Setup.setupDefaultConfig("Twitch", new File("YamlToBot/config.yml"));
 		SetupWindow frame = new SetupWindow();
 		frame.setVisible(true);
 		

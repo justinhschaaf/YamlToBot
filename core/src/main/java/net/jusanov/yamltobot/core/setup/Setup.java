@@ -61,13 +61,14 @@ public class Setup {
 	 * @since 1.0.0
 	 * 
 	 */
-	public static void setupDefaultConfig(File config) {
+	public static void setupDefaultConfig(String module, File config) {
 		
 		if (config.exists() == false) {
 			
-			SetupDefaultConfig.setupDefaultConfig(config);
-			LogHandler.warn("The config was not found!");
-			Runtime.getRuntime().exit(0);
+			if (module == "Discord") SetupDefaultConfig.setupDefaultDiscordConfig(config);
+			if (module == "Twitch") SetupDefaultConfig.setupDefaultTwitchConfig(config);
+			else LogHandler.fatal("Invalid Module to generate default config for!");
+			LogHandler.fatal("The config was not found!");
 			
 		}
 		

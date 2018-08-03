@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 
 import com.amihaiemil.camel.Yaml;
 import com.amihaiemil.camel.YamlMapping;
+import com.amihaiemil.camel.YamlMappingBuilder;
 
 /**
  * 
@@ -19,45 +20,20 @@ import com.amihaiemil.camel.YamlMapping;
  *
  */
 public class SetupDefaultConfig {
-
+	
 	/**
 	 * 
-	 * Create the default config file and add data to it
+	 * Setup the default config file for Discord
 	 * 
-	 * @param config The config file to write to
-	 * @since 1.0.0
+	 * @param config The file to write the config to
 	 * 
 	 */
-	public static void setupDefaultConfig(File config) {
+	public static void setupDefaultDiscordConfig(File config) {
 		
 		try {
 			
-			YamlMapping commandPing = Yaml.createYamlMappingBuilder()
-					.add("name", "\"ping\"")
-					.add("description", "\"Play Ping Pong!\"")
-					.add("enabled", "\"true\"")
-					.add("builtin", "\"false\"")
-					.add("message", Yaml.createYamlSequenceBuilder().add("\"pong!\"").build())
-					.build();
-			
-			YamlMapping commandHelp = Yaml.createYamlMappingBuilder()
-					.add("name", "\"help\"")
-					.add("description", "\"Shows a list of commands.\"")
-					.add("enabled", "\"true\"")
-					.add("builtin", "\"true\"")
-					.add("predefined-function", "\"%int%HelpCommand\"")
-					.add("message", Yaml.createYamlSequenceBuilder().add("\"%0%Commands:\"").add("\"%1%%cmd% | %desc%\"").build())
-					.build();
-			
-			YamlMapping yaml = Yaml.createYamlMappingBuilder()
-					.add("name", "\"MyFirstBot\"")
-					.add("token", "123456789012345678")
-					.add("id", "876543210987654321") // ID option only used for TwitchBot
-					.add("secret", "135798642135798642") // Secret option only used for TwitchBot
-					.add("prefix", "\"::\"")
-					.add("commands", Yaml.createYamlSequenceBuilder().add(commandPing).add(commandHelp).build())
-					.add("channels", Yaml.createYamlSequenceBuilder().add("Jusanov").build()) // Channels option only used for TwitchBot
-					.add("activity", "YamlToBot") // Activity option only used for DiscordBot
+			YamlMapping yaml = setupDefaultConfig()
+					.add("activity", "YamlToBot")
 					.build();
 			
 			BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(config)));
@@ -69,6 +45,75 @@ public class SetupDefaultConfig {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+	}
+	
+	/**
+	 * 
+	 * Setup the default config file for Twitch
+	 * 
+	 * @param config The file to write the config to
+	 * 
+	 */
+	public static void setupDefaultTwitchConfig(File config) {
+		
+		try {
+			
+			YamlMapping yaml = setupDefaultConfig()
+					.add("id", "876543210987654321")
+					.add("secret", "135798642135798642")
+					.add("channels", Yaml.createYamlSequenceBuilder().add("Jusanov").build())
+					.build();
+			
+			BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(config)));
+			bufferedWriter.write(yaml.toString());
+			bufferedWriter.close();
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/**
+	 * 
+	 * Create the default config data
+	 * 
+	 * @since 1.0.0
+	 * 
+	 */
+	private static YamlMappingBuilder setupDefaultConfig() {
+		
+		YamlMapping commandPing = Yaml.createYamlMappingBuilder()
+				.add("name", "\"ping\"")
+				.add("description", "\"Play Ping Pong!\"")
+				.add("enabled", "\"true\"")
+				.add("builtin", "\"false\"")
+				.add("message", Yaml.createYamlSequenceBuilder().add("\"pong!\"").build())
+				.build();
+		
+		YamlMapping commandHelp = Yaml.createYamlMappingBuilder()
+				.add("name", "\"help\"")
+				.add("description", "\"Shows a list of commands.\"")
+				.add("enabled", "\"true\"")
+				.add("builtin", "\"true\"")
+				.add("predefined-function", "\"%int%HelpCommand\"")
+				.add("message", Yaml.createYamlSequenceBuilder().add("\"%0%Commands:\"").add("\"%1%%cmd% | %desc%\"").build())
+				.build();
+		
+		YamlMappingBuilder yaml = Yaml.createYamlMappingBuilder()
+				.add("name", "\"MyFirstBot\"")
+				.add("token", "123456789012345678")
+				.add("prefix", "\"::\"")
+				.add("commands", Yaml.createYamlSequenceBuilder().add(commandPing).add(commandHelp).build());
+		
+		return yaml;
+		
+		/*BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(config)));
+		bufferedWriter.write(yaml.toString());
+		bufferedWriter.close();*/
 		
 	}
 	
