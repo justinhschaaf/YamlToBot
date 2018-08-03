@@ -32,4 +32,28 @@
 			<version>1.0.0</version>
 	    </dependency>
 	</dependencies>
+  	<build>
+  		<defaultGoal>clean package shade:shade</defaultGoal>
+	  	<plugins>
+	  		<plugin>
+	  			<groupId>org.apache.maven.plugins</groupId>
+	  			<artifactId>maven-shade-plugin</artifactId>
+	  			<version>3.1.1</version>
+	  		</plugin>
+	  		<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.0.2</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<mainClass>net.jusanov.yamltobot.discord.main.BotHandler</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+	  	</plugins>
+	</build>
 </project>
