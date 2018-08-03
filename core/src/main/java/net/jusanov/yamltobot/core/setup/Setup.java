@@ -31,8 +31,8 @@ public class Setup {
 		
 		File logDir = new File("YamlToBot/logs");
 		logDir.mkdirs();
-		File logFile = (new File(logDir, "log-" + dateOfRun + ".log"));
-		File latestLog = (new File(logDir, "log-latest.log"));
+		final File logFile = (new File(logDir, "log-" + dateOfRun + ".log"));
+		final File latestLog = (new File(logDir, "log-latest.log"));
 
 		LogHandler.setOutputLog(latestLog);
 		

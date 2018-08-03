@@ -77,7 +77,7 @@ public class SetupWindow extends JFrame {
 		label.setIcon(new ImageIcon(SetupWindow.class.getResource("/assets/logo.png")));
 		header.add(label);
 		
-		JTextArea log = new JTextArea();
+		final JTextArea log = new JTextArea();
 		log.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
