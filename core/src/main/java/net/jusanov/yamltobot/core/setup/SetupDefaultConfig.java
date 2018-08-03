@@ -52,6 +52,8 @@ public class SetupDefaultConfig {
 			YamlMapping yaml = Yaml.createYamlMappingBuilder()
 					.add("name", "\"MyFirstBot\"")
 					.add("token", "123456789012345678")
+					.add("id", "876543210987654321") // ID option only used for TwitchBot
+					.add("secret", "135798642135798642") // Secret option only used for TwitchBot
 					.add("prefix", "\"::\"")
 					.add("commands", Yaml.createYamlSequenceBuilder().add(commandPing).add(commandHelp).build())
 					.add("channels", Yaml.createYamlSequenceBuilder().add("Jusanov").build()) // Channels option only used for TwitchBot

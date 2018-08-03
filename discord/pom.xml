@@ -31,10 +31,5 @@
 			<artifactId>core</artifactId>
 			<version>1.0.0</version>
 	    </dependency>
-	    <dependency>
-	        <groupId>net.jusanov</groupId>
-	        <artifactId>jusanovsutils</artifactId>
-	        <version>6c64cd4629</version>
-	    </dependency>
 	</dependencies>
 </project>

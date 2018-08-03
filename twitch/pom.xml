@@ -14,22 +14,21 @@
 	        <id>jitpack.io</id>
 	        <url>https://jitpack.io</url>
 	    </repository>
+	    <repository>
+		    <id>jcenter</id>
+		    <url>https://jcenter.bintray.com/</url>
+	    </repository>
 	</repositories>
 	<dependencies>
 		<dependency>
-			<groupId>pircbot</groupId>
-			<artifactId>pircbot</artifactId>
-			<version>1.5.0</version>
+		    <groupId>com.github.twitch4j</groupId>
+		    <artifactId>twitch4j</artifactId>
+		    <version>v0.11.1</version>
 		</dependency>
 	    <dependency>
 			<groupId>net.jusanov.yamltobot</groupId>
 			<artifactId>core</artifactId>
 			<version>1.0.0</version>
-	    </dependency>
-	    <dependency>
-	        <groupId>net.jusanov</groupId>
-	        <artifactId>jusanovsutils</artifactId>
-	        <version>6c64cd4629</version>
 	    </dependency>
 	</dependencies>
 </project>

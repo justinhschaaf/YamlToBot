@@ -1,13 +1,10 @@
 package net.jusanov.yamltobot.twitch.main;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 
-import org.jibble.pircbot.IrcException;
-
+import me.philippheuer.twitch4j.TwitchClient;
+import me.philippheuer.twitch4j.TwitchClientBuilder;
 import net.jusanov.yamltobot.core.handler.ConfigHandler;
-import net.jusanov.yamltobot.core.handler.LogHandler;
 import net.jusanov.yamltobot.core.setup.Setup;
 import net.jusanov.yamltobot.core.setup.SetupWindow;
 
@@ -21,35 +18,29 @@ import net.jusanov.yamltobot.core.setup.SetupWindow;
  */
 public class BotHandler {
 
+	static TwitchClient bot;
+	
 	public static void main(String[] args) {
 		
-		try {
-			
-			// Yaml to Bot Setup
-			Setup.setupLogs();
-			ConfigHandler.setConfig(new File("YamlToBot/config.yml"));
-			Setup.setupDefaultConfig(new File("YamlToBot/config.yml"));
-			SetupWindow frame = new SetupWindow();
-			frame.setVisible(true);
-			
-			// Twitch Bot Setup
-			TwitchBot bot = new TwitchBot(ConfigHandler.getString("name"));
-			bot.setVerbose(true);
-			bot.connect("irc.twitch.tv", 6667, ConfigHandler.getString("token"));
-			
-			// Join Channels
-			ArrayList<String> channels = ConfigHandler.getArray("channels");
-			for(int c = 0; c < channels.size(); c++) {
-				
-				String channel = channels.get(c);
-				bot.joinChannel("#" + channel);
-				LogHandler.debug("Channel " + channel + " joined!");
-				
-			}
-			
-		} catch (IOException | IrcException e) {
-			e.printStackTrace();
-		}
+		// Yaml to Bot Setup
+		Setup.setupLogs();
+		ConfigHandler.setConfig(new File("YamlToBot/config.yml"));
+		Setup.setupDefaultConfig(new File("YamlToBot/config.yml"));
+		SetupWindow frame = new SetupWindow();
+		frame.setVisible(true);
+		
+		// Twitch Bot Setup
+		bot = TwitchClientBuilder.init()
+				.withClientId(ConfigHandler.getString("id"))
+				.withClientSecret(ConfigHandler.getString("secret"))
+				.withCredential(ConfigHandler.getString("token"))
+				.connect();
+		
+		bot.getDispatcher().registerListener(new MessageHandler());
+		
+        for (String channel : ConfigHandler.getArray("channels")) {
+            bot.getMessageInterface().joinChannel(channel);
+        }
 		
 	}
 
