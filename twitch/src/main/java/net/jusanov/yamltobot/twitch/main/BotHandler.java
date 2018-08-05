@@ -39,7 +39,7 @@ public class BotHandler {
 		bot.getDispatcher().registerListener(new MessageHandler());
 		
         for (String channel : ConfigHandler.getArray("channels")) {
-            bot.getMessageInterface().joinChannel(channel);
+            bot.getMessageInterface().joinChannel(channel.toLowerCase());
         }
 		
 	}

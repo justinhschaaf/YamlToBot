@@ -51,7 +51,11 @@ public class ConfigHandler {
 	public static String getString(String key) {
 		
 		try {
-			return Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().string(key).replace("\"", "");
+			String value = Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().string(key);
+			
+			if (value != null) return value.replace("\"", "");
+			else return null;
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -76,6 +80,8 @@ public class ConfigHandler {
 		try {
 			
 			YamlSequence yaml = Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().yamlSequence(key);
+			
+			if (yaml == null) return null;
 			
 			ArrayList<String> array = new ArrayList<String>();
 			for (int i = 0; i < yaml.size(); i++) {
@@ -107,6 +113,8 @@ public class ConfigHandler {
 		
 		String value = getString(key);
 		
+		if (value == null) return defaultVal;
+		
 		if (value.equalsIgnoreCase("false".replace("\"", "")) && defaultVal == true) {
 			return false;
 		}
@@ -134,6 +142,9 @@ public class ConfigHandler {
 		try {
 			
 			YamlSequence commandYaml = Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().yamlSequence("commands");
+			
+			if (commandYaml == null) return null;
+			
 			ArrayList<String> commands = new ArrayList<String>();
 			for (int i = 0; i < commandYaml.size(); i++) {
 				commands.add(commandYaml.yamlMapping(i).string("name").replace("\"", ""));
@@ -164,7 +175,9 @@ public class ConfigHandler {
 		
 		ArrayList<String> commands = getCommands();
 		
-		int index = -1;
+		if (commands == null) return 0;
+		
+		int index = 0;
 		for (int i = 0; i < commands.size(); i++) {
 			if (commands.get(i).trim().equalsIgnoreCase(command.trim())) {
 				return i;
@@ -187,11 +200,9 @@ public class ConfigHandler {
 	public static YamlMapping getCommand(String command) {
 		
 		try {
-			YamlMapping commandYaml;
 			
-			commandYaml = Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().yamlSequence("commands").yamlMapping(getIndex(command));
-			
-			return commandYaml;
+			return Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().yamlSequence("commands").yamlMapping(getIndex(command));
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -212,9 +223,9 @@ public class ConfigHandler {
 	 * 
 	 */
 	public static String getCommandString(String command, String key) {
-		String configValue = getCommand(command).string(key).replace("\"", "");
-		if (!configValue.isEmpty()) {
-			return configValue;
+		String configValue = getCommand(command).string(key);
+		if (configValue != null) {
+			return configValue.replace("\"", "");
 		} else {
 			return null;
 		}
@@ -233,6 +244,9 @@ public class ConfigHandler {
 	public static ArrayList<String> getCommandArray(String command, String key) {
 		
 		YamlSequence commandYaml = getCommand(command).yamlSequence(key);
+		
+		if (commandYaml == null) return null;
+		
 		ArrayList<String> array = new ArrayList<String>();
 		
 		for (int i = 0; i < commandYaml.size(); i++) {
@@ -256,6 +270,8 @@ public class ConfigHandler {
 	public static boolean getCommandBoolean(String command, String key, boolean defaultVal) {
 		
 		String value = getCommandString(command, key);
+		
+		if (value == null) return defaultVal;
 		
 		if (value.equalsIgnoreCase("false".replace("\"", "")) && defaultVal == true) {
 			return false;

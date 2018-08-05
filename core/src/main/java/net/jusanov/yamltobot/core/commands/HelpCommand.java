@@ -6,7 +6,7 @@ import net.jusanov.yamltobot.core.handler.ConfigHandler;
 
 /**
  * 
- * Predefined help command. Lists all other registered commands.
+ * Predefined help command. Lists all other registered commands that are enabled.
  * 
  * @author Jusanov
  * @since 1.0.0
@@ -29,7 +29,13 @@ public class HelpCommand extends Command {
 			
 			String command = commands.get(i);
 			String name = ConfigHandler.getString("prefix") + command;
+			String usage = ConfigHandler.getCommandString(command, "usage");
 			String desc = "Generic Command";
+			boolean enabled = ConfigHandler.getCommandBoolean(command, "enabled", true);
+			
+			if (enabled == false) continue;
+			
+			if (usage != null) name = usage;
 			
 			if (ConfigHandler.getCommandString(command, "description") != null) {
 				desc = ConfigHandler.getCommandString(command, "description");

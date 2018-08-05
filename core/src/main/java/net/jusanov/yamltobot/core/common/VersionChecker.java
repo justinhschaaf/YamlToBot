@@ -121,7 +121,8 @@ public class VersionChecker {
 				line.trim();
 				
 				if (line.startsWith("\"tag_name\"")) {
-					versions.add(line.trim().replace("\"tag_name\"", "").replace("\"", ""));
+					if (line.contains("PRE")) continue;
+					versions.add(line.trim().replace("\"tag_name\"", "").replace("\"", "").replace(",", "").replace(":", "").replace(" ", ""));
 				}
 				
 			}

@@ -26,6 +26,7 @@ public class SetupDefaultConfig {
 	 * Setup the default config file for Discord
 	 * 
 	 * @param config The file to write the config to
+	 * @since 1.0.0
 	 * 
 	 */
 	public static void setupDefaultDiscordConfig(File config) {
@@ -53,6 +54,7 @@ public class SetupDefaultConfig {
 	 * Setup the default config file for Twitch
 	 * 
 	 * @param config The file to write the config to
+	 * @since 1.0.0
 	 * 
 	 */
 	public static void setupDefaultTwitchConfig(File config) {
@@ -62,7 +64,7 @@ public class SetupDefaultConfig {
 			YamlMapping yaml = setupDefaultConfig()
 					.add("id", "876543210987654321")
 					.add("secret", "135798642135798642")
-					.add("channels", Yaml.createYamlSequenceBuilder().add("Jusanov").build())
+					.add("channels", Yaml.createYamlSequenceBuilder().add("jusanov").build())
 					.build();
 			
 			BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(config)));
@@ -89,8 +91,6 @@ public class SetupDefaultConfig {
 		YamlMapping commandPing = Yaml.createYamlMappingBuilder()
 				.add("name", "\"ping\"")
 				.add("description", "\"Play Ping Pong!\"")
-				.add("enabled", "\"true\"")
-				.add("builtin", "\"false\"")
 				.add("message", Yaml.createYamlSequenceBuilder().add("\"pong!\"").build())
 				.build();
 		
@@ -110,10 +110,6 @@ public class SetupDefaultConfig {
 				.add("commands", Yaml.createYamlSequenceBuilder().add(commandPing).add(commandHelp).build());
 		
 		return yaml;
-		
-		/*BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(config)));
-		bufferedWriter.write(yaml.toString());
-		bufferedWriter.close();*/
 		
 	}
 	

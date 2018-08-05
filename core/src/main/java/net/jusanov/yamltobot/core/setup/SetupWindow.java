@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 
+import net.jusanov.yamltobot.core.common.Reference;
 import net.jusanov.yamltobot.core.common.VersionChecker;
 import net.jusanov.yamltobot.core.handler.ConfigHandler;
 
@@ -168,6 +169,7 @@ public class SetupWindow extends JFrame {
 	private String updateText() {
 		
 		if (VersionChecker.isUpdated() == false) return "A new update is available: " + VersionChecker.getLatestVersion();
+		if (Reference.prerelease == true) return "You are using a pre-release build.";
 		else return "Your jar is up to date.";
 		
 	}
