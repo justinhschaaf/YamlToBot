@@ -36,7 +36,7 @@ public class BotHandler {
 				.withCredential(ConfigHandler.getString("token"))
 				.connect();
 		
-		bot.getDispatcher().registerListener(new MessageHandler());
+		bot.getDispatcher().registerListener(new TwitchMessageHandler());
 		
         for (String channel : ConfigHandler.getArray("channels")) {
             bot.getMessageInterface().joinChannel(channel.toLowerCase());

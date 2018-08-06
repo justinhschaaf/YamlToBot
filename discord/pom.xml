@@ -10,10 +10,6 @@
 	<name>YAML to Bot - Discord</name>
 	<description>Create a Discord bot from the given YAML file.</description>
 	<repositories>
-		<repository>
-		    <id>Sonatype Snapshots</id>
-		    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-		</repository>
 	    <repository>
 	        <id>jitpack.io</id>
 	        <url>https://jitpack.io</url>
@@ -23,7 +19,7 @@
 	    <dependency>
 	        <groupId>org.javacord</groupId>
 	        <artifactId>javacord</artifactId>
-	        <version>3.0.0-SNAPSHOT</version>
+	        <version>3.0.0</version>
 	        <type>pom</type>
 	    </dependency>
 	    <dependency>

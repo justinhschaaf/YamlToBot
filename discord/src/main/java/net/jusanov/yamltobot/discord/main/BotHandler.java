@@ -32,7 +32,7 @@ public class BotHandler {
 		
 		// Discord Bot Setup
 		api = new DiscordApiBuilder().setToken(ConfigHandler.getString("token")).login().join();
-		api.addMessageCreateListener(new MessageHandler());
+		api.addMessageCreateListener(new DiscordMessageHandler());
 		api.updateActivity(ConfigHandler.getString("activity"));
 
 	}
