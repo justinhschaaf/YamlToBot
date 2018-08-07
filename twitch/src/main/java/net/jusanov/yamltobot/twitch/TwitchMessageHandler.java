@@ -1,4 +1,4 @@
-package net.jusanov.yamltobot.twitch.main;
+package net.jusanov.yamltobot.twitch;
 
 import me.philippheuer.twitch4j.events.EventSubscriber;
 import me.philippheuer.twitch4j.events.event.irc.ChannelMessageEvent;

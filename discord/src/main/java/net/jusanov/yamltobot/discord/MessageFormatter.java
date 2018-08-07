@@ -1,4 +1,4 @@
-package net.jusanov.yamltobot.discord.main;
+package net.jusanov.yamltobot.discord;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -35,7 +35,7 @@ public class MessageFormatter {
 			
 			ArrayList<Integer> indexes = getIndexes(message, ':', ':');
 			String emoteTag = message.substring(indexes.get(0), indexes.get(1)).replaceAll(":", "");
-			Iterator<KnownCustomEmoji> possibleEmojis = BotHandler.api.getCustomEmojisByNameIgnoreCase(emoteTag).iterator();
+			Iterator<KnownCustomEmoji> possibleEmojis = DiscordBotHandler.api.getCustomEmojisByNameIgnoreCase(emoteTag).iterator();
 			String emoji = new String();
 			
 			while (possibleEmojis.hasNext()) {
@@ -51,7 +51,7 @@ public class MessageFormatter {
 			
 			ArrayList<Integer> indexes = getIndexes(message, '@', ' ');
 			String mentionTag = message.substring(indexes.get(0), indexes.get(1)).trim().replaceAll("@", "");
-			String mentionedUser = BotHandler.api.getCachedUserByDiscriminatedNameIgnoreCase(mentionTag).get().getMentionTag();
+			String mentionedUser = DiscordBotHandler.api.getCachedUserByDiscriminatedNameIgnoreCase(mentionTag).get().getMentionTag();
 			message.replaceAll("@" + mentionTag, mentionedUser);
 			
 		}
@@ -61,7 +61,7 @@ public class MessageFormatter {
 			
 			ArrayList<Integer> indexes = getIndexes(message, '#', ' ');
 			String mentionTag = message.substring(indexes.get(0), indexes.get(1)).trim().replaceAll("#", "");
-			Iterator<TextChannel> mentionedChannel = BotHandler.api.getTextChannelsByName(mentionTag).iterator();
+			Iterator<TextChannel> mentionedChannel = DiscordBotHandler.api.getTextChannelsByName(mentionTag).iterator();
 			String channel = new String();
 			
 			while (mentionedChannel.hasNext()) {
@@ -77,7 +77,7 @@ public class MessageFormatter {
 			
 			ArrayList<Integer> indexes = getIndexes(message, '^', ' ');
 			String mentionTag = message.substring(indexes.get(0), indexes.get(1)).trim().replaceAll("^", "");
-			Iterator<Role> mentionedRole = BotHandler.api.getRolesByNameIgnoreCase(mentionTag).iterator();
+			Iterator<Role> mentionedRole = DiscordBotHandler.api.getRolesByNameIgnoreCase(mentionTag).iterator();
 			String role = new String();
 			
 			while (mentionedRole.hasNext()) {

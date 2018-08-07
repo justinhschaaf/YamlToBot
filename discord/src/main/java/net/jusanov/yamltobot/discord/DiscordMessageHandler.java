@@ -1,4 +1,4 @@
-package net.jusanov.yamltobot.discord.main;
+package net.jusanov.yamltobot.discord;
 
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;

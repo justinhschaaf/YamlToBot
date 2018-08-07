@@ -1,12 +1,10 @@
-package net.jusanov.yamltobot.twitch.main;
-
-import java.io.File;
+package net.jusanov.yamltobot.twitch;
 
 import me.philippheuer.twitch4j.TwitchClient;
 import me.philippheuer.twitch4j.TwitchClientBuilder;
+import net.jusanov.yamltobot.core.common.Module;
+import net.jusanov.yamltobot.core.handler.BotHandler;
 import net.jusanov.yamltobot.core.handler.ConfigHandler;
-import net.jusanov.yamltobot.core.setup.Setup;
-import net.jusanov.yamltobot.core.setup.SetupWindow;
 
 /**
  * 
@@ -16,24 +14,19 @@ import net.jusanov.yamltobot.core.setup.SetupWindow;
  * @since 1.0.0
  *
  */
-public class BotHandler {
+public class TwitchBotHandler extends BotHandler {
 
 	static TwitchClient bot;
 	
 	public static void main(String[] args) {
 		
-		// Yaml to Bot Setup
-		Setup.setupLogs();
-		ConfigHandler.setConfig(new File("YamlToBot/config.yml"));
-		Setup.setupDefaultConfig("Twitch", new File("YamlToBot/config.yml"));
-		SetupWindow frame = new SetupWindow();
-		frame.setVisible(true);
+		setModule(Module.TWITCH);
+		setup();
 		
-		// Twitch Bot Setup
 		bot = TwitchClientBuilder.init()
-				.withClientId(ConfigHandler.getString("id"))
-				.withClientSecret(ConfigHandler.getString("secret"))
-				.withCredential(ConfigHandler.getString("token"))
+				.withClientId(getAuth("id"))
+				.withClientSecret(getAuth("secret"))
+				.withCredential(getAuth("token"))
 				.connect();
 		
 		bot.getDispatcher().registerListener(new TwitchMessageHandler());

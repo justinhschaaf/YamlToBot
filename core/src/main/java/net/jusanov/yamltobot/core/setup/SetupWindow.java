@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 
+import net.jusanov.yamltobot.core.common.Module;
 import net.jusanov.yamltobot.core.common.Reference;
 import net.jusanov.yamltobot.core.common.VersionChecker;
 import net.jusanov.yamltobot.core.handler.ConfigHandler;
@@ -46,7 +47,7 @@ public class SetupWindow extends JFrame {
 	 * The primary function for setting up the window
 	 * @since 1.0.0
 	 */
-	public SetupWindow() {
+	public SetupWindow(Module module) {
 		setTitle("YamlToBot | " + ConfigHandler.getString("name"));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(SetupWindow.class.getResource("/assets/icon.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -85,7 +86,7 @@ public class SetupWindow extends JFrame {
 
 				try {
 					
-					BufferedReader logText = new BufferedReader(new InputStreamReader(new FileInputStream(new File("YamlToBot/logs/log-latest.log"))));
+					BufferedReader logText = new BufferedReader(new InputStreamReader(new FileInputStream(new File(module.getDir() + "logs/log-latest.log"))));
 					
 					StringBuilder text = new StringBuilder();
 					String line;

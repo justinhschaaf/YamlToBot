@@ -29,11 +29,11 @@ public class SetupDefaultConfig {
 	 * @since 1.0.0
 	 * 
 	 */
-	public static void setupDefaultDiscordConfig(File config) {
+	public static void setupDiscord(File config) {
 		
 		try {
 			
-			YamlMapping yaml = setupDefaultConfig()
+			YamlMapping yaml = setup()
 					.add("activity", "YamlToBot")
 					.build();
 			
@@ -57,11 +57,11 @@ public class SetupDefaultConfig {
 	 * @since 1.0.0
 	 * 
 	 */
-	public static void setupDefaultTwitchConfig(File config) {
+	public static void setupTwitch(File config) {
 		
 		try {
 			
-			YamlMapping yaml = setupDefaultConfig()
+			YamlMapping yaml = setup()
 					.add("id", "876543210987654321")
 					.add("secret", "135798642135798642")
 					.add("channels", Yaml.createYamlSequenceBuilder().add("jusanov").build())
@@ -86,7 +86,7 @@ public class SetupDefaultConfig {
 	 * @since 1.0.0
 	 * 
 	 */
-	private static YamlMappingBuilder setupDefaultConfig() {
+	private static YamlMappingBuilder setup() {
 		
 		YamlMapping commandPing = Yaml.createYamlMappingBuilder()
 				.add("name", "\"ping\"")

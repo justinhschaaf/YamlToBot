@@ -45,7 +45,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>net.jusanov.yamltobot.discord.main.BotHandler</mainClass>
+							<mainClass>net.jusanov.yamltobot.discord.DiscordBotHandler</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

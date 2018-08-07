@@ -48,7 +48,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>net.jusanov.yamltobot.twitch.main.BotHandler</mainClass>
+							<mainClass>net.jusanov.yamltobot.twitch.TwitchBotHandler</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
