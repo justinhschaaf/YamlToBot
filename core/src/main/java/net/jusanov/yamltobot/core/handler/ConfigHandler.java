@@ -44,17 +44,18 @@ public class ConfigHandler {
 	 * Gets a string value from the config
 	 * 
 	 * @param key The key to take the value from
-	 * @return The string value of the given key, or null if the key isn't found
+	 * @param defaultValue The default value
+	 * @return The string value of the given key, or the default value if the key isn't found
 	 * @since 1.0.0
 	 * 
 	 */
-	public static String getString(String key) {
+	public static String getString(String key, String defaultValue) {
 		
 		try {
 			String value = Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().string(key);
 			
 			if (value != null) return value.replace("\"", "");
-			else return null;
+			else return defaultValue;
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -62,7 +63,7 @@ public class ConfigHandler {
 			e.printStackTrace();
 		}
 		
-		return null;
+		return defaultValue;
 		
 	}
 
@@ -105,23 +106,27 @@ public class ConfigHandler {
 	 * Gets a boolean value from the config
 	 * 
 	 * @param key The key to take the value from
+	 * @param defaultValue The default value
 	 * @return The boolean value of the given key, or the default value if the key isn't found
 	 * @since 1.0.0
 	 * 
 	 */
-	public static boolean getBoolean(String key, boolean defaultVal) {
+	public static boolean getBoolean(String key, boolean defaultValue) {
 		
-		String value = getString(key);
+		String defaultValueStr = new String();
+		if (defaultValue == true) defaultValueStr = "true";
+		else if (defaultValue == false) defaultValueStr = "false";
+		String value = getString(key, defaultValueStr);
 		
-		if (value == null) return defaultVal;
+		if (value == null) return defaultValue;
 		
-		if (value.equalsIgnoreCase("false".replace("\"", "")) && defaultVal == true) {
+		if (value.equalsIgnoreCase("false".replace("\"", "")) && defaultValue == true) {
 			return false;
 		}
-		if (value.equalsIgnoreCase("true".replace("\"", "")) && defaultVal == false) {
+		if (value.equalsIgnoreCase("true".replace("\"", "")) && defaultValue == false) {
 			return true;
 		}
-		return defaultVal;
+		return defaultValue;
 		
 	}
 	
@@ -218,16 +223,17 @@ public class ConfigHandler {
 	 * 
 	 * @param command The name of the command to get the string value from
 	 * @param key The key to take the value from
+	 * @param defaultValue The default value
 	 * @return The string value of the given key
 	 * @since 1.0.0
 	 * 
 	 */
-	public static String getCommandString(String command, String key) {
+	public static String getCommandString(String command, String key, String defaultValue) {
 		String configValue = getCommand(command).string(key);
 		if (configValue != null) {
 			return configValue.replace("\"", "");
 		} else {
-			return null;
+			return defaultValue;
 		}
 	}
 	
@@ -263,23 +269,27 @@ public class ConfigHandler {
 	 * 
 	 * @param command The name of the command to get the boolean value from
 	 * @param key The key to take the value from
+	 * @param defaultValue The default value
 	 * @return The boolean value of the given key, or null if the key is not found
 	 * @since 1.0.0
 	 * 
 	 */
-	public static boolean getCommandBoolean(String command, String key, boolean defaultVal) {
+	public static boolean getCommandBoolean(String command, String key, boolean defaultValue) {
+
+		String defaultValueStr = new String();
+		if (defaultValue == true) defaultValueStr = "true";
+		else if (defaultValue == false) defaultValueStr = "false";
+		String value = getCommandString(command, key, defaultValueStr);
 		
-		String value = getCommandString(command, key);
+		if (value == null) return defaultValue;
 		
-		if (value == null) return defaultVal;
-		
-		if (value.equalsIgnoreCase("false".replace("\"", "")) && defaultVal == true) {
+		if (value.equalsIgnoreCase("false".replace("\"", "")) && defaultValue == true) {
 			return false;
 		}
-		if (value.equalsIgnoreCase("true".replace("\"", "")) && defaultVal == false) {
+		if (value.equalsIgnoreCase("true".replace("\"", "")) && defaultValue == false) {
 			return true;
 		}
-		return defaultVal;
+		return defaultValue;
 		
 	}
 	

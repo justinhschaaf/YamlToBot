@@ -26,7 +26,7 @@ public class DiscordBotHandler extends BotHandler {
 		
 		api = new DiscordApiBuilder().setToken(getAuth("token")).login().join();
 		api.addMessageCreateListener(new DiscordMessageHandler());
-		api.updateActivity(ConfigHandler.getString("activity"));
+		if (ConfigHandler.getString("activity", null) != null) api.updateActivity(ConfigHandler.getString("activity", null));
 
 	}
 

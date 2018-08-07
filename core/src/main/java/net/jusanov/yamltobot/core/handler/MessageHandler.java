@@ -37,7 +37,7 @@ public abstract class MessageHandler {
 			
 			String command = commands.get(i);
 			
-			if (message.startsWith(ConfigHandler.getString("prefix") + command)) {
+			if (message.startsWith(ConfigHandler.getString("prefix", "") + command)) {
 				
 				LogHandler.debug("Command " + command + " detected!");
 				
@@ -50,7 +50,7 @@ public abstract class MessageHandler {
 					if (ConfigHandler.getCommandBoolean(command, "builtin", false) == true) {
 						
 						try {
-							return BuiltinCommandHandler.getCommand(ConfigHandler.getCommandString(command, "predefined-function"), command, new ArrayList<String>()).toString();
+							return BuiltinCommandHandler.getCommand(ConfigHandler.getCommandString(command, "predefined-function", "%int%HelpCommand"), command, new ArrayList<String>()).toString();
 						} catch (SecurityException e) {
 							e.printStackTrace();
 						}

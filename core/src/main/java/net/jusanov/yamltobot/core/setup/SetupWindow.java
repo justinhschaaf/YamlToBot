@@ -48,7 +48,7 @@ public class SetupWindow extends JFrame {
 	 * @since 1.0.0
 	 */
 	public SetupWindow(Module module) {
-		setTitle("YamlToBot | " + ConfigHandler.getString("name"));
+		setTitle("YamlToBot | " + ConfigHandler.getString("name", module.getName()));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(SetupWindow.class.getResource("/assets/icon.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

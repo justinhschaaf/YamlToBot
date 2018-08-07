@@ -28,8 +28,8 @@ public class HelpCommand extends Command {
 		for (int i = 0; i < commands.size(); i++) {
 			
 			String command = commands.get(i);
-			String name = ConfigHandler.getString("prefix") + command;
-			String usage = ConfigHandler.getCommandString(command, "usage");
+			String name = ConfigHandler.getString("prefix", "") + command;
+			String usage = ConfigHandler.getCommandString(command, "usage", null);
 			String desc = "Generic Command";
 			boolean enabled = ConfigHandler.getCommandBoolean(command, "enabled", true);
 			
@@ -37,8 +37,8 @@ public class HelpCommand extends Command {
 			
 			if (usage != null) name = usage;
 			
-			if (ConfigHandler.getCommandString(command, "description") != null) {
-				desc = ConfigHandler.getCommandString(command, "description");
+			if (ConfigHandler.getCommandString(command, "description", null) != null) {
+				desc = ConfigHandler.getCommandString(command, "description", null);
 			}
 			
 			helpCommand.append(ConfigHandler.getCommandArray(commandName, "message").get(1).replace("%1%", "").replace("%cmd%", name).replace("%desc%", desc));
