@@ -17,6 +17,30 @@ public abstract class MessageHandler {
 
 	/**
 	 * 
+	 * Basic tasks to be executed when a message is executed
+	 * 
+	 * @param channel The channel where this message was found.
+	 * @param author The author of the message.
+	 * @param message The message itself.
+	 * @since 2.0.0
+	 * 
+	 */
+	public void logMessage(String channel, String author, String message) {
+		
+		LogHandler.info("[" + channel + "]" + " " + author + ": " + message);
+		
+		String command = getCommandByMessage(message);
+		
+		if (command != null) {
+			
+			LogHandler.debug("Command " + command + " detected!");
+			
+		}
+		
+	}
+	
+	/**
+	 * 
 	 * Properly handle a message to implement all the configuration options of YamlToBot
 	 * 
 	 * @param module The module that this is handling a message for.
@@ -27,52 +51,18 @@ public abstract class MessageHandler {
 	 * @since 2.0.0
 	 * 
 	 */
-	public String handleMessage (Module module, String channel, String author, String message) {
+	public String handleMessage(Module module, String channel, String author, String message) {
 		
-		LogHandler.info("[" + channel + "]" + " " + author + ": " + message);
+		logMessage(channel, author, message);
 		
-		ArrayList<String> commands = ConfigHandler.getCommands();
+		String command = getCommandByMessage(message);
 		
-		for (int i = 0; i < commands.size(); i++) {
+		if (command != null) {
 			
-			String command = commands.get(i);
-			
-			if (message.startsWith(ConfigHandler.getString("prefix", "") + command)) {
-				
-				LogHandler.debug("Command " + command + " detected!");
-				
-				if (ConfigHandler.getCommandBoolean(command, "enabled", true) == false) {
-					
-					continue;
-					
-				} else {
-					
-					if (ConfigHandler.getCommandBoolean(command, "builtin", false) == true) {
-						
-						try {
-							return BuiltinCommandHandler.getCommand(ConfigHandler.getCommandString(command, "predefined-function", "%int%HelpCommand"), command, new ArrayList<String>()).toString();
-						} catch (SecurityException e) {
-							e.printStackTrace();
-						}
-						
-					} else {
-						
-						StringBuilder messageBuilder = new StringBuilder();
-						
-						ArrayList<String> newMessage = ConfigHandler.getCommandArray(command, "message");
-						
-						for (int j = 0; j < newMessage.size(); j++) {
-							
-							messageBuilder.append(newMessage.get(j).replace("%" + i + "%", "") + "\n");
-							
-						}
-						
-						return messageBuilder.toString();
-					
-						
-					}
-					
-				}
+			if (ConfigHandler.getCommandBoolean(command, "enabled", true)) {
+
+				if (predefinedFunctionEnabled(command)) return predefinedFunction(command);
+				else return command(command);
 				
 			}
 			
@@ -80,6 +70,53 @@ public abstract class MessageHandler {
 		
 		return null;
 		
+	}
+	
+	public boolean embedEnabled(String command) {
+		
+		return ConfigHandler.getCommandMappingBoolean(command, "embed", "enabled", false);
+		
+	}
+	
+	public boolean predefinedFunctionEnabled(String command) {
+		
+		if (ConfigHandler.getCommandString(command, "predefined-function", null) != null) return true;
+		else return false;
+		
+	}
+	
+	public String getCommandByMessage(String message) {
+		
+		ArrayList<String> commands = ConfigHandler.getCommands();
+		
+		for (String command : commands) {
+			
+			if (message.startsWith(ConfigHandler.getString("prefix", "") + command)) return command;
+			
+		}
+		
+		return null;
+		
+	}
+	
+	public String command(String command) {
+
+		StringBuilder messageBuilder = new StringBuilder();
+		ArrayList<String> message = ConfigHandler.getCommandArray(command, "message");
+		
+		for (int i = 0; i < message.size(); i++) messageBuilder.append(message.get(i) + "\n");
+		
+		return messageBuilder.toString();
+		
+	}
+	
+	public String predefinedFunction(String command) {
+		try {
+			return BuiltinCommandHandler.getCommand(ConfigHandler.getCommandString(command, "predefined-function", null), command, new ArrayList<String>()).toString();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

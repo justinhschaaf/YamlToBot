@@ -51,19 +51,18 @@ public class ConfigHandler {
 	 */
 	public static String getString(String key, String defaultValue) {
 		
+		String value = new String();
+		
 		try {
-			String value = Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().string(key);
-			
-			if (value != null) return value.replace("\"", "");
-			else return defaultValue;
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			value = Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().string(key);
+		} catch (NullPointerException e) {
+			value = defaultValue;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		return defaultValue;
+		if (value != null) return value.replace("\"", "");
+		else return defaultValue;
 		
 	}
 
@@ -77,27 +76,23 @@ public class ConfigHandler {
 	 * 
 	 */
 	public static ArrayList<String> getArray(String key) {
+
+		ArrayList<String> array = new ArrayList<String>();
+		YamlSequence yaml = null;
 		
 		try {
-			
-			YamlSequence yaml = Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().yamlSequence(key);
-			
-			if (yaml == null) return null;
-			
-			ArrayList<String> array = new ArrayList<String>();
-			for (int i = 0; i < yaml.size(); i++) {
-				array.add(yaml.string(i).replace("\"", ""));
-			}
-			
+			 yaml = Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().yamlSequence(key);
+		} catch (NullPointerException e) {
 			return array;
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		return null;
+		for (int i = 0; i < yaml.size(); i++) {
+			array.add(yaml.string(i).replace("\"", ""));
+		}
+		
+		return array;
 		
 	}
 
@@ -126,6 +121,7 @@ public class ConfigHandler {
 		if (value.equalsIgnoreCase("true".replace("\"", "")) && defaultValue == false) {
 			return true;
 		}
+		
 		return defaultValue;
 		
 	}
@@ -229,12 +225,21 @@ public class ConfigHandler {
 	 * 
 	 */
 	public static String getCommandString(String command, String key, String defaultValue) {
-		String configValue = getCommand(command).string(key);
-		if (configValue != null) {
-			return configValue.replace("\"", "");
+		
+		String value;
+		
+		try {
+			value = getCommand(command).string(key);
+		} catch (NullPointerException e) {
+			value = defaultValue;
+		}
+		
+		if (value != null) {
+			return value.replace("\"", "");
 		} else {
 			return defaultValue;
 		}
+		
 	}
 	
 	/**
@@ -248,12 +253,15 @@ public class ConfigHandler {
 	 * 
 	 */
 	public static ArrayList<String> getCommandArray(String command, String key) {
-		
-		YamlSequence commandYaml = getCommand(command).yamlSequence(key);
-		
-		if (commandYaml == null) return null;
-		
+
 		ArrayList<String> array = new ArrayList<String>();
+		YamlSequence commandYaml;
+		
+		try {
+			commandYaml = getCommand(command).yamlSequence(key);
+		} catch (NullPointerException e) {
+			return array;
+		}
 		
 		for (int i = 0; i < commandYaml.size(); i++) {
 			array.add(commandYaml.string(i).replace("\"", ""));
@@ -289,6 +297,101 @@ public class ConfigHandler {
 		if (value.equalsIgnoreCase("true".replace("\"", "")) && defaultValue == false) {
 			return true;
 		}
+		
+		return defaultValue;
+		
+	}
+	
+	
+	/**
+	 * 
+	 * Gets a command's string value from the given key
+	 * 
+	 * @param command The name of the command to get the string value from
+	 * @param yamlMapping The YamlMapping key to be getting the value from
+	 * @param key The key to take the value from
+	 * @param defaultValue The default value
+	 * @return The string value of the given key
+	 * @since 1.0.0
+	 * 
+	 */
+	public static String getCommandMappingString(String command, String yamlMapping, String key, String defaultValue) {
+		
+		String value;
+		
+		try {
+			value = getCommand(command).yamlMapping(yamlMapping).string(key);
+		} catch (NullPointerException e) {
+			value = defaultValue;
+		}
+		
+		if (value != null) {
+			return value.replace("\"", "");
+		} else {
+			return value;
+		}
+	}
+	
+	/**
+	 * 
+	 * Gets a command's array from the given key
+	 * 
+	 * @param command The name of the command to get the array from
+	 * @param yamlMapping The YamlMapping key to be getting the value from
+	 * @param key The key to take the value from
+	 * @return An ArrayList<String> of the values of the given key, or an empty array if the key is not found
+	 * @since 1.0.0
+	 * 
+	 */
+	public static ArrayList<String> getCommandMappingArray(String command, String yamlMapping, String key) {
+
+		ArrayList<String> array = new ArrayList<String>();
+		YamlSequence commandYaml;
+		
+		try {
+			commandYaml = getCommand(command).yamlMapping(yamlMapping).yamlSequence(key);
+		} catch (NullPointerException e) {
+			return array;
+		}
+		
+		
+		for (int i = 0; i < commandYaml.size(); i++) {
+			array.add(commandYaml.string(i).replace("\"", ""));
+		}
+		
+		return array;
+		
+	}
+	
+	/**
+	 * 
+	 * Gets a command's boolean value from the given key
+	 * 
+	 * @param command The name of the command to get the boolean value from
+	 * @param yamlMapping The YamlMapping key to be getting the value from
+	 * @param key The key to take the value from
+	 * @param defaultValue The default value
+	 * @return The boolean value of the given key, or null if the key is not found
+	 * @since 1.0.0
+	 * 
+	 */
+	public static boolean getCommandMappingBoolean(String command, String yamlMapping, String key, boolean defaultValue) {
+
+		String defaultValueStr = new String();
+		if (defaultValue == true) defaultValueStr = "true";
+		else if (defaultValue == false) defaultValueStr = "false";
+		
+		String value = getCommandMappingString(command, yamlMapping, key, defaultValueStr);
+		
+		if (value == null) return defaultValue;
+		
+		if (value.equalsIgnoreCase("false".replace("\"", "")) && defaultValue == true) {
+			return false;
+		}
+		if (value.equalsIgnoreCase("true".replace("\"", "")) && defaultValue == false) {
+			return true;
+		}
+		
 		return defaultValue;
 		
 	}

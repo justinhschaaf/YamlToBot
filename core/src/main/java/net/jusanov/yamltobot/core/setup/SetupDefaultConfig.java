@@ -98,7 +98,6 @@ public class SetupDefaultConfig {
 				.add("name", "\"help\"")
 				.add("description", "\"Shows a list of commands.\"")
 				.add("enabled", "\"true\"")
-				.add("builtin", "\"true\"")
 				.add("predefined-function", "\"%int%HelpCommand\"")
 				.add("message", Yaml.createYamlSequenceBuilder().add("\"%0%Commands:\"").add("\"%1%%cmd% | %desc%\"").build())
 				.build();

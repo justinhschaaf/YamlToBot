@@ -18,7 +18,8 @@ public class TwitchMessageHandler extends MessageHandler {
     @EventSubscriber
     public void onChannelMessage(ChannelMessageEvent event) {
 
-    	event.sendMessage(this.handleMessage(Module.TWITCH, event.getChannel().getDisplayName(), event.getUser().getDisplayName(), event.getMessage()));
+    	String msg = this.handleMessage(Module.TWITCH, event.getChannel().getDisplayName(), event.getUser().getDisplayName(), event.getMessage());
+    	if (msg != null) event.sendMessage(msg);
 		
     }
     
