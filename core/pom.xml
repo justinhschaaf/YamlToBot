@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>net.jusanov</groupId>
+		<groupId>com.justinschaaf</groupId>
 		<artifactId>yamltobot</artifactId>
 		<version>1.0.1</version>
 	</parent>
-	<groupId>net.jusanov.yamltobot</groupId>
+	<groupId>com.justinschaaf.yamltobot</groupId>
 	<artifactId>core</artifactId>
 	<name>YAML to Bot - Core</name>
 	<description>Create a bot from the given YAML file.</description>

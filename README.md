@@ -1,10 +1,10 @@
-![# YamlToBot](https://raw.githubusercontent.com/Jusanov/YamlToBot/master/core/src/main/resources/assets/logo.png)
+![# YamlToBot](https://raw.githubusercontent.com/justinhschaaf/YamlToBot/master/core/src/main/resources/assets/logo.png)
 
-[![Github All Releases](https://img.shields.io/github/downloads/jusanov/yamltobot/total.svg?style=flat-square)](https://github.com/Jusanov/YamlToBot/releases)
-[![GitHub release](https://img.shields.io/github/release/jusanov/yamltobot.svg?style=flat-square)](https://github.com/Jusanov/YamlToBot/releases)
-[![GitHub last commit](https://img.shields.io/github/last-commit/jusanov/yamltobot.svg?style=flat-square)](https://github.com/Jusanov/YamlToBot/commits/master)
-[![Wiki](https://img.shields.io/badge/Wiki-Home-red.svg?style=flat-square)](https://github.com/Jusanov/YamlToBot/wiki)
-[![GitHub License](https://img.shields.io/github/license/jusanov/yamltobot.svg?style=flat-square)](https://github.com/Jusanov/YamlToBot/blob/master/LICENSE)
+[![Github All Releases](https://img.shields.io/github/downloads/justinhschaaf/yamltobot/total.svg?style=flat-square)](https://github.com/justinhschaaf/YamlToBot/releases)
+[![GitHub release](https://img.shields.io/github/release/justinhschaaf/yamltobot.svg?style=flat-square)](https://github.com/justinhschaaf/YamlToBot/releases)
+[![GitHub last commit](https://img.shields.io/github/last-commit/justinhschaaf/yamltobot.svg?style=flat-square)](https://github.com/justinhschaaf/YamlToBot/commits/master)
+[![Wiki](https://img.shields.io/badge/Wiki-Home-red.svg?style=flat-square)](https://github.com/justinhschaaf/YamlToBot/wiki)
+[![GitHub License](https://img.shields.io/github/license/justinhschaaf/yamltobot.svg?style=flat-square)](https://github.com/justinhschaaf/YamlToBot/blob/master/LICENSE)
 
 Create a bot from the given YAML file.
 
@@ -42,4 +42,4 @@ To get started, all you have to do is fill out the "token" option in the config 
  - [Camel](https://github.com/decorators-squad/camel) by [decorators-squad](https://github.com/decorators-squad)
  - [Javacord](https://github.com/Javacord/Javacord) by [Javacord](https://github.com/Javacord)
  - [Twitch4J](https://github.com/twitch4j/twitch4j) by [PhilippHeuer](https://github.com/PhilippHeuer)
- - [Jusanov's Utils](https://github.com/Jusanov/JusanovsUtils) by [Jusanov](https://github.com/Jusanov)
+ - [Jusanov's Utils](https://github.com/justinhschaaf/JusanovsUtils) by [Justin Schaaf](https://github.com/justinhschaaf)

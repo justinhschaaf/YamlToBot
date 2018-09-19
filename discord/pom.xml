@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>net.jusanov</groupId>
+		<groupId>com.justinschaaf</groupId>
 		<artifactId>yamltobot</artifactId>
 		<version>1.0.1</version>
 	</parent>
-	<groupId>net.jusanov.yamltobot</groupId>
+	<groupId>com.justinschaaf.yamltobot</groupId>
 	<artifactId>discord</artifactId>
 	<name>YAML to Bot - Discord</name>
 	<description>Create a Discord bot from the given YAML file.</description>
@@ -23,7 +23,7 @@
 	        <type>pom</type>
 	    </dependency>
 	    <dependency>
-			<groupId>net.jusanov.yamltobot</groupId>
+			<groupId>com.justinschaaf.yamltobot</groupId>
 			<artifactId>core</artifactId>
 			<version>1.0.1</version>
 	    </dependency>
@@ -45,7 +45,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>net.jusanov.yamltobot.discord.DiscordBotHandler</mainClass>
+							<mainClass>com.justinschaaf.yamltobot.discord.DiscordBotHandler</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
