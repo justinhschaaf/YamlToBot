@@ -17,8 +17,8 @@
 	</repositories>
 	<dependencies>
 	    <dependency>
-	        <groupId>net.jusanov</groupId>
-	        <artifactId>jusanovsutils</artifactId>
+	        <groupId>com.justinschaaf</groupId>
+	        <artifactId>justinsjavautils</artifactId>
 	        <version>6c64cd4629</version>
 	    </dependency>
 	  	<dependency>

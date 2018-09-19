@@ -42,4 +42,4 @@ To get started, all you have to do is fill out the "token" option in the config 
  - [Camel](https://github.com/decorators-squad/camel) by [decorators-squad](https://github.com/decorators-squad)
  - [Javacord](https://github.com/Javacord/Javacord) by [Javacord](https://github.com/Javacord)
  - [Twitch4J](https://github.com/twitch4j/twitch4j) by [PhilippHeuer](https://github.com/PhilippHeuer)
- - [Jusanov's Utils](https://github.com/justinhschaaf/JusanovsUtils) by [Justin Schaaf](https://github.com/justinhschaaf)
+ - [Justin's Java Utils](https://github.com/justinhschaaf/JustinsJavaUtils) by [Justin Schaaf](https://github.com/justinhschaaf)
