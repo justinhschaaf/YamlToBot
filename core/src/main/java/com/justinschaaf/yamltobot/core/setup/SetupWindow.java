@@ -47,7 +47,7 @@ public class SetupWindow extends JFrame {
 	 * The primary function for setting up the window
 	 * @since 1.0.0
 	 */
-	public SetupWindow(Module module) {
+	public SetupWindow(final Module module) {
 		setTitle("YamlToBot | " + ConfigHandler.getString("name", module.getName()));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(SetupWindow.class.getResource("/assets/icon.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -129,21 +129,21 @@ public class SetupWindow extends JFrame {
 		gbc_footer.gridy = 5;
 		contentPane.add(footer, gbc_footer);
 		
-		JTextPane version = new JTextPane();
+		final JTextPane version = new JTextPane();
 		version.setEditable(false);
 		version.setForeground(new Color(Integer.parseInt("FEFEFE",16)));
 		version.setBackground(new Color(Integer.parseInt("8693A4",16)));
 		version.setFont(new Font("Tahoma", Font.BOLD, 15));
-		version.setText(com.justinschaaf.yamltobot.core.common.Reference.version);
+		version.setText(Reference.version);
 		footer.add(version);
 		
-		JTextPane update = new JTextPane();
+		final JTextPane update = new JTextPane();
 		update.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if (VersionChecker.isUpdated() == false) {
 					try {
-						Desktop.getDesktop().browse(new URL(com.justinschaaf.yamltobot.core.common.Reference.releasesURL).toURI());
+						Desktop.getDesktop().browse(new URL(Reference.releasesURL).toURI());
 					} catch (MalformedURLException e) {
 						e.printStackTrace();
 					} catch (IOException e) {
