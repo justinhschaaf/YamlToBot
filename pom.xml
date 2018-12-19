@@ -15,11 +15,7 @@
   		<defaultGoal>clean package shade:shade</defaultGoal>
 	  	<resources>
 	  	  	<resource>
-	  	  		<directory>${project.basedir}</directory>
-	  			<includes>
-	  		  		<include>README.md</include>
-	  		  		<include>LICENSE</include>
-	  			</includes>
+	  	  		<directory>src/main/resources</directory>
 	  	  	</resource>
 	  	</resources>
 	  	<plugins>
@@ -28,6 +24,19 @@
 	  			<artifactId>maven-shade-plugin</artifactId>
 	  			<version>3.1.1</version>
 	  		</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<includes>
+						<include>README.md</include>
+						<include>LICENSE</include>
+					</includes>
+				</configuration>
+			</plugin>
 	  		<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
