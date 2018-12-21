@@ -23,7 +23,7 @@ public class HelpCommand extends Command {
 		
 		StringBuilder helpCommand = new StringBuilder();
 		ArrayList<String> commands = ConfigHandler.getCommands();
-		helpCommand.append(ConfigHandler.getCommandArray(commandName, "message").get(0).replace("%0%", "") + "\n");
+		helpCommand.append(ConfigHandler.getCommandArray(commandName, "message").get(0) + "\n");
 		
 		for (int i = 0; i < commands.size(); i++) {
 			
@@ -41,7 +41,7 @@ public class HelpCommand extends Command {
 				desc = ConfigHandler.getCommandString(command, "description", null);
 			}
 			
-			helpCommand.append(ConfigHandler.getCommandArray(commandName, "message").get(1).replace("%1%", "").replace("%cmd%", name).replace("%desc%", desc));
+			helpCommand.append(ConfigHandler.getCommandArray(commandName, "message").get(1).replace("%cmd%", name).replace("%desc%", desc));
 			helpCommand.append("\n");
 			
 		}

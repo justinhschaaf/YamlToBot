@@ -16,3 +16,7 @@ buildNumber.properties
 YamlToBot/
 commands.json
 credentials.json
+
+### Intellij ###
+
+.idea/

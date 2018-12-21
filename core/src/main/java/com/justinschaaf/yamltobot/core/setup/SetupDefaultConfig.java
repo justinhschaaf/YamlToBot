@@ -99,7 +99,7 @@ public class SetupDefaultConfig {
 				.add("description", "\"Shows a list of commands.\"")
 				.add("enabled", "\"true\"")
 				.add("predefined-function", "\"%int%HelpCommand\"")
-				.add("message", Yaml.createYamlSequenceBuilder().add("\"%0%Commands:\"").add("\"%1%%cmd% | %desc%\"").build())
+				.add("message", Yaml.createYamlSequenceBuilder().add("\"Commands:\"").add("\"%cmd% | %desc%\"").build())
 				.build();
 		
 		YamlMappingBuilder yaml = Yaml.createYamlMappingBuilder()

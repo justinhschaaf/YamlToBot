@@ -8,6 +8,12 @@
 
 Create a bot from the given YAML file.
 
+# Donate
+
+If you like what I do, then please consider supporting me on Liberapay.
+
+[![Donate](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/justinhschaaf) 
+
 # First-time Usage
 
 When beginning with YamlToBot, you may simply run the Jar file and it should automatically generate a default configuration file that looks something like this:
@@ -26,8 +32,8 @@ commands:
     description: "Shows a list of commands."
     enabled: "true"
     message: 
-      - "%0%Commands:"
-      - "%1%%cmd% | %desc%"
+      - "Commands:"
+      - "%cmd% | %desc%"
     name: "help"
     predefined-function: "%int%HelpCommand"
 name: "MyFirstBot"
