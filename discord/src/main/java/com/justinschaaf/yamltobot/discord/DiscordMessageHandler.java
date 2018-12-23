@@ -3,6 +3,7 @@ package com.justinschaaf.yamltobot.discord;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import com.justinschaaf.yamltobot.core.handler.LogHandler;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
@@ -54,11 +55,8 @@ public class DiscordMessageHandler extends MessageHandler implements MessageCrea
 			
 			// Setup the fields
 			YamlSequence fields;
-			try {
-				fields = ConfigHandler.getCommand(command).yamlMapping("embed").yamlSequence("fields");
-			} catch (NullPointerException e) {
-				fields = null;
-			}
+			try { fields = ConfigHandler.getCommand(command).yamlMapping("embed").yamlSequence("fields"); }
+			catch (NullPointerException e) { fields = null; }
 			
 			if (!(fields == null)) for (int i = 0; i < fields.size(); i++) {
 				
@@ -82,20 +80,41 @@ public class DiscordMessageHandler extends MessageHandler implements MessageCrea
 
 			// Add the author, if defined
 			YamlMapping author;
-			try {
-				author = ConfigHandler.getCommand(command).yamlMapping("embed").yamlMapping("author");
-			} catch (NullPointerException e) {
+			try { author = ConfigHandler.getCommand(command).yamlMapping("embed").yamlMapping("author"); }
+			catch (NullPointerException e) {
 				author = null;
 			}
 
 			if (!(author == null)) {
 
-				// Get the author properties
-				String name = author.string("name").replaceAll("\"", "");
-				String url = author.string("url").replaceAll("\"", "");
-				String avatar = author.string("avatar").replaceAll("\"", "");
+				// Create variables for the author's metadata
+				String name;
+				String url;
+				String avatar;
 
-				embed.setAuthor(name, url, avatar);
+				// Try getting the author's metadata
+				try { name = author.string("name").replaceAll("\"", ""); }
+				catch (NullPointerException e) {
+					LogHandler.error("An author is defined, but they have no name or it couldn't be fetched!");
+					name = null;
+				}
+
+				try { url = author.string("url").replaceAll("\"", ""); }
+				catch (NullPointerException e) {
+					LogHandler.debug("The author doesn't have a URL!");
+					url = null;
+				}
+
+				try { avatar = author.string("avatar").replaceAll("\"", ""); }
+				catch (NullPointerException e) {
+					LogHandler.debug("The author doesn't have an avatar!");
+					avatar = null;
+				}
+
+				// Add the author to the embed
+				if (name == null);
+				else if (url == null || avatar == null) embed.setAuthor(name);
+				else embed.setAuthor(name, url, avatar);
 
 			}
 
