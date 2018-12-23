@@ -36,11 +36,14 @@ public class DiscordMessageHandler extends MessageHandler implements MessageCrea
 			// Create the basic embed
 			EmbedBuilder embed = new EmbedBuilder()
 					.setTitle(ConfigHandler.getCommandMappingString(command, "embed", "title", "YamlToBot Embed"))
-					.setColor(new Color(Integer.parseInt(ConfigHandler.getCommandMappingString(command, "embed", "color", "283F50"),16)));
+					.setColor(new Color(Integer.parseInt(ConfigHandler.getCommandMappingString(command, "embed", "color", "283F50").replaceAll("#", ""),16)));
 			
 			// Set the URL
 			if (ConfigHandler.getCommandMappingString(command, "embed", "url", null) != null) embed.setUrl(ConfigHandler.getCommandMappingString(command, "embed", "url", null));
-			
+
+			// Set the image
+			if (ConfigHandler.getCommandMappingString(command, "embed", "image", null) != null) embed.setImage(ConfigHandler.getCommandMappingString(command, "embed", "image", null));
+
 			// Set the description
 			ArrayList<String> description = ConfigHandler.getCommandMappingArray(command, "embed", "description");
 			StringBuilder messageBuilder = new StringBuilder();
@@ -64,19 +67,38 @@ public class DiscordMessageHandler extends MessageHandler implements MessageCrea
 				// Set the field description
 				StringBuilder fieldDescriptionBuilder = new StringBuilder();
 				YamlSequence fieldDescription = field.yamlSequence("description");
-				for (int j = 0; j < fieldDescription.size(); j++) fieldDescriptionBuilder.append(fieldDescription.string(j).replace("\"", "") + "\n");
+				for (int j = 0; j < fieldDescription.size(); j++) fieldDescriptionBuilder.append(fieldDescription.string(j).replaceAll("\"", "") + "\n");
 				
 				// Set whether or not the field is inline
 				String inlineStr = field.string("inline");
 				boolean inline = false;
 				
-				if (inlineStr.replace("\"", "").equalsIgnoreCase("false")) inline = false;
-				if (inlineStr.replace("\"", "").equalsIgnoreCase("true")) inline = true;
+				if (inlineStr.replaceAll("\"", "").equalsIgnoreCase("false")) inline = false;
+				if (inlineStr.replaceAll("\"", "").equalsIgnoreCase("true")) inline = true;
 				
-				embed.addField(field.string("name").replace("\"", ""), fieldDescriptionBuilder.toString(), inline);
+				embed.addField(field.string("name").replaceAll("\"", ""), fieldDescriptionBuilder.toString(), inline);
 				
 			}
-			
+
+			// Add the author, if defined
+			YamlMapping author;
+			try {
+				author = ConfigHandler.getCommand(command).yamlMapping("embed").yamlMapping("author");
+			} catch (NullPointerException e) {
+				author = null;
+			}
+
+			if (!(author == null)) {
+
+				// Get the author properties
+				String name = author.string("name").replaceAll("\"", "");
+				String url = author.string("url").replaceAll("\"", "");
+				String avatar = author.string("avatar").replaceAll("\"", "");
+
+				embed.setAuthor(name, url, avatar);
+
+			}
+
 			// Send the final embed
 			event.getChannel().sendMessage(embed);
 			
