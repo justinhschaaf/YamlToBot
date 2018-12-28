@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.justinschaaf</groupId>
 		<artifactId>yamltobot</artifactId>
-		<version>2.0.0</version>
+		<version>3.0.0</version>
 	</parent>
 	<groupId>com.justinschaaf.yamltobot</groupId>
 	<artifactId>twitch</artifactId>
@@ -28,7 +28,7 @@
 	    <dependency>
 			<groupId>com.justinschaaf.yamltobot</groupId>
 			<artifactId>core</artifactId>
-			<version>2.0.0</version>
+			<version>3.0.0</version>
 	    </dependency>
 	</dependencies>
   	<build>

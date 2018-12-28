@@ -1,5 +1,6 @@
 package com.justinschaaf.yamltobot.core.handler;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,9 +12,11 @@ import java.util.Date;
 import com.amihaiemil.camel.Yaml;
 import com.justinschaaf.yamltobot.core.common.Module;
 import com.justinschaaf.yamltobot.core.setup.SetupDefaultConfig;
-import com.justinschaaf.yamltobot.core.setup.SetupWindow;
 
+import com.justinschaaf.yamltobot.core.setup.Window;
 import net.jusanov.utils.io.FileManager;
+
+import javax.swing.*;
 
 /**
  * 
@@ -90,9 +93,17 @@ public abstract class BotHandler {
 	 * Setup the window
 	 * @since 2.0.0
 	 */
+
 	private static void setupWindow() {
-		SetupWindow frame = new SetupWindow(module);
-		frame.setVisible(true);
+
+		JFrame window = new JFrame();
+		window.setTitle("YamlToBot | " + ConfigHandler.getString("name", module.getName()));
+		//window.setIconImage(Toolkit.getDefaultToolkit().getImage(BotHandler.class.getResource("/assets/icon/icon512.png")));
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setContentPane(new Window(module).main);
+		window.pack();
+		window.setVisible(true);
+
 	}
 	
 	/**
@@ -110,7 +121,6 @@ public abstract class BotHandler {
 	/**
 	 * 
 	 * Configure the logger for use in YamlToBot
-	 * @param module 
 	 * @since 1.0.0
 	 * 
 	 */
