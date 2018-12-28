@@ -6,9 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.amihaiemil.camel.Yaml;
-import com.amihaiemil.camel.YamlMapping;
-import com.amihaiemil.camel.YamlSequence;
+import com.amihaiemil.eoyaml.Yaml;
+import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlSequence;
 
 /**
  * 

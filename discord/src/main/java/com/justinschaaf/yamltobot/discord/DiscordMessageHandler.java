@@ -1,18 +1,17 @@
 package com.justinschaaf.yamltobot.discord;
 
-import java.awt.Color;
-import java.util.ArrayList;
-
+import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlSequence;
+import com.justinschaaf.yamltobot.core.common.Module;
+import com.justinschaaf.yamltobot.core.handler.ConfigHandler;
 import com.justinschaaf.yamltobot.core.handler.LogHandler;
+import com.justinschaaf.yamltobot.core.handler.MessageHandler;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
 
-import com.amihaiemil.camel.YamlMapping;
-import com.amihaiemil.camel.YamlSequence;
-import com.justinschaaf.yamltobot.core.common.Module;
-import com.justinschaaf.yamltobot.core.handler.ConfigHandler;
-import com.justinschaaf.yamltobot.core.handler.MessageHandler;
+import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * 

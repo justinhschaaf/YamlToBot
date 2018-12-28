@@ -1,6 +1,12 @@
 package com.justinschaaf.yamltobot.core.handler;
 
-import java.awt.*;
+import com.amihaiemil.eoyaml.Yaml;
+import com.justinschaaf.yamltobot.core.common.Module;
+import com.justinschaaf.yamltobot.core.setup.SetupDefaultConfig;
+import com.justinschaaf.yamltobot.core.setup.Window;
+import net.jusanov.utils.io.FileManager;
+
+import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,15 +14,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import com.amihaiemil.camel.Yaml;
-import com.justinschaaf.yamltobot.core.common.Module;
-import com.justinschaaf.yamltobot.core.setup.SetupDefaultConfig;
-
-import com.justinschaaf.yamltobot.core.setup.Window;
-import net.jusanov.utils.io.FileManager;
-
-import javax.swing.*;
 
 /**
  * 

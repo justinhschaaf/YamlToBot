@@ -45,7 +45,10 @@ To get started, all you have to do is fill out the "token" option in the config 
 
 # APIs Used
 
- - [Camel](https://github.com/decorators-squad/camel) by [decorators-squad](https://github.com/decorators-squad)
- - [Javacord](https://github.com/Javacord/Javacord) by [Javacord](https://github.com/Javacord)
- - [Twitch4J](https://github.com/twitch4j/twitch4j) by [PhilippHeuer](https://github.com/PhilippHeuer)
- - [Justin's Java Utils](https://github.com/justinhschaaf/JustinsJavaUtils) by [Justin Schaaf](https://github.com/justinhschaaf)
+| Name                                                                      | Author                                                    | Usage |
+|-------                                                                    |-------                                                    |--------------------|
+| [eo-yaml](https://github.com/decorators-squad/eo-yaml)                    | [decorators-squad](https://github.com/decorators-squad)   | Parsing the YAML configuration file |
+| [Javacord](https://github.com/Javacord/Javacord)                          | [Javacord](https://github.com/Javacord)                   | Connecting to and interacting with Discord |
+| [Twitch4J](https://github.com/twitch4j/twitch4j)                          | [PhilippHeuer](https://github.com/PhilippHeuer)           | Connecting to and interacting with Twitch |
+| [Justin's Java Utils](https://github.com/justinhschaaf/JustinsJavaUtils)  | [Justin Schaaf](https://github.com/justinhschaaf)         | `FileManager.moveFile(source, dest)` for logs. |
+| [javax.json](https://mvnrepository.com/artifact/org.glassfish/javax.json) | [Glassfish](https://javaee.github.io/glassfish/)          | Parsing JSON in the version checker. |

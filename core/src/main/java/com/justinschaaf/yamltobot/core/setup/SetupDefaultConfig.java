@@ -1,15 +1,10 @@
 package com.justinschaaf.yamltobot.core.setup;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlMappingBuilder;
+import com.amihaiemil.eoyaml.Yaml;
 
-import com.amihaiemil.camel.Yaml;
-import com.amihaiemil.camel.YamlMapping;
-import com.amihaiemil.camel.YamlMappingBuilder;
+import java.io.*;
 
 /**
  * 
