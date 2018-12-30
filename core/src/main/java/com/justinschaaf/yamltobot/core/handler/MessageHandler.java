@@ -1,9 +1,9 @@
 package com.justinschaaf.yamltobot.core.handler;
 
-import java.util.ArrayList;
-
-import com.justinschaaf.yamltobot.core.commands.BuiltinCommandHandler;
+import com.justinschaaf.yamltobot.core.commands.Command;
 import com.justinschaaf.yamltobot.core.common.Module;
+
+import java.util.ArrayList;
 
 /**
  * 
@@ -15,29 +15,19 @@ import com.justinschaaf.yamltobot.core.common.Module;
  */
 public abstract class MessageHandler {
 
-	/**
-	 * 
-	 * Basic tasks to be executed when a message is executed
-	 * 
-	 * @param channel The channel where this message was found.
-	 * @param author The author of the message.
-	 * @param message The message itself.
-	 * @since 2.0.0
-	 * 
-	 */
-	public void logMessage(String channel, String author, String message) {
-		
-		LogHandler.info("[" + channel + "]" + " " + author + ": " + message);
-		
-		String command = getCommandByMessage(message);
-		
-		if (command != null) {
-			
-			LogHandler.debug("Command " + command + " detected!");
-			
-		}
-		
-	}
+    ArrayList<Command> commands;
+
+    /**
+     *
+     * The primary class for handling messages in YamlToBot
+     *
+     * @param commands An ArrayList of all loaded commands
+     * @since 3.0.0
+     *
+     */
+    public MessageHandler(ArrayList<Command> commands) {
+        this.commands = commands;
+    }
 	
 	/**
 	 * 
@@ -55,14 +45,13 @@ public abstract class MessageHandler {
 		
 		logMessage(channel, author, message);
 		
-		String command = getCommandByMessage(message);
+		Command command = getCommandByMessage(message);
 		
 		if (command != null) {
 			
-			if (ConfigHandler.getCommandBoolean(command, "enabled", true)) {
+			if (command.getEnabled()) {
 
-				if (predefinedFunctionEnabled(command)) return predefinedFunction(command);
-				else return command(command);
+				return command.execute(getArgsByMessage(command, message));
 				
 			}
 			
@@ -71,52 +60,110 @@ public abstract class MessageHandler {
 		return null;
 		
 	}
-	
-	public boolean embedEnabled(String command) {
-		
-		return ConfigHandler.getCommandMappingBoolean(command, "embed", "enabled", false);
-		
-	}
-	
-	public boolean predefinedFunctionEnabled(String command) {
-		
-		if (ConfigHandler.getCommandString(command, "predefined-function", null) != null) return true;
-		else return false;
-		
-	}
-	
-	public String getCommandByMessage(String message) {
-		
-		ArrayList<String> commands = ConfigHandler.getCommands();
-		
-		for (String command : commands) {
-			
-			if (message.startsWith(ConfigHandler.getString("prefix", "") + command)) return command;
-			
-		}
-		
-		return null;
-		
-	}
-	
-	public String command(String command) {
 
-		StringBuilder messageBuilder = new StringBuilder();
-		ArrayList<String> message = ConfigHandler.getCommandArray(command, "message");
-		
-		for (int i = 0; i < message.size(); i++) messageBuilder.append(message.get(i) + "\n");
-		
-		return messageBuilder.toString();
-		
-	}
-	
-	public String predefinedFunction(String command) {
-		try {
-			return BuiltinCommandHandler.getCommand(ConfigHandler.getCommandString(command, "predefined-function", null), command, new ArrayList<String>()).toString();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+    /**
+     *
+     * Get a command's arguments from the input command and message
+     *
+     * @param command The command that was executed.
+     * @param message The message that the user sent when executing the command.
+     * @return an ArrayList of the arguments
+     * @since 3.0.0
+     *
+     */
+	public ArrayList<String> getArgsByMessage(Command command, String message) {
+
+	    // Get rid of the command itself
+	    message.replaceFirst(ConfigHandler.getString("prefix", "") + command.getName(), "");
+
+	    // Setup vars
+        ArrayList<String> args = new ArrayList<String>();
+        String arg = "";
+        Boolean isInQuotes = false;
+
+        for (int i = 0; i < message.length(); i++) {
+
+            String chr = message.charAt(i) + "";
+
+            // Check if the arg is in quotes
+            if (chr.equalsIgnoreCase("\"")) {
+
+                if (i != 0) {
+
+                    if (!(message.charAt(i - 1) + "").equalsIgnoreCase("\\")) {
+
+                        isInQuotes = !isInQuotes;
+
+                    }
+
+                }
+
+            } else if (chr.equalsIgnoreCase(" ")) {
+
+                if (!isInQuotes) {
+
+                    args.add(arg);
+                    arg = "";
+
+                }
+
+            } else {
+
+                arg += chr;
+
+            }
+
+        }
+
+        if (!arg.isEmpty()) args.add(arg);
+
+        return args;
+
+    }
+
+    /**
+     *
+     * Basic tasks to be executed when a message is executed
+     *
+     * @param channel The channel where this message was found.
+     * @param author The author of the message.
+     * @param message The message itself.
+     * @since 2.0.0
+     *
+     */
+    public void logMessage(String channel, String author, String message) {
+
+        LogHandler.info("[" + channel + "]" + " " + author + ": " + message);
+
+        Command command = getCommandByMessage(message);
+
+        if (command != null) {
+
+            LogHandler.debug("Command " + command.getName() + " detected!");
+
+        }
+
+    }
+
+    /**
+     *
+     * Gets an executed command from the message it was run from
+     *
+     * @param message The message of the potential command
+     * @return the Command that was executed
+     * @since 2.0.0
+     *
+     */
+    public Command getCommandByMessage(String message) {
+
+        for (Command command : commands) {
+
+            if (message.startsWith(ConfigHandler.getString("prefix", "") + command.getName())) return command;
+
+        }
+
+        return null;
+
+    }
 	
 }

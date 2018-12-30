@@ -1,8 +1,8 @@
-package com.justinschaaf.yamltobot.core.commands;
-
-import java.util.ArrayList;
+package com.justinschaaf.yamltobot.core.commands.builtin;
 
 import com.justinschaaf.yamltobot.core.handler.ConfigHandler;
+
+import java.util.ArrayList;
 
 /**
  * 
@@ -12,14 +12,14 @@ import com.justinschaaf.yamltobot.core.handler.ConfigHandler;
  * @since 1.0.0
  *
  */
-public class HelpCommand extends Command {
+public class HelpCommand extends BuiltinCommand {
 	
 	public HelpCommand() {
 		super();
 	}
 
 	@Override
-	public String onCommandExecuted(String commandName) {
+	public String onCommandExecuted(String commandName, ArrayList<String> args) {
 		
 		StringBuilder helpCommand = new StringBuilder();
 		ArrayList<String> commands = ConfigHandler.getCommands();
