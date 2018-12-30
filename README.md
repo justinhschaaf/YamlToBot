@@ -1,4 +1,4 @@
-![# YamlToBot](https://raw.githubusercontent.com/justinhschaaf/YamlToBot/master/core/src/main/resources/assets/logo.png)
+![# YamlToBot](https://raw.githubusercontent.com/justinhschaaf/YamlToBot/master/core/src/main/resources/assets/icon/logo256.png)
 
 [![Github All Releases](https://img.shields.io/github/downloads/justinhschaaf/yamltobot/total.svg?style=flat-square)](https://github.com/justinhschaaf/YamlToBot/releases)
 [![GitHub release](https://img.shields.io/github/release/justinhschaaf/yamltobot.svg?style=flat-square)](https://github.com/justinhschaaf/YamlToBot/releases)
@@ -51,4 +51,4 @@ To get started, all you have to do is fill out the "token" option in the config 
 | [Javacord](https://github.com/Javacord/Javacord)                          | [Javacord](https://github.com/Javacord)                   | Connecting to and interacting with Discord |
 | [Twitch4J](https://github.com/twitch4j/twitch4j)                          | [PhilippHeuer](https://github.com/PhilippHeuer)           | Connecting to and interacting with Twitch |
 | [Justin's Java Utils](https://github.com/justinhschaaf/JustinsJavaUtils)  | [Justin Schaaf](https://github.com/justinhschaaf)         | `FileManager.moveFile(source, dest)` for logs. |
-| [javax.json](https://mvnrepository.com/artifact/org.glassfish/javax.json) | [Glassfish](https://javaee.github.io/glassfish/)          | Parsing JSON in the version checker. |
+| [JSON-P](https://javaee.github.io/jsonp/index.html)                       | [JavaEE](https://github.com/javaee)                       | Parsing JSON in the version checker. |
