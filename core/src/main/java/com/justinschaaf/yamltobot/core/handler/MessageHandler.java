@@ -80,6 +80,8 @@ public abstract class MessageHandler {
         ArrayList<String> args = new ArrayList<String>();
         String arg = "";
         Boolean isInQuotes = false;
+        Boolean isInQuote = false;
+        Boolean isInCode = false;
 
         for (int i = 0; i < message.length(); i++) {
 
@@ -92,20 +94,66 @@ public abstract class MessageHandler {
 
                     if (!(message.charAt(i - 1) + "").equalsIgnoreCase("\\")) {
 
+                        if (isInCode || isInQuote) {
+                            arg += chr;
+                            continue;
+                        }
+
                         isInQuotes = !isInQuotes;
 
                     }
 
+                } else isInQuotes = true;
+
+            } else if (chr.equalsIgnoreCase("'")) {
+
+                if (i != 0) {
+
+                    if (!(message.charAt(i - 1) + "").equalsIgnoreCase("\\")) {
+
+                        if (isInQuotes || isInCode) {
+                            arg += chr;
+                            continue;
+                        }
+
+                        isInQuote = !isInQuote;
+
+                    }
+
+                } else isInQuote = true;
+
+            } else if (chr.equalsIgnoreCase("`")) {
+
+                if (i != 0) {
+
+                    if (!(message.charAt(i - 1) + "").equalsIgnoreCase("\\")) {
+
+                        if (isInQuotes || isInQuote) {
+                            arg += chr;
+                            continue;
+                        }
+
+                        isInCode = !isInCode;
+
+                    }
+
+                } else {
+                    isInCode = true;
+                }
+
+                if (!isInQuotes && !isInQuote) {
+                    if (i + 3 >= message.length()) i += 2;
+                    else while ((message.charAt(i + 1) + "").equalsIgnoreCase("`")) i += 1;
                 }
 
             } else if (chr.equalsIgnoreCase(" ")) {
 
-                if (!isInQuotes) {
+                if (!isInQuotes && !isInQuote && !isInCode) {
 
                     args.add(arg);
                     arg = "";
 
-                }
+                } else arg += chr;
 
             } else {
 

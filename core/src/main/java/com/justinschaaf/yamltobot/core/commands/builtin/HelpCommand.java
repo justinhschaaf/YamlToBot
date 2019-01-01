@@ -21,8 +21,6 @@ public class HelpCommand extends BuiltinCommand {
 	@Override
 	public String onCommandExecuted(String commandName, ArrayList<String> args) {
 
-		System.out.println(args);
-
 		StringBuilder helpCommand = new StringBuilder();
 		ArrayList<String> commands = ConfigHandler.getCommands();
 		
@@ -57,7 +55,7 @@ public class HelpCommand extends BuiltinCommand {
 			
 		}
 
-		if (!args.isEmpty()) if (helpCommand.toString().trim().length() == 0) return "Sorry, the command you were looking for could not be found. ( ◡_◡)";
+		if (!args.isEmpty()) if (helpCommand.toString().trim().length() == 0) return "Sorry, the command you were looking for could not be found. ( ◡︵◡)";
 
 		return helpCommand.toString();
 		
