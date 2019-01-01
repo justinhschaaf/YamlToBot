@@ -116,6 +116,7 @@ public abstract class MessageHandler {
         }
 
         if (!arg.isEmpty()) args.add(arg);
+        args.remove(0);
 
         return args;
 

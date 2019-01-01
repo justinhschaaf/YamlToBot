@@ -136,6 +136,7 @@ public abstract class BotHandler {
 
         ArrayList<String> commandKeys = ConfigHandler.getCommands();
         ArrayList<Command> commands = new ArrayList<Command>();
+        ClassLoader cl = loadBuiltinCmds("YamlToBot/cmds/");
 
         for (String commandName : commandKeys) {
 
@@ -144,7 +145,7 @@ public abstract class BotHandler {
                     ConfigHandler.getCommandString(commandName, "description", "Generic Command"),
                     ConfigHandler.getCommandArray(commandName,"message"),
                     ConfigHandler.getCommandBoolean(commandName, "enabled", true),
-                    loadBuiltinCommand(ConfigHandler.getCommandString(commandName, "predefined-function", null))));
+                    loadBuiltinCommand(cl, ConfigHandler.getCommandString(commandName, "predefined-function", null))));
 
         }
 
@@ -161,18 +162,19 @@ public abstract class BotHandler {
      * @since 1.0.0
      *
      */
-    public static BuiltinCommand loadBuiltinCommand(String cmdClass) {
+    public static BuiltinCommand loadBuiltinCommand(ClassLoader cl, String cmdClass) {
 
         if (cmdClass == null) return null;
 
         try {
 
             Class<? extends BuiltinCommand> builtinCmdClass = null;
-            if (cmdClass.contains("%int%")) {
-                builtinCmdClass = Class.forName("com.justinschaaf.yamltobot.core.commands.builtin." + cmdClass.replace("%int%", "")).asSubclass(BuiltinCommand.class);
-            } else if (cmdClass.contains("%ext%")) {
-                ClassLoader classLoader = loadBuiltinCmds("YamlToBot/cmds/");
-                builtinCmdClass = classLoader.loadClass(cmdClass.replace("%ext%", "")).asSubclass(BuiltinCommand.class);
+
+            // If the class name contains a ".", indicating an external package
+            if (cmdClass.contains(".")) {
+                builtinCmdClass = Class.forName(cmdClass, true, cl).asSubclass(BuiltinCommand.class);
+            } else {
+                builtinCmdClass = Class.forName("com.justinschaaf.yamltobot.core.commands.builtin." + cmdClass, true, cl).asSubclass(BuiltinCommand.class);
             }
 
             return (BuiltinCommand) builtinCmdClass.newInstance();
@@ -198,7 +200,7 @@ public abstract class BotHandler {
      * @since 1.0.0
      *
      */
-    private static ClassLoader loadBuiltinCmds(String dir) {
+    public static ClassLoader loadBuiltinCmds(String dir) {
 
         File[] cmdRaw = new File(dir).listFiles();
         URL[] cmdUrls = new URL[cmdRaw.length];
@@ -206,6 +208,7 @@ public abstract class BotHandler {
         for (int i = 0; i < cmdRaw.length; i++) {
             try {
                 cmdUrls[i] = cmdRaw[i].toURI().toURL();
+                System.out.println(cmdRaw[i].getName());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }

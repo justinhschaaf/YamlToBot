@@ -47,6 +47,7 @@ public class DiscordBotHandler extends BotHandler {
 
 		ArrayList<String> commandKeys = ConfigHandler.getCommands();
 		ArrayList<DiscordCommand> commands = new ArrayList<DiscordCommand>();
+		ClassLoader cl = loadBuiltinCmds("YamlToBot/cmds/");
 
 		for (String commandName : commandKeys) {
 
@@ -55,7 +56,7 @@ public class DiscordBotHandler extends BotHandler {
 					ConfigHandler.getCommandString(commandName, "description", "Generic Command"),
 					ConfigHandler.getCommandArray(commandName,"message"),
 					ConfigHandler.getCommandBoolean(commandName, "enabled", true),
-					loadBuiltinCommand(ConfigHandler.getCommandString(commandName, "predefined-function", null)),
+					loadBuiltinCommand(cl, ConfigHandler.getCommandString(commandName, "predefined-function", null)),
 					generateDiscordEmbed(commandName)));
 
 		}
