@@ -5,6 +5,7 @@ import com.amihaiemil.eoyaml.YamlSequence;
 import com.justinschaaf.yamltobot.core.common.Module;
 import com.justinschaaf.yamltobot.core.handler.BotHandler;
 import com.justinschaaf.yamltobot.core.handler.ConfigHandler;
+import com.justinschaaf.yamltobot.core.handler.LogHandler;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 
@@ -33,6 +34,8 @@ public class DiscordBotHandler extends BotHandler {
 		api.addMessageCreateListener(new DiscordMessageHandler(commands));
 		if (ConfigHandler.getString("activity", null) != null) api.updateActivity(ConfigHandler.getString("activity", null));
 
+		logClientInfo();
+
 	}
 
 	/**
@@ -44,6 +47,8 @@ public class DiscordBotHandler extends BotHandler {
 	 *
 	 */
 	public static ArrayList<DiscordCommand> loadDiscordCommands() {
+
+		long starttime = System.currentTimeMillis();
 
 		ArrayList<String> commandKeys = ConfigHandler.getCommands();
 		ArrayList<DiscordCommand> commands = new ArrayList<DiscordCommand>();
@@ -60,6 +65,8 @@ public class DiscordBotHandler extends BotHandler {
 					generateDiscordEmbed(commandName)));
 
 		}
+
+		LogHandler.debug("Discord commands loaded in " + (System.currentTimeMillis() - starttime) + " milliseconds!");
 
 		return commands;
 

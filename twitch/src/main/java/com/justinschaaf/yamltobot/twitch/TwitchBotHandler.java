@@ -39,6 +39,8 @@ public class TwitchBotHandler extends BotHandler {
         for (String channel : ConfigHandler.getArray("channels")) {
             bot.getMessageInterface().joinChannel(channel.toLowerCase());
         }
+
+		logClientInfo();
 		
 	}
 

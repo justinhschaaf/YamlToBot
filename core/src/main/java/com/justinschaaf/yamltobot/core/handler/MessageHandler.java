@@ -51,7 +51,7 @@ public abstract class MessageHandler {
 			
 			if (command.getEnabled()) {
 
-				return command.execute(getArgsByMessage(command, message));
+				return VariableHandler.formatMessage(command.execute(getArgsByMessage(command, message)));
 				
 			}
 			

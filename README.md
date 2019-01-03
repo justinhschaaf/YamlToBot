@@ -35,7 +35,8 @@ commands:
       - "Commands:"
       - "%cmd% | %desc%"
     name: "help"
-    predefined-function: "%int%HelpCommand"
+    predefined-function: "HelpCommand"
+    usage: "::help <command name>"
 name: "MyFirstBot"
 prefix: "::"
 token: 123456789012345678

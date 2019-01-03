@@ -3,6 +3,7 @@ package com.justinschaaf.yamltobot.discord;
 import com.justinschaaf.yamltobot.core.commands.Command;
 import com.justinschaaf.yamltobot.core.handler.ConfigHandler;
 import com.justinschaaf.yamltobot.core.handler.MessageHandler;
+import com.justinschaaf.yamltobot.core.handler.VariableHandler;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
 
@@ -43,7 +44,7 @@ public class DiscordMessageHandler extends MessageHandler implements MessageCrea
 		if (command.getEnabled()) {
 
 			if (command.getIsEmbedEnabled()) event.getChannel().sendMessage(command.getEmbed().generate());
-			else event.getChannel().sendMessage(command.execute(getArgsByMessage(command, event.getMessage().getContent())));
+			else event.getChannel().sendMessage(VariableHandler.formatMessage(command.execute(getArgsByMessage(command, event.getMessage().getContent()))));
 
 		}
 		

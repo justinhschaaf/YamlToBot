@@ -4,6 +4,8 @@ import com.amihaiemil.eoyaml.Yaml;
 import com.justinschaaf.yamltobot.core.commands.Command;
 import com.justinschaaf.yamltobot.core.commands.builtin.BuiltinCommand;
 import com.justinschaaf.yamltobot.core.common.Module;
+import com.justinschaaf.yamltobot.core.common.Reference;
+import com.justinschaaf.yamltobot.core.common.VersionChecker;
 import com.justinschaaf.yamltobot.core.setup.SetupDefaultConfig;
 import com.justinschaaf.yamltobot.core.setup.Window;
 import net.jusanov.utils.io.FileManager;
@@ -61,6 +63,7 @@ public abstract class BotHandler {
 		setupLogs();
 		setupConfig();
 		//commands = loadCommands(); // Needs to be overwritten by Discord, but this is not possible via static methods and due to incompatible types (Command vs DiscordCommand)
+        VariableHandler.loadVariables();
 		setupWindow();
 		
 	}
@@ -72,6 +75,8 @@ public abstract class BotHandler {
      *
      */
     private static void setupLogs() {
+
+        long starttime = System.currentTimeMillis();
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd-hh.mm.ss");
         String dateOfRun = dateFormat.format(new Date()).toString();
@@ -96,7 +101,7 @@ public abstract class BotHandler {
 
         }));
 
-        LogHandler.debug("Logs setup!");
+        LogHandler.debug("Setup logs in " + (System.currentTimeMillis() - starttime) + " milliseconds!");
 
     }
 
@@ -105,6 +110,8 @@ public abstract class BotHandler {
      * @since 2.0.0
      */
     private static void setupConfig() {
+
+        long starttime = System.currentTimeMillis();
 
         File generalConfig = new File(Module.GENERAL.getDir() + "config.yml");
         File config = new File(module.getDir() + "config.yml");
@@ -122,6 +129,8 @@ public abstract class BotHandler {
         if (generalConfig.exists() == true) ConfigHandler.setConfig(generalConfig);
         else ConfigHandler.setConfig(config);
 
+        LogHandler.debug("Setup config in " + (System.currentTimeMillis() - starttime) + " milliseconds!");
+
     }
 
     /**
@@ -133,6 +142,8 @@ public abstract class BotHandler {
      *
      */
     public static ArrayList<Command> loadCommands() {
+
+        long starttime = System.currentTimeMillis();
 
         ArrayList<String> commandKeys = ConfigHandler.getCommands();
         ArrayList<Command> commands = new ArrayList<Command>();
@@ -149,6 +160,8 @@ public abstract class BotHandler {
 
         }
 
+        LogHandler.debug("Commands loaded in " + (System.currentTimeMillis() - starttime) + " milliseconds!");
+
         return commands;
 
     }
@@ -157,6 +170,7 @@ public abstract class BotHandler {
      *
      * Gets a predefined command from the given class, name, and args.
      *
+     * @param cl The class loader to load command classes from (should be acquired through loadBuiltinCmds(dir))
      * @param cmdClass The class of the command, including the internal or external tag, e.g. %int%HelpCommand
      * @return The string message that the command returns
      * @since 1.0.0
@@ -224,6 +238,8 @@ public abstract class BotHandler {
 	 */
 	private static void setupWindow() {
 
+        long starttime = System.currentTimeMillis();
+
 		JFrame window = new JFrame();
 		window.setTitle("YamlToBot | " + ConfigHandler.getString("name", module.getName()));
 		//window.setIconImage(Toolkit.getDefaultToolkit().getImage(BotHandler.class.getResource("/assets/icon/icon512.png")));
@@ -232,7 +248,27 @@ public abstract class BotHandler {
 		window.pack();
 		window.setVisible(true);
 
+        LogHandler.debug("Setup window in " + (System.currentTimeMillis() - starttime) + " milliseconds!");
+
 	}
+
+	public static void logClientInfo() {
+
+	    String jVersion = System.getProperty("java.version");
+        String dateOfRun = new SimpleDateFormat("yyyy.MM.dd-hh.mm.ss").format(new Date()).toString();
+        String newUpdate = "";
+
+        if (!VersionChecker.isUpdated()) newUpdate = "A NEW UPDATE IS AVAILABLE :: " + VersionChecker.getLatestVersion() + "\n";
+        else if (Reference.prerelease) newUpdate = "YOU ARE USING A PRERELEASE VERSION. BUGS BEWARE! \n";
+
+        LogHandler.debug("\n" + "----- YamlToBot Info -----" + "\n"
+                        + "YamlToBot Version :: " + Reference.version + "\n"
+                        + newUpdate
+                        + "Java Version :: " + jVersion + "\n"
+                        + "Date of run :: " + dateOfRun + "\n"
+                        + "--------------------------");
+
+    }
 
     /**
      *

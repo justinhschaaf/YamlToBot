@@ -1,6 +1,7 @@
 package com.justinschaaf.yamltobot.core.commands.builtin;
 
 import com.justinschaaf.yamltobot.core.handler.ConfigHandler;
+import com.justinschaaf.yamltobot.core.handler.VariableHandler;
 
 import java.util.ArrayList;
 
@@ -57,7 +58,7 @@ public class HelpCommand extends BuiltinCommand {
 
 		if (!args.isEmpty()) if (helpCommand.toString().trim().length() == 0) return "Sorry, the command you were looking for could not be found. ( ◡︵◡)";
 
-		return helpCommand.toString();
+		return VariableHandler.formatMessage(helpCommand.toString());
 		
 	}
 

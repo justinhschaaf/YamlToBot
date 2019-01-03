@@ -38,6 +38,31 @@ public class ConfigHandler {
 	/*
 	 * GENERAL
 	 */
+
+	/**
+	 *
+	 * Gets a YamlSequence from the config
+	 *
+	 * @param key The key to take the value from
+	 * @return The requested YamlSequence, or null if the key isn't found
+	 * @since 3.0.0
+	 *
+	 */
+	public static YamlSequence getSequence(String key) {
+
+		YamlSequence yaml = null;
+
+		try {
+			yaml = Yaml.createYamlInput(new FileInputStream(config)).readYamlMapping().yamlSequence(key);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return yaml;
+
+	}
 	
 	/**
 	 * 

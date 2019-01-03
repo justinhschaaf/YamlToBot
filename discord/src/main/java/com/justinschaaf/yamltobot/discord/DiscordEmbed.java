@@ -1,5 +1,6 @@
 package com.justinschaaf.yamltobot.discord;
 
+import com.justinschaaf.yamltobot.core.handler.VariableHandler;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 
 import java.awt.*;
@@ -72,7 +73,7 @@ public class DiscordEmbed {
         if (desc != null) {
             StringBuilder messageBuilder = new StringBuilder();
             for (int i = 0; i < desc.size(); i++) messageBuilder.append(desc.get(i) + "\n");
-            embed.setDescription(messageBuilder.toString());
+            embed.setDescription(VariableHandler.formatMessage(messageBuilder.toString()));
         }
 
         if (fields != null) {
@@ -82,7 +83,7 @@ public class DiscordEmbed {
                 StringBuilder descBuilder = new StringBuilder();
                 for (int i = 0; i < field.getDesc().size(); i++) descBuilder.append(field.getDesc().get(i) + "\n");
 
-                embed.addField(field.getName(), descBuilder.toString(), false);
+                embed.addField(field.getName(), VariableHandler.formatMessage(descBuilder.toString()), field.getInline());
 
             }
 
