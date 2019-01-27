@@ -10,7 +10,6 @@ import com.justinschaaf.yamltobot.core.setup.SetupDefaultConfig;
 import com.justinschaaf.yamltobot.core.setup.Window;
 import net.jusanov.utils.io.FileManager;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -240,13 +239,8 @@ public abstract class BotHandler {
 
         long starttime = System.currentTimeMillis();
 
-		JFrame window = new JFrame();
-		window.setTitle("YamlToBot | " + ConfigHandler.getString("name", module.getName()));
-		//window.setIconImage(Toolkit.getDefaultToolkit().getImage(BotHandler.class.getResource("/assets/icon/icon512.png")));
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setContentPane(new Window(module).main);
-		window.pack();
-		window.setVisible(true);
+		Window frame = new Window(module);
+		frame.setVisible(true);
 
         LogHandler.debug("Setup window in " + (System.currentTimeMillis() - starttime) + " milliseconds!");
 

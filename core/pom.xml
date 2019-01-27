@@ -31,5 +31,10 @@
 			<artifactId>javax.json</artifactId>
 			<version>1.1.4</version>
 		</dependency>
+		<dependency>
+			<groupId>com.github.pago</groupId>
+			<artifactId>pgslookandfeel</artifactId>
+			<version>d2f2fc03ec</version>
+		</dependency>
 	</dependencies>
 </project>

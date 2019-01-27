@@ -13,11 +13,11 @@
 	</modules>
   	<build>
   		<defaultGoal>clean package shade:shade</defaultGoal>
-	  	<resources>
+	  	<!--<resources>
 	  	  	<resource>
 	  	  		<directory>src/main/resources</directory>
 	  	  	</resource>
-	  	</resources>
+	  	</resources>-->
 	  	<plugins>
 	  		<plugin>
 	  			<groupId>org.apache.maven.plugins</groupId>

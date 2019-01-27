@@ -53,3 +53,4 @@ To get started, all you have to do is fill out the "token" option in the config 
 | [Twitch4J](https://github.com/twitch4j/twitch4j)                          | [PhilippHeuer](https://github.com/PhilippHeuer)           | Connecting to and interacting with Twitch |
 | [Justin's Java Utils](https://github.com/justinhschaaf/JustinsJavaUtils)  | [Justin Schaaf](https://github.com/justinhschaaf)         | `FileManager.moveFile(source, dest)` for logs. |
 | [JSON-P](https://javaee.github.io/jsonp/index.html)                       | [JavaEE](https://github.com/javaee)                       | Parsing JSON in the version checker. |
+| [PgsLookAndFeel](https://www.pagosoft.com/projects/pgslookandfeel/)       | [Patrick Gotthardt](https://www.pagosoft.com)             | Look and Feel |

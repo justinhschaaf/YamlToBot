@@ -34,4 +34,10 @@ public class Reference {
 	 */
 	public static final String releasesURL = "https://github.com/justinhschaaf/YamlToBot/releases";
 
+	/**
+	 * The url for the YamlToBot wiki
+	 * @since 3.0.0
+	 */
+	public static final String wikiUrl = "https://github.com/justinhschaaf/YamlToBot/wiki";
+
 }
