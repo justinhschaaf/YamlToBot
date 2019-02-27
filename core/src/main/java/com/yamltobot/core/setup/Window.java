@@ -17,7 +17,6 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -48,6 +47,8 @@ public class Window extends JFrame {
     private JLabel logo;
     private JLabel version;
     private JFXPanel wikiview;
+    private JPanel tabDonate;
+    private JButton donateButton;
 
     /**
      *
@@ -72,6 +73,9 @@ public class Window extends JFrame {
         updateVersionText();
         updateAboutText();
         loadWikiWebpage();
+
+        tabs.remove(4);
+        tabs.remove(1);
 
         setTitle("YamlToBot | " + ConfigHandler.getString("name", module.getName()));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -209,12 +213,10 @@ public class Window extends JFrame {
                 @Override
                 public void mouseClicked(MouseEvent arg0) {
                     try {
-                        Desktop.getDesktop().browse(new URL(Reference.releasesURL).toURI());
+                        Desktop.getDesktop().browse(URI.create(Reference.releasesURL));
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (URISyntaxException e) {
                         e.printStackTrace();
                     }
                 }
@@ -265,10 +267,6 @@ public class Window extends JFrame {
      *
      * Loads the webpage for the "Wiki" tab
      *
-     * **Note: The wiki does not properly render for some reason.
-     * My guess is that it is because GitHub imports its CSS files
-     * from a different website rather than from github.com itself.**
-     *
      * @since 3.0.0
      *
      */
@@ -277,11 +275,50 @@ public class Window extends JFrame {
         Platform.runLater(() -> {
             WebView browser = new WebView();
             wikiview.setScene(new Scene(browser));
-            browser.getEngine().load(Reference.wikiUrl);
+            browser.getEngine().load(Reference.wikiURL);
 
             browser.getEngine().setJavaScriptEnabled(true);
             browser.applyCss();
 
+        });
+
+    }
+
+    /**
+     *
+     * Registers the event listener for when the "Donate" tab is pressed
+     *
+     * @since 3.0.0
+     *
+     */
+    public void registerDonateButton() {
+
+        tabs.getTabComponentAt(tabs.getTabCount() - 1).addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+                try {
+                    Desktop.getDesktop().browse(URI.create(Reference.donateURL));
+                    tabs.setSelectedIndex(0);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        donateButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+                try {
+                    Desktop.getDesktop().browse(URI.create(Reference.donateURL));
+                    tabs.setSelectedIndex(0);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         });
 
     }

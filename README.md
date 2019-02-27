@@ -1,4 +1,4 @@
-![# YamlToBot](https://raw.githubusercontent.com/justinhschaaf/YamlToBot/master/core/src/main/resources/assets/icon/logo256.png)
+# ![YamlToBot](https://content.yamltobot.com/common/logos/logo256.png)
 
 [![Github All Releases](https://img.shields.io/github/downloads/justinhschaaf/yamltobot/total.svg?style=flat-square)](https://github.com/justinhschaaf/YamlToBot/releases)
 [![GitHub release](https://img.shields.io/github/release/justinhschaaf/yamltobot.svg?style=flat-square)](https://github.com/justinhschaaf/YamlToBot/releases)

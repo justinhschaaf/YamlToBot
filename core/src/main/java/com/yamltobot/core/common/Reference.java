@@ -32,12 +32,18 @@ public class Reference {
 	 * The GitHub url for the releases
 	 * @since 1.0.0
 	 */
-	public static final String releasesURL = "https://github.com/justinhschaaf/YamlToBot/releases";
+	public static final String releasesURL = "https://yamltobot.com/download";
 
 	/**
 	 * The url for the YamlToBot wiki
 	 * @since 3.0.0
 	 */
-	public static final String wikiUrl = "https://yamltobot.com/wiki";
+	public static final String wikiURL = "https://yamltobot.com/wiki";
+
+	/**
+	 * The donation URL
+	 * @since 3.0.0
+	 */
+	public static final String donateURL = "https://liberapay.com/justinhschaaf";
 
 }

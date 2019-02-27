@@ -1,4 +1,4 @@
-![# YamlToBot](https://raw.githubusercontent.com/justinhschaaf/YamlToBot/master/core/src/main/resources/assets/logo.png)
+# ![YamlToBot](https://content.yamltobot.com/common/logos/logo256.png)
 
 [![Github All Releases](https://img.shields.io/github/downloads/justinhschaaf/yamltobot/total.svg?style=flat-square)](https://github.com/justinhschaaf/YamlToBot/releases)
 [![GitHub release](https://img.shields.io/github/release/justinhschaaf/yamltobot.svg?style=flat-square)](https://github.com/justinhschaaf/YamlToBot/releases)
@@ -35,7 +35,8 @@ commands:
       - "Commands:"
       - "%cmd% | %desc%"
     name: "help"
-    predefined-function: "%int%HelpCommand"
+    predefined-function: "HelpCommand"
+    usage: "::help <command name>"
 name: "MyFirstBot"
 prefix: "::"
 token: 123456789012345678
@@ -45,7 +46,11 @@ To get started, all you have to do is fill out the "token" option in the config 
 
 # APIs Used
 
- - [Camel](https://github.com/decorators-squad/camel) by [decorators-squad](https://github.com/decorators-squad)
- - [Javacord](https://github.com/Javacord/Javacord) by [Javacord](https://github.com/Javacord)
- - [Twitch4J](https://github.com/twitch4j/twitch4j) by [PhilippHeuer](https://github.com/PhilippHeuer)
- - [Justin's Java Utils](https://github.com/justinhschaaf/JustinsJavaUtils) by [Justin Schaaf](https://github.com/justinhschaaf)
+| Name                                                                      | Author                                                    | Usage |
+|-------                                                                    |-------                                                    |--------------------|
+| [eo-yaml](https://github.com/decorators-squad/eo-yaml)                    | [decorators-squad](https://github.com/decorators-squad)   | Parsing the YAML configuration file |
+| [Javacord](https://github.com/Javacord/Javacord)                          | [Javacord](https://github.com/Javacord)                   | Connecting to and interacting with Discord |
+| [Twitch4J](https://github.com/twitch4j/twitch4j)                          | [PhilippHeuer](https://github.com/PhilippHeuer)           | Connecting to and interacting with Twitch |
+| [Justin's Java Utils](https://github.com/justinhschaaf/JustinsJavaUtils)  | [Justin Schaaf](https://github.com/justinhschaaf)         | `FileManager.moveFile(source, dest)` for logs. |
+| [JSON-P](https://javaee.github.io/jsonp/index.html)                       | [JavaEE](https://github.com/javaee)                       | Parsing JSON in the version checker. |
+| [PgsLookAndFeel](https://www.pagosoft.com/projects/pgslookandfeel/)       | [Patrick Gotthardt](https://www.pagosoft.com)             | Look and Feel |

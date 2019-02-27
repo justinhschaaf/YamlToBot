@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.yamltobot</groupId>
 		<artifactId>yamltobot</artifactId>
-		<version>3.0.0</version>
+		<version>3.0.0-PRE</version>
 	</parent>
 	<groupId>com.yamltobot.yamltobot</groupId>
 	<artifactId>core</artifactId>

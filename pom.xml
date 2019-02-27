@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.yamltobot</groupId>
 	<artifactId>yamltobot</artifactId>
-	<version>3.0.0</version>
+	<version>3.0.0-PRE</version>
 	<name>YAML to Bot</name>
 	<description>Create a bot from the given YAML file.</description>
 	<packaging>pom</packaging>
@@ -12,7 +12,7 @@
 		<module>twitch</module>
 	</modules>
   	<build>
-  		<defaultGoal>clean package shade:shade</defaultGoal>
+  		<defaultGoal>clean compile package install shade:shade</defaultGoal>
 	  	<!--<resources>
 	  	  	<resource>
 	  	  		<directory>src/main/resources</directory>
