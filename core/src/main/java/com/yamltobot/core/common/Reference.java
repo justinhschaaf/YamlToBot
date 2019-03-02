@@ -20,7 +20,7 @@ public class Reference {
 	 * Whether or not this is a pre-release build
 	 * @since 1.0.1
 	 */
-	public static final boolean prerelease = true;
+	public static final boolean prerelease = false;
 	
 	/**
 	 * The GitHub API url for the releases

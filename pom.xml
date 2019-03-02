@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.yamltobot</groupId>
 	<artifactId>yamltobot</artifactId>
-	<version>3.0.0-PRE</version>
+	<version>3.0.0</version>
 	<name>YAML to Bot</name>
 	<description>Create a bot from the given YAML file.</description>
 	<packaging>pom</packaging>
