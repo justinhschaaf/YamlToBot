@@ -14,6 +14,10 @@ If you like what I do, then please consider supporting me on Liberapay.
 
 [![Donate](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/justinhschaaf) 
 
+# v3
+
+The v3 branch is an origin point of all the code from YamlToBot version 3.0.0. It will be used if any revisions need to be made to v3.
+
 # First-time Usage
 
 When beginning with YamlToBot, you may simply run the Jar file and it should automatically generate a default configuration file that looks something like this:
