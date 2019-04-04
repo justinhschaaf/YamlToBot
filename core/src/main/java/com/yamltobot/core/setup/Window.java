@@ -4,10 +4,6 @@ import com.yamltobot.core.common.Module;
 import com.yamltobot.core.common.Reference;
 import com.yamltobot.core.common.VersionChecker;
 import com.yamltobot.core.handler.ConfigHandler;
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.Scene;
-import javafx.scene.web.WebView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,7 +42,6 @@ public class Window extends JFrame {
     private JPanel toolbar;
     private JLabel logo;
     private JLabel version;
-    private JFXPanel wikiview;
     private JPanel tabDonate;
     private JButton donateButton;
 
@@ -72,9 +67,8 @@ public class Window extends JFrame {
         updateLogText();
         updateVersionText();
         updateAboutText();
-        loadWikiWebpage();
+        registerTabChangeListener();
 
-        tabs.remove(4);
         tabs.remove(1);
 
         setTitle("YamlToBot | " + ConfigHandler.getString("name", module.getName()));
@@ -265,61 +259,14 @@ public class Window extends JFrame {
 
     /**
      *
-     * Loads the webpage for the "Wiki" tab
+     * Registers the tab change listener
      *
-     * @since 3.0.0
-     *
-     */
-    public void loadWikiWebpage() {
-
-        Platform.runLater(() -> {
-            WebView browser = new WebView();
-            wikiview.setScene(new Scene(browser));
-            browser.getEngine().load(Reference.wikiURL);
-
-            browser.getEngine().setJavaScriptEnabled(true);
-            browser.applyCss();
-
-        });
-
-    }
-
-    /**
-     *
-     * Registers the event listener for when the "Donate" tab is pressed
-     *
-     * @since 3.0.0
+     * @since 4.0.0
      *
      */
-    public void registerDonateButton() {
+    public void registerTabChangeListener() {
 
-        tabs.getTabComponentAt(tabs.getTabCount() - 1).addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent arg0) {
-                try {
-                    Desktop.getDesktop().browse(URI.create(Reference.donateURL));
-                    tabs.setSelectedIndex(0);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        donateButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent arg0) {
-                try {
-                    Desktop.getDesktop().browse(URI.create(Reference.donateURL));
-                    tabs.setSelectedIndex(0);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        tabs.addChangeListener(new WindowTabChangeListener());
 
     }
 

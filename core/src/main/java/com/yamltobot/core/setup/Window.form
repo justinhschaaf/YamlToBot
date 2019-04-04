@@ -67,14 +67,7 @@
             </constraints>
             <properties/>
             <border type="none"/>
-            <children>
-              <component id="4ef4f" class="javafx.embed.swing.JFXPanel" binding="wikiview">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties/>
-              </component>
-            </children>
+            <children/>
           </grid>
           <scrollpane id="d2438" binding="tabAbout">
             <constraints>

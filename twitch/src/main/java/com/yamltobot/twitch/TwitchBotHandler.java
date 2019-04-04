@@ -1,11 +1,13 @@
 package com.yamltobot.twitch;
 
+import com.github.philippheuer.credentialmanager.domain.OAuth2Credential;
+import com.github.philippheuer.events4j.EventManager;
+import com.github.twitch4j.TwitchClient;
+import com.github.twitch4j.TwitchClientBuilder;
 import com.yamltobot.core.commands.Command;
 import com.yamltobot.core.common.Module;
 import com.yamltobot.core.handler.BotHandler;
 import com.yamltobot.core.handler.ConfigHandler;
-import me.philippheuer.twitch4j.TwitchClient;
-import me.philippheuer.twitch4j.TwitchClientBuilder;
 
 import java.util.ArrayList;
 
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 public class TwitchBotHandler extends BotHandler {
 
 	static TwitchClient bot;
+	static EventManager eventManager;
 	static ArrayList<Command> commands;
 
 	public static void main(String[] args) {
@@ -27,17 +30,21 @@ public class TwitchBotHandler extends BotHandler {
 		setModule(Module.TWITCH);
 		setup();
 		commands = loadCommands();
-		
-		bot = TwitchClientBuilder.init()
+
+		eventManager = new EventManager();
+
+		bot = TwitchClientBuilder.builder()
+				.withEventManager(eventManager)
+				.withEnableChat(true)
 				.withClientId(getAuth("id"))
 				.withClientSecret(getAuth("secret"))
-				.withCredential(getAuth("token"))
-				.connect();
+				.withChatAccount(new OAuth2Credential("twitch", getAuth("token")))
+				.build();
 		
-		bot.getDispatcher().registerListener(new TwitchMessageHandler(commands));
+		bot.getEventManager().registerListener(new TwitchMessageHandler(commands, eventManager));
 		
         for (String channel : ConfigHandler.getArray("channels")) {
-            bot.getMessageInterface().joinChannel(channel.toLowerCase());
+            bot.getChat().joinChannel(channel.toLowerCase());
         }
 
 		logClientInfo();
