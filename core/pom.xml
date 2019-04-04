@@ -45,7 +45,7 @@
 			<artifactId>pgslookandfeel</artifactId>
 			<version>d2f2fc03ec</version>
 		</dependency>
-		
+
 	</dependencies>
 
 </project>

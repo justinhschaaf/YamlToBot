@@ -1,11 +1,10 @@
 package com.yamltobot.twitch;
 
+import com.github.philippheuer.events4j.EventManager;
+import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import com.yamltobot.core.commands.Command;
 import com.yamltobot.core.common.Module;
 import com.yamltobot.core.handler.MessageHandler;
-
-import me.philippheuer.twitch4j.events.EventSubscriber;
-import me.philippheuer.twitch4j.events.event.irc.ChannelMessageEvent;
 
 import java.util.ArrayList;
 
@@ -24,18 +23,19 @@ public class TwitchMessageHandler extends MessageHandler {
      * The primary class for handling messages in Twitch
      *
      * @param commands an ArrayList of all the loaded commands
+     * @param eventManager The bot's event manager
      * @since 3.0.0
      *
      */
-    public TwitchMessageHandler(ArrayList<Command> commands) {
+    public TwitchMessageHandler(ArrayList<Command> commands, EventManager eventManager) {
         super(commands);
+        eventManager.onEvent(ChannelMessageEvent.class).subscribe(event -> onChannelMessage(event));
     }
 
-    @EventSubscriber
     public void onChannelMessage(ChannelMessageEvent event) {
 
-    	String msg = handleMessage(Module.TWITCH, event.getChannel().getDisplayName(), event.getUser().getDisplayName(), event.getMessage());
-    	if (msg != null) event.sendMessage(msg);
+    	String msg = handleMessage(Module.TWITCH, event.getChannel().getName(), event.getUser().getName(), event.getMessage());
+    	if (msg != null) event.getTwitchChat().sendMessage(event.getChannel().getName(), msg);
 		
     }
     
