@@ -119,6 +119,7 @@ public abstract class BotHandler {
 
             if (module == Module.DISCORD) SetupDefaultConfig.setupDiscord(config);
             if (module == Module.TWITCH) SetupDefaultConfig.setupTwitch(config);
+            if (module == Module.MIXER) SetupDefaultConfig.setupMixer(config);
             else LogHandler.fatal("Invalid Module to generate default config for!");
 
             LogHandler.fatal("The config was not found!");

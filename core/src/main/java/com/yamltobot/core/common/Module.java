@@ -12,7 +12,8 @@ public enum Module {
 
 	GENERAL("GENERAL", "YamlToBot/"),
 	DISCORD("Discord", "YamlToBot/discord/"),
-	TWITCH("Twitch", "YamlToBot/twitch/");
+	TWITCH("Twitch", "YamlToBot/twitch/"),
+	MIXER("Mixer", "YamlToBot/mixer/");
 	
 	private final String name;
 	private final String dir;

@@ -73,6 +73,34 @@ public class SetupDefaultConfig {
 		}
 		
 	}
+
+	/**
+	 *
+	 * Setup the default config file for Mixer
+	 *
+	 * @param config The file to write the config to
+	 * @since 4.0.0
+	 *
+	 */
+	public static void setupMixer(File config) {
+
+		try {
+
+			YamlMapping yaml = setup()
+					.add("id", "876543210987654321")
+					.build();
+
+			BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(config)));
+			bufferedWriter.write(yaml.toString());
+			bufferedWriter.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
 	
 	/**
 	 * 

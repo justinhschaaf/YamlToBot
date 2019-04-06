@@ -1,23 +1,28 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>com.yamltobot</groupId>
 		<artifactId>yamltobot</artifactId>
-		<version>3.0.0</version>
+		<version>4.0.0-INDEV.1</version>
 	</parent>
 
 	<groupId>com.yamltobot.yamltobot</groupId>
 	<artifactId>core</artifactId>
 
-	<name>YAML to Bot - Core</name>
+	<name>YamlToBot Core</name>
 	<description>Create a bot from the given YAML file.</description>
 
 	<repositories>
+
 	    <repository>
 	        <id>jitpack.io</id>
 	        <url>https://jitpack.io</url>
 	    </repository>
+
 	</repositories>
 
 	<dependencies>

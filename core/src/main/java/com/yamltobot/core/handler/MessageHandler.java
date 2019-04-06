@@ -28,7 +28,7 @@ public abstract class MessageHandler {
     public MessageHandler(ArrayList<Command> commands) {
         this.commands = commands;
     }
-	
+
 	/**
 	 * 
 	 * Properly handle a message to implement all the configuration options of YamlToBot
