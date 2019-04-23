@@ -2,12 +2,12 @@ package com.yamltobot.core.handler;
 
 import com.amihaiemil.eoyaml.Yaml;
 import com.yamltobot.core.commands.Command;
-import com.yamltobot.builtincmds.BuiltinCommand;
 import com.yamltobot.core.common.Module;
 import com.yamltobot.core.common.Reference;
 import com.yamltobot.core.common.VersionChecker;
 import com.yamltobot.core.setup.SetupDefaultConfig;
 import com.yamltobot.core.setup.Window;
+import com.yamltobot.scripts.Script;
 import net.jusanov.utils.io.FileManager;
 
 import java.io.File;
@@ -32,44 +32,67 @@ import java.util.Date;
  */
 public abstract class BotHandler {
 
-	/**
-	 * The module of this bot
+    /**
+	 * The {@link Module} of this bot
 	 * @since 2.0.0
 	 */
-	static Module module;
+	private static Module module;
 
     /**
-     * The commands registered by the bot based on the config
-     * @since 3.0.0
+     * The {@link Command} list registered by the bot based on the config
+     * @since 4.0.0
      */
-	//static ArrayList<Command> commands; // Needs to be overwritten by Discord, but this is not possible via static methods and due to incompatible types (Command vs DiscordCommand)
-	
-	/**
-	 * Sets the module of this bot
-	 * @param thismodule The module that this bot is
-	 * @since 2.0.0
-	 */
-	public static void setModule(Module thismodule) {
-		module = thismodule;
-	}
-	
+	private static ArrayList<Command> commands;
+
+    /**
+     * The Script loader used by the bot. This is set when the bot loads commands.
+     * @since 4.0.0
+     */
+    private static ClassLoader scriptLoader;
+
+    /**
+     * The {@link BotHandler} of the bot
+     * @since 4.0.0
+     */
+    private static BotHandler botHandler;
+
+    /**
+     * The {@link MessageHandler} of the bot
+     * @since 4.0.0
+     */
+    private static MessageHandler messageHandler;
+
 	/**
 	 * Setup the bot
 	 * @since 2.0.0
 	 */
-	public static void setup() {
+	public static void setup(Module thisModule, BotHandler botHandler, MessageHandler messageHandler) {
+
+	    BotHandler.botHandler = botHandler;
+	    BotHandler.messageHandler = messageHandler;
+
+	    setModule(thisModule);
 		
 		setupLogs();
 		setupConfig();
-		//commands = loadCommands(); // Needs to be overwritten by Discord, but this is not possible via static methods and due to incompatible types (Command vs DiscordCommand)
+		setCommands(loadCommands()); // Discord uses their own command variable
         VariableHandler.loadVariables();
 		setupWindow();
+        logClientInfo();
 		
 	}
 
+	/*
+	 *
+	 * █    █▀▀█ █▀▀▀ █▀▀
+     * █    █  █ █ ▀█ ▀▀█
+     * █▄▄█ ▀▀▀▀ ▀▀▀▀ ▀▀▀
+	 *
+	 */
+
     /**
      *
-     * Configure the logger for use in YamlToBot
+     * Configure the {@link LogHandler} for use in YamlToBot
      * @since 1.0.0
      *
      */
@@ -80,7 +103,7 @@ public abstract class BotHandler {
         DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd-hh.mm.ss");
         String dateOfRun = dateFormat.format(new Date()).toString();
 
-        File logDir = new File(module.getDir() + "logs");
+        File logDir = new File(getModule().getDir() + "logs");
         logDir.mkdirs();
         final File logFile = (new File(logDir, "log-" + dateOfRun + ".log"));
         final File latestLog = (new File(logDir, "log-latest.log"));
@@ -105,6 +128,59 @@ public abstract class BotHandler {
     }
 
     /**
+     * Logs info about the current YamlToBot client
+     * @since 3.0.0
+     */
+    public static void logClientInfo() {
+
+        String jVersion = System.getProperty("java.version");
+        String dateOfRun = new SimpleDateFormat("yyyy.MM.dd-hh.mm.ss").format(new Date()).toString();
+        String newUpdate = "";
+
+        if (!VersionChecker.isUpdated()) newUpdate = "A NEW UPDATE IS AVAILABLE :: " + VersionChecker.getLatestVersion() + "\n";
+        else if (Reference.prerelease) newUpdate = "YOU ARE USING A PRERELEASE VERSION. BUGS BEWARE! \n";
+
+        LogHandler.debug("\n" + "----- YamlToBot Info -----" + "\n"
+                + "YamlToBot Version :: " + Reference.version + "\n"
+                + newUpdate
+                + "Java Version :: " + jVersion + "\n"
+                + "Date of run :: " + dateOfRun + "\n"
+                + "--------------------------");
+
+    }
+
+    /*
+     *
+     * █▀▀█ █  █ ▀█▀
+     * █ ▄▄ █  █  █
+     * █▄▄█ ▀▄▄▀ ▄█▄
+     *
+     */
+
+    /**
+     * Setup the window
+     * @since 2.0.0
+     */
+    private static void setupWindow() {
+
+        long starttime = System.currentTimeMillis();
+
+        Window frame = new Window(getModule());
+        frame.setVisible(true);
+
+        LogHandler.debug("Setup window in " + (System.currentTimeMillis() - starttime) + " milliseconds!");
+
+    }
+
+    /*
+     *
+     * █▀▀█ █▀▀█ █▀▀▄ █▀▀  ▀  █▀▀▀ 　 ▄▀▀▄ 　 █▀▀█ █▀▄▀█ █▀▀▄ █▀▀
+     * █    █  █ █  █ █▀▀ ▀█▀ █ ▀█ 　 ▀▄ ▄ 　 █    █ █ █ █  █ ▀▀█
+     * █▄▄█ ▀▀▀▀ ▀  ▀ ▀   ▀▀▀ ▀▀▀▀ 　 █▄▀▄ 　 █▄▄█ █   █ █▄▄▀ ▀▀▀
+     *
+     */
+
+    /**
      * Load the config for YamlToBot and setup the default config based on module, if necessary
      * @since 2.0.0
      */
@@ -113,13 +189,13 @@ public abstract class BotHandler {
         long starttime = System.currentTimeMillis();
 
         File generalConfig = new File(Module.GENERAL.getDir() + "config.yml");
-        File config = new File(module.getDir() + "config.yml");
+        File config = new File(getModule().getDir() + "config.yml");
 
         if ((config.exists() == false && generalConfig.exists() == false) || (config.exists() == false && generalConfig.exists() == true)) {
 
-            if (module == Module.DISCORD) SetupDefaultConfig.setupDiscord(config);
-            if (module == Module.TWITCH) SetupDefaultConfig.setupTwitch(config);
-            if (module == Module.MIXER) SetupDefaultConfig.setupMixer(config);
+            if (getModule() == Module.DISCORD) SetupDefaultConfig.setupDiscord(config);
+            if (getModule() == Module.TWITCH) SetupDefaultConfig.setupTwitch(config);
+            if (getModule() == Module.MIXER) SetupDefaultConfig.setupMixer(config);
             else LogHandler.fatal("Invalid Module to generate default config for!");
 
             LogHandler.fatal("The config was not found!");
@@ -137,7 +213,7 @@ public abstract class BotHandler {
      *
      * Load the commands defined in the config
      *
-     * @return an ArrayList of all the commands found
+     * @return an ArrayList of all the commands found, as a {@link Command}
      * @since 3.0.0
      *
      */
@@ -147,7 +223,7 @@ public abstract class BotHandler {
 
         ArrayList<String> commandKeys = ConfigHandler.getCommands();
         ArrayList<Command> commands = new ArrayList<Command>();
-        ClassLoader cl = loadBuiltinCmds("YamlToBot/cmds/");
+        setScriptLoader(loadScriptLoader(Module.SCRIPT.getDir()));
 
         for (String commandName : commandKeys) {
 
@@ -156,7 +232,7 @@ public abstract class BotHandler {
                     ConfigHandler.getCommandString(commandName, "description", "Generic Command"),
                     ConfigHandler.getCommandArray(commandName,"message"),
                     ConfigHandler.getCommandBoolean(commandName, "enabled", true),
-                    loadBuiltinCommand(cl, ConfigHandler.getCommandString(commandName, "predefined-function", null))));
+                    loadScript(getScriptLoader(), ConfigHandler.getCommandString(commandName, "script", null))));
 
         }
 
@@ -168,36 +244,36 @@ public abstract class BotHandler {
 
     /**
      *
-     * Gets a predefined command from the given class, name, and args.
+     * Gets a {@link Script} from the given class, name, and args.
      *
-     * @param cl The class loader to load command classes from (should be acquired through loadBuiltinCmds(dir))
-     * @param cmdClass The class of the command, including the internal or external tag, e.g. %int%HelpCommand
-     * @return The string message that the command returns
+     * @param cl The {@link ClassLoader} to load command classes from (should be acquired through {@link #loadScriptLoader(String)}); will default to the BotHandler's {@link #scriptLoader}
+     * @param cmdClass The class of the script
+     * @return The script that was loaded, or null if an error occurred or no script was defined.
      * @since 1.0.0
      *
      */
-    public static BuiltinCommand loadBuiltinCommand(ClassLoader cl, String cmdClass) {
+    public static Script loadScript(ClassLoader cl, String cmdClass) {
 
         if (cmdClass == null) return null;
 
+        if (cl == null) cl = getScriptLoader();
+
         try {
 
-            Class<? extends BuiltinCommand> builtinCmdClass = null;
+            Class<? extends Script> scriptClass = null;
 
             // If the class name contains a ".", indicating an external package
             if (cmdClass.contains(".")) {
-                builtinCmdClass = Class.forName(cmdClass, true, cl).asSubclass(BuiltinCommand.class);
+                scriptClass = Class.forName(cmdClass, true, cl).asSubclass(Script.class);
             } else {
-                builtinCmdClass = Class.forName("com.yamltobot.builtincmds." + cmdClass, true, cl).asSubclass(BuiltinCommand.class);
+                scriptClass = Class.forName("com.yamltobot.scripts." + cmdClass, true, cl).asSubclass(Script.class);
             }
 
-            return (BuiltinCommand) builtinCmdClass.newInstance();
+            Script script = (Script) scriptClass.getDeclaredConstructor().newInstance();
+            script.setHandlers(getBotHandler(), getMessageHandler());
+            return script;
 
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) { // There are so many exceptions that this is just easier
             e.printStackTrace();
         }
 
@@ -207,14 +283,14 @@ public abstract class BotHandler {
 
     /**
      *
-     * Loads command classes from the given directory.
+     * Creates the {@link #scriptLoader} to load scripts from the given directory.
      *
      * @param dir Where to load the classes from
-     * @return The ClassLoader of all the commands loaded
+     * @return The {@link ClassLoader} used to load scripts
      * @since 1.0.0
      *
      */
-    public static ClassLoader loadBuiltinCmds(String dir) {
+    public static ClassLoader loadScriptLoader(String dir) {
 
         File[] cmdRaw = new File(dir).listFiles();
         URL[] cmdUrls = new URL[cmdRaw.length];
@@ -222,7 +298,6 @@ public abstract class BotHandler {
         for (int i = 0; i < cmdRaw.length; i++) {
             try {
                 cmdUrls[i] = cmdRaw[i].toURI().toURL();
-                System.out.println(cmdRaw[i].getName());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -231,39 +306,14 @@ public abstract class BotHandler {
         return new URLClassLoader(cmdUrls, ClassLoader.getSystemClassLoader());
 
     }
-	
-	/**
-	 * Setup the window
-	 * @since 2.0.0
+
+	/*
+	 *
+	 * █▀▀█ █▀▀ ▀▀█▀▀ 　 ▄▀▀▄ 　 █▀▀▀█ █▀▀ ▀▀█▀▀
+     * █ ▄▄ █▀▀   █   　 ▀▄ ▄ 　 ▀▀▀▄▄ █▀▀   █
+     * █▄▄█ ▀▀▀   ▀   　 █▄▀▄ 　 █▄▄▄█ ▀▀▀   ▀
+	 *
 	 */
-	private static void setupWindow() {
-
-        long starttime = System.currentTimeMillis();
-
-		Window frame = new Window(module);
-		frame.setVisible(true);
-
-        LogHandler.debug("Setup window in " + (System.currentTimeMillis() - starttime) + " milliseconds!");
-
-	}
-
-	public static void logClientInfo() {
-
-	    String jVersion = System.getProperty("java.version");
-        String dateOfRun = new SimpleDateFormat("yyyy.MM.dd-hh.mm.ss").format(new Date()).toString();
-        String newUpdate = "";
-
-        if (!VersionChecker.isUpdated()) newUpdate = "A NEW UPDATE IS AVAILABLE :: " + VersionChecker.getLatestVersion() + "\n";
-        else if (Reference.prerelease) newUpdate = "YOU ARE USING A PRERELEASE VERSION. BUGS BEWARE! \n";
-
-        LogHandler.debug("\n" + "----- YamlToBot Info -----" + "\n"
-                        + "YamlToBot Version :: " + Reference.version + "\n"
-                        + newUpdate
-                        + "Java Version :: " + jVersion + "\n"
-                        + "Date of run :: " + dateOfRun + "\n"
-                        + "--------------------------");
-
-    }
 
     /**
      *
@@ -278,7 +328,7 @@ public abstract class BotHandler {
 
         try {
 
-            String value = Yaml.createYamlInput(new FileInputStream(module.getDir() + "config.yml")).readYamlMapping().string(key);
+            String value = Yaml.createYamlInput(new FileInputStream(getModule().getDir() + "config.yml")).readYamlMapping().string(key);
 
             if (value != null) return value.replace("\"", "");
             else return null;
@@ -291,6 +341,72 @@ public abstract class BotHandler {
 
         return null;
 
+    }
+
+    /**
+     * @return This bot's {@link Module}
+     * @since 4.0.0
+     */
+    public static Module getModule() {
+        return module;
+    }
+
+    /**
+     * @param module The bot's {@link Module}
+     * @since 4.0.0
+     */
+    public static void setModule(Module module) {
+        BotHandler.module = module;
+    }
+
+    /**
+     * @note The Discord module uses its own command list that has the "embed" property set. It can be accessed through DiscordBotHandler
+     * @return A list of the bot's registered commands
+     * @since 4.0.0
+     */
+    public static ArrayList<Command> getCommands() {
+        return commands;
+    }
+
+    /**
+     * @note The Discord module uses its own command list that has the "embed" property set. It can be accessed through DiscordBotHandler
+     * @param commands The list of registered commands
+     * @since 4.0.0
+     */
+    public static void setCommands(ArrayList<Command> commands) {
+        BotHandler.commands = commands;
+    }
+
+    /**
+     * @return The {@link ClassLoader} for scripts. Loads from the "YamlToBot/scripts/" folder
+     * @since 4.0.0
+     */
+    public static ClassLoader getScriptLoader() {
+        return scriptLoader;
+    }
+
+    /**
+     * @param scriptLoader The {@link ClassLoader} the bot should use for scripts
+     * @since 4.0.0
+     */
+    public static void setScriptLoader(ClassLoader scriptLoader) {
+        BotHandler.scriptLoader = scriptLoader;
+    }
+
+    /**
+     * @return This bot's {@link BotHandler}
+     * @since 4.0.0
+     */
+    public static BotHandler getBotHandler() {
+        return botHandler;
+    }
+
+    /**
+     * @return This bot's {@link MessageHandler}
+     * @since 4.0.0
+     */
+    public static MessageHandler getMessageHandler() {
+        return messageHandler;
     }
 	
 }

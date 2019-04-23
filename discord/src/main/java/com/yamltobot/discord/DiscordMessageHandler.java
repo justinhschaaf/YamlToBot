@@ -19,7 +19,17 @@ import java.util.ArrayList;
  */
 public class DiscordMessageHandler extends MessageHandler implements MessageCreateListener {
 
-	ArrayList<DiscordCommand> commands;
+	/**
+	 * The list of registered commands
+	 * @since 3.0.0
+	 */
+	private static ArrayList<DiscordCommand> commands;
+
+	/**
+	 * The latest event that occurred
+	 * @since 4.0.0
+	 */
+	private static MessageCreateEvent latestEvent;
 
 	/**
 	 *
@@ -34,7 +44,17 @@ public class DiscordMessageHandler extends MessageHandler implements MessageCrea
 		this.commands = commands;
 	}
 
+	/**
+	 *
+	 * The function to be executed once a message is sent
+	 *
+	 * @param event The {@link MessageCreateEvent} of the message
+	 * @since 1.0.0
+	 *
+	 */
 	public void onMessageCreate(MessageCreateEvent event) {
+
+		this.latestEvent = event;
 
 		logMessage(event.getServer().get().getName().toString() + ", " + event.getChannel().asServerTextChannel().get().getName(), event.getMessage().getAuthor().getDisplayName(), event.getMessage().getContent());
 
@@ -61,6 +81,11 @@ public class DiscordMessageHandler extends MessageHandler implements MessageCrea
 
 		return null;
 
+	}
+
+	@Override
+	public void sendMessage(String message) {
+		latestEvent.getChannel().sendMessage(message);
 	}
 
 }

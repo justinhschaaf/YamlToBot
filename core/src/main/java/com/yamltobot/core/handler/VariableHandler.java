@@ -16,6 +16,10 @@ import java.util.Set;
  */
 public class VariableHandler {
 
+    /**
+     * The variable names and values the bot has registered
+     * @since 3.0.0
+     */
     private static HashMap<String, String> variables = new HashMap<>();
 
     /**
@@ -81,10 +85,18 @@ public class VariableHandler {
 
     }
 
+    /**
+     * @return The list of registered variables
+     * @since 3.0.0
+     */
     public static HashMap<String, String> getVariables() {
         return variables;
     }
 
+    /**
+     * @param variables The new list of registered variables for the bot to use
+     * @since 3.0.0
+     */
     public static void setVariables(HashMap<String, String> variables) {
         VariableHandler.variables = variables;
     }

@@ -9,17 +9,35 @@ import com.yamltobot.core.handler.MessageHandler;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * The primary class for handling messages in Mixer
+ *
+ * @since 4.0.0
+ * @author Justin Schaaf
+ *
+ */
 public class MixerMessageHandler extends MessageHandler {
 
-    private MixerChatConnectable chatConnectable;
+    /**
+     * The {@link MixerChatConnectable} the bot is using
+     * @since 4.0.0
+     */
+    private static MixerChatConnectable chatConnectable;
+
+    /**
+     * The latest event that occurred
+     * @since 4.0.0
+     */
+    private static IncomingMessageEvent latestEvent;
 
     /**
      *
-     * The primary class for handling messages in Twitch
+     * The primary class for handling messages in Mixer
      *
      * @param commands an ArrayList of all the loaded commands
-     * @param chatConnectable The bot's chat connectable
-     * @since 3.0.0
+     * @param chatConnectable The bot's {@link MixerChatConnectable}
+     * @since 4.0.0
      *
      */
     public MixerMessageHandler(ArrayList<Command> commands, MixerChatConnectable chatConnectable) {
@@ -27,11 +45,24 @@ public class MixerMessageHandler extends MessageHandler {
         this.chatConnectable = chatConnectable;
     }
 
+    /**
+     *
+     * The function to execute once a message is sent
+     *
+     * @param event The {@link IncomingMessageEvent} of the message
+     * @since 4.0.0
+     *
+     */
     public void onIncomingMessage(IncomingMessageEvent event) {
 
         String msg = handleMessage(Module.MIXER, event.data.channel + "", event.data.userName, event.data.asString());
         if (msg != null) chatConnectable.send(ChatSendMethod.of(msg));
 
+    }
+
+    @Override
+    public void sendMessage(String message) {
+        chatConnectable.send(ChatSendMethod.of(message));
     }
 
 }

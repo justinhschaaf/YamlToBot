@@ -1,7 +1,7 @@
 package com.yamltobot.discord;
 
 import com.yamltobot.core.commands.Command;
-import com.yamltobot.builtincmds.BuiltinCommand;
+import com.yamltobot.scripts.Script;
 
 import java.util.ArrayList;
 
@@ -15,6 +15,10 @@ import java.util.ArrayList;
  */
 public class DiscordCommand extends Command {
 
+    /**
+     * The command's embed
+     * @since 3.0.0
+     */
     private DiscordEmbed embed;
 
     /**
@@ -25,13 +29,13 @@ public class DiscordCommand extends Command {
      * @param desc A description of what the command does
      * @param msg The message the command returns
      * @param enabled Whether or not the command is enabled
-     * @param builtin The builtin command to be executed
+     * @param script The script to be executed
      * @param embed The embed to return
      * @since 3.0.0
      *
      */
-    public DiscordCommand(String name, String desc, ArrayList<String> msg, Boolean enabled, BuiltinCommand builtin, DiscordEmbed embed) {
-        super(name, desc, msg, enabled, builtin);
+    public DiscordCommand(String name, String desc, ArrayList<String> msg, Boolean enabled, Script script, DiscordEmbed embed) {
+        super(name, desc, msg, enabled, script);
         this.embed = embed;
     }
 
@@ -49,10 +53,18 @@ public class DiscordCommand extends Command {
         else return false;
     }
 
+    /**
+     * @return This command's embed.
+     * @since 3.0.0
+     */
     public DiscordEmbed getEmbed() {
         return embed;
     }
 
+    /**
+     * @param embed The new embed this command should be using
+     * @since 3.0.0
+     */
     public void setEmbed(DiscordEmbed embed) {
         this.embed = embed;
     }

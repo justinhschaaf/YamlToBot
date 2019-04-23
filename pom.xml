@@ -6,7 +6,7 @@
 
 	<groupId>com.yamltobot</groupId>
 	<artifactId>yamltobot</artifactId>
-	<version>4.0.0-INDEV.1</version>
+	<version>4.0.0-INDEV.2</version>
 
 	<name>YamlToBot</name>
 	<description>Create a bot from the given YAML file.</description>

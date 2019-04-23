@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public abstract class MessageHandler {
 
-    ArrayList<Command> commands;
+    static ArrayList<Command> commands;
 
     /**
      *
@@ -214,5 +214,15 @@ public abstract class MessageHandler {
         return null;
 
     }
+
+    /**
+     *
+     * Sends a message to the location of the last event. Intended for use by {@link com.yamltobot.scripts.Script}s
+     *
+     * @param message The message to send
+     * @since 4.0.0
+     *
+     */
+    public abstract void sendMessage(String message);
 	
 }

@@ -1,6 +1,6 @@
 package com.yamltobot.core.commands;
 
-import com.yamltobot.builtincmds.BuiltinCommand;
+import com.yamltobot.scripts.Script;
 
 import java.util.ArrayList;
 
@@ -14,11 +14,35 @@ import java.util.ArrayList;
  */
 public class Command {
 
+    /**
+     * The command's name
+     * @since 3.0.0
+     */
     private String name;
+
+    /**
+     * The command's description
+     * @since 3.0.0
+     */
     private String desc;
+
+    /**
+     * The command's message
+     * @since 3.0.0
+     */
     private ArrayList<String> msg;
+
+    /**
+     * Whether or not the command is enabled
+     * @since 3.0.0
+     */
     private Boolean enabled;
-    private BuiltinCommand builtin;
+
+    /**
+     * Get the script the command will execute when run
+     * @since 4.0.0
+     */
+    private Script script;
 
     /**
      *
@@ -28,16 +52,16 @@ public class Command {
      * @param desc A description of what the command does
      * @param msg The message the command returns
      * @param enabled Whether or not the command is enabled
-     * @param builtin The builtin command to be executed
+     * @param script The script to be executed
      * @since 3.0.0
      *
      */
-    public Command(String name, String desc, ArrayList<String> msg, Boolean enabled, BuiltinCommand builtin) {
+    public Command(String name, String desc, ArrayList<String> msg, Boolean enabled, Script script) {
         this.name = name;
         this.desc = desc;
         this.msg = msg;
         this.enabled = enabled;
-        this.builtin = builtin;
+        this.script = script;
     }
 
     /**
@@ -50,64 +74,115 @@ public class Command {
      *
      */
     public String execute(ArrayList<String> args) {
-        if (builtin != null) return builtin.onCommandExecuted(name, args);
+
+        if (script != null) {
+
+            args.add(0, name);
+            script.onScriptRun(args);
+            return null; // The script will send the message rather than returning one
+
+        }
+
         else {
+
             StringBuilder messageBuilder = new StringBuilder();
             for (int i = 0; i < msg.size(); i++) messageBuilder.append(msg.get(i) + "\n");
             return messageBuilder.toString();
+
         }
+
     }
 
     /**
      *
-     * Get whether or not the command uses a builtin function
+     * Get whether or not the command uses a script
      *
      * @return true if a builtin function is used
      *
      */
-    public Boolean getIsBuiltin() {
-        if (builtin != null) return true;
+    public Boolean getUsesScript() {
+        if (script != null) return true;
         else return false;
     }
 
+    /**
+     * @return The command's name
+     * @since 3.0.0
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @param name The command's name
+     * @since 3.0.0
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * @return The command's description
+     * @since 3.0.0
+     */
     public String getDesc() {
         return desc;
     }
 
+    /**
+     * @param desc The command's description
+     * @since 3.0.0
+     */
     public void setDesc(String desc) {
         this.desc = desc;
     }
 
+    /**
+     * @return The command's msg
+     * @since 3.0.0
+     */
     public ArrayList<String> getMsg() {
         return msg;
     }
 
+    /**
+     * @param msg The command's msg
+     * @since 3.0.0
+     */
     public void setMsg(ArrayList<String> msg) {
         this.msg = msg;
     }
 
+    /**
+     * @return Whether or not the command is enabled
+     * @since 3.0.0
+     */
     public Boolean getEnabled() {
         return enabled;
     }
 
+    /**
+     * @param enabled Whether or not the command is enabled
+     * @since 3.0.0
+     */
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
 
-    public BuiltinCommand getBuiltin() {
-        return builtin;
+    /**
+     * @return The script the command executes once it is run
+     * @since 4.0.0
+     */
+    public Script getScript() {
+        return script;
     }
 
-    public void setBuiltin(BuiltinCommand builtin) {
-        this.builtin = builtin;
+    /**
+     * @param script The script the command executes once it is run
+     * @since 4.0.0
+     */
+    public void setScript(Script script) {
+        this.script = script;
     }
 
 }

@@ -13,28 +13,34 @@ import java.util.ArrayList;
 
 /**
  * 
- * The primary class for setting up the DiscordBot
+ * The primary class for setting up the Discord bot
  * 
  * @author Justin Schaaf
  * @since 1.0.0
  *
  */
 public class DiscordBotHandler extends BotHandler {
-	
-	public static DiscordApi api;
-	static ArrayList<DiscordCommand> commands;
+
+	/**
+	 * The Discord bot
+	 * @since 1.0.0
+	 */
+	private static DiscordApi bot;
+
+	/**
+	 * The registered {@link DiscordCommand} list
+	 * @since 3.0.0
+	 */
+	private static ArrayList<DiscordCommand> discordCommands;
 
 	public static void main(String[] args) {
-		
-		setModule(Module.DISCORD);
-		setup();
-		commands = loadDiscordCommands();
 
-		api = new DiscordApiBuilder().setToken(getAuth("token")).login().join();
-		api.addMessageCreateListener(new DiscordMessageHandler(commands));
-		if (ConfigHandler.getString("activity", null) != null) api.updateActivity(ConfigHandler.getString("activity", null));
+		setup(Module.DISCORD, new DiscordBotHandler(), new DiscordMessageHandler(discordCommands));
+		discordCommands = loadDiscordCommands();
 
-		logClientInfo();
+		bot = new DiscordApiBuilder().setToken(getAuth("token")).login().join();
+		bot.addMessageCreateListener((DiscordMessageHandler) getMessageHandler());
+		if (ConfigHandler.getString("activity", null) != null) bot.updateActivity(ConfigHandler.getString("activity", null));
 
 	}
 
@@ -42,7 +48,7 @@ public class DiscordBotHandler extends BotHandler {
 	 *
 	 * Loads the commands for Discord with the Discord-specific options
 	 *
-	 * @return an ArrayList of all the Discord commands
+	 * @return an ArrayList of all the {@link DiscordCommand}s found
 	 * @since 3.0.0
 	 *
 	 */
@@ -52,7 +58,7 @@ public class DiscordBotHandler extends BotHandler {
 
 		ArrayList<String> commandKeys = ConfigHandler.getCommands();
 		ArrayList<DiscordCommand> commands = new ArrayList<DiscordCommand>();
-		ClassLoader cl = loadBuiltinCmds("YamlToBot/cmds/");
+		setScriptLoader(loadScriptLoader(Module.GENERAL.getDir() + "cmds/"));
 
 		for (String commandName : commandKeys) {
 
@@ -61,7 +67,7 @@ public class DiscordBotHandler extends BotHandler {
 					ConfigHandler.getCommandString(commandName, "description", "Generic Command"),
 					ConfigHandler.getCommandArray(commandName,"message"),
 					ConfigHandler.getCommandBoolean(commandName, "enabled", true),
-					loadBuiltinCommand(cl, ConfigHandler.getCommandString(commandName, "predefined-function", null)),
+					loadScript(getScriptLoader(), ConfigHandler.getCommandString(commandName, "script", null)),
 					generateDiscordEmbed(commandName)));
 
 		}
@@ -74,13 +80,14 @@ public class DiscordBotHandler extends BotHandler {
 
 	/**
 	 *
-	 * Generate a Discord embed for the given command based off the values in the config file
+	 * Generate a {@link DiscordEmbed} for the given command based off the values in the config file
 	 *
 	 * @param command the name of the command to generate an embed for
 	 * @return the DiscordEmbed, or null if one is not defined
+	 * @since 3.0.0
 	 *
 	 */
-	private static DiscordEmbed generateDiscordEmbed(String command) {
+	public static DiscordEmbed generateDiscordEmbed(String command) {
 
 		if (ConfigHandler.getCommandMappingBoolean(command, "embed", "enabled", false) == false) return null;
 
@@ -148,6 +155,38 @@ public class DiscordBotHandler extends BotHandler {
 
 		return new DiscordEmbed(title, desc, color, image, url, fields, author, enabled);
 
+	}
+
+	/**
+	 * @return The Discord {@link #bot}
+	 * @since 4.0.0
+	 */
+	public static DiscordApi getBot() {
+		return bot;
+	}
+
+	/**
+	 * @param bot The new Discord {@link #bot}
+	 * @since 4.0.0
+	 */
+	public static void setBot(DiscordApi bot) {
+		DiscordBotHandler.bot = bot;
+	}
+
+	/**
+	 * @return The registered {@link DiscordCommand} list
+	 * @since 4.0.0
+	 */
+	public static ArrayList<DiscordCommand> getDiscordCommands() {
+		return discordCommands;
+	}
+
+	/**
+	 * @param discordCommands The new {@link DiscordCommand} list
+	 * @since 4.0.0
+	 */
+	public static void setDiscordCommands(ArrayList<DiscordCommand> discordCommands) {
+		DiscordBotHandler.discordCommands = discordCommands;
 	}
 
 }

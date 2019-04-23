@@ -27,7 +27,7 @@ public class LogHandler {
 	 * 
 	 * Enum containing all the different default log levels
 	 * 
-	 * @author Jusanov
+	 * @author Justin Schaaf
 	 * @since 1.0.0
 	 *
 	 */

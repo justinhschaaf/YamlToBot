@@ -19,6 +19,12 @@ import java.util.ArrayList;
 public class TwitchMessageHandler extends MessageHandler {
 
     /**
+     * The latest event that occurred
+     * @since 4.0.0
+     */
+    private static ChannelMessageEvent latestEvent;
+
+    /**
      *
      * The primary class for handling messages in Twitch
      *
@@ -32,11 +38,26 @@ public class TwitchMessageHandler extends MessageHandler {
         eventManager.onEvent(ChannelMessageEvent.class).subscribe(event -> onChannelMessage(event));
     }
 
+    /**
+     *
+     * The function to execute once an event occurs
+     *
+     * @param event The {@link ChannelMessageEvent} of the message
+     * @since 1.0.0
+     *
+     */
     public void onChannelMessage(ChannelMessageEvent event) {
+
+        latestEvent = event;
 
     	String msg = handleMessage(Module.TWITCH, event.getChannel().getName(), event.getUser().getName(), event.getMessage());
     	if (msg != null) event.getTwitchChat().sendMessage(event.getChannel().getName(), msg);
 		
     }
-    
+
+    @Override
+    public void sendMessage(String message) {
+        latestEvent.getTwitchChat().sendMessage(latestEvent.getChannel().getName(), message);
+    }
+
 }

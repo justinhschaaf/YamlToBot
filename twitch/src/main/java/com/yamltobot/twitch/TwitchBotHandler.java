@@ -4,51 +4,52 @@ import com.github.philippheuer.credentialmanager.domain.OAuth2Credential;
 import com.github.philippheuer.events4j.EventManager;
 import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.TwitchClientBuilder;
-import com.yamltobot.core.commands.Command;
 import com.yamltobot.core.common.Module;
 import com.yamltobot.core.handler.BotHandler;
 import com.yamltobot.core.handler.ConfigHandler;
 
-import java.util.ArrayList;
-
 /**
- * 
+ *
  * The primary class for setting up the TwitchBot
- * 
+ *
  * @author Justin Schaaf
  * @since 1.0.0
  *
  */
 public class TwitchBotHandler extends BotHandler {
 
-	static TwitchClient bot;
-	static EventManager eventManager;
-	static ArrayList<Command> commands;
+    /**
+     * The Twitch bot
+     * @since 1.0.0
+     */
+    static TwitchClient bot;
 
-	public static void main(String[] args) {
-		
-		setModule(Module.TWITCH);
-		setup();
-		commands = loadCommands();
+    /**
+     * The Bot's {@link EventManager}
+     * @since 4.0.0
+     */
+    static EventManager eventManager;
 
-		eventManager = new EventManager();
+    public static void main(String[] args) {
 
-		bot = TwitchClientBuilder.builder()
-				.withEventManager(eventManager)
-				.withEnableChat(true)
-				.withClientId(getAuth("id"))
-				.withClientSecret(getAuth("secret"))
-				.withChatAccount(new OAuth2Credential("twitch", getAuth("token")))
-				.build();
-		
-		bot.getEventManager().registerListener(new TwitchMessageHandler(commands, eventManager));
-		
+        eventManager = new EventManager();
+
+        setup(Module.TWITCH, new TwitchBotHandler(), new TwitchMessageHandler(getCommands(), eventManager));
+
+        bot = TwitchClientBuilder.builder()
+                .withEventManager(eventManager)
+                .withEnableChat(true)
+                .withClientId(getAuth("id"))
+                .withClientSecret(getAuth("secret"))
+                .withChatAccount(new OAuth2Credential("twitch", getAuth("token")))
+                .build();
+
+        bot.getEventManager().registerListener((TwitchMessageHandler) getMessageHandler());
+
         for (String channel : ConfigHandler.getArray("channels")) {
             bot.getChat().joinChannel(channel.toLowerCase());
         }
 
-		logClientInfo();
-		
-	}
+    }
 
 }
