@@ -29,8 +29,8 @@
 
 	    <dependency>
 	        <groupId>com.justinschaaf</groupId>
-	        <artifactId>justinsjavautils</artifactId>
-	        <version>6c64cd4629</version>
+	        <artifactId>yaosja</artifactId>
+	        <version>b02f819191</version>
 	    </dependency>
 
 	  	<dependency>

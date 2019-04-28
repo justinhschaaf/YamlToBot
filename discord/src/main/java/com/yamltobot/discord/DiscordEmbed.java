@@ -1,6 +1,6 @@
 package com.yamltobot.discord;
 
-import com.yamltobot.core.handler.VariableHandler;
+import com.yamltobot.core.config.VariableHandler;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 
 import java.awt.*;
@@ -63,6 +63,8 @@ public class DiscordEmbed {
 
         if (!enabled) return null;
 
+        VariableHandler variableHandler = DiscordBotHandler.getVariableHandler();
+
         EmbedBuilder embed = new EmbedBuilder();
 
         if (title != null) embed.setTitle(title);
@@ -73,7 +75,7 @@ public class DiscordEmbed {
         if (desc != null) {
             StringBuilder messageBuilder = new StringBuilder();
             for (int i = 0; i < desc.size(); i++) messageBuilder.append(desc.get(i) + "\n");
-            embed.setDescription(VariableHandler.formatMessage(messageBuilder.toString()));
+            embed.setDescription(variableHandler.formatMessage(messageBuilder.toString()));
         }
 
         if (fields != null) {
@@ -83,7 +85,7 @@ public class DiscordEmbed {
                 StringBuilder descBuilder = new StringBuilder();
                 for (int i = 0; i < field.getDesc().size(); i++) descBuilder.append(field.getDesc().get(i) + "\n");
 
-                embed.addField(field.getName(), VariableHandler.formatMessage(descBuilder.toString()), field.getInline());
+                embed.addField(field.getName(), variableHandler.formatMessage(descBuilder.toString()), field.getInline());
 
             }
 

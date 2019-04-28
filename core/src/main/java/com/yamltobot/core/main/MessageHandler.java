@@ -1,4 +1,4 @@
-package com.yamltobot.core.handler;
+package com.yamltobot.core.main;
 
 import com.yamltobot.core.commands.Command;
 import com.yamltobot.core.common.Module;
@@ -51,7 +51,7 @@ public abstract class MessageHandler {
 			
 			if (command.getEnabled()) {
 
-				return VariableHandler.formatMessage(command.execute(getArgsByMessage(command, message)));
+				return BotHandler.getVariableHandler().formatMessage(command.execute(getArgsByMessage(command, message)));
 				
 			}
 			
@@ -74,7 +74,7 @@ public abstract class MessageHandler {
 	public ArrayList<String> getArgsByMessage(Command command, String message) {
 
 	    // Get rid of the command itself
-	    message.replaceFirst(ConfigHandler.getString("prefix", "") + command.getName(), "");
+	    message.replaceFirst(BotHandler.getConfigHandler().getConfig().getString("prefix", "") + command.getName(), "");
 
 	    // Setup vars
         ArrayList<String> args = new ArrayList<String>();
@@ -207,7 +207,7 @@ public abstract class MessageHandler {
 
         for (Command command : commands) {
 
-            if (message.startsWith(ConfigHandler.getString("prefix", "") + command.getName())) return command;
+            if (message.startsWith(BotHandler.getConfigHandler().getConfig().getString("prefix", "") + command.getName())) return command;
 
         }
 

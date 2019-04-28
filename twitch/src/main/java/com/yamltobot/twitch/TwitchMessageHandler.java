@@ -4,7 +4,7 @@ import com.github.philippheuer.events4j.EventManager;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import com.yamltobot.core.commands.Command;
 import com.yamltobot.core.common.Module;
-import com.yamltobot.core.handler.MessageHandler;
+import com.yamltobot.core.main.MessageHandler;
 
 import java.util.ArrayList;
 

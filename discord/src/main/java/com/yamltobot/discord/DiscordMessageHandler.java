@@ -1,9 +1,7 @@
 package com.yamltobot.discord;
 
 import com.yamltobot.core.commands.Command;
-import com.yamltobot.core.handler.ConfigHandler;
-import com.yamltobot.core.handler.MessageHandler;
-import com.yamltobot.core.handler.VariableHandler;
+import com.yamltobot.core.main.MessageHandler;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
 
@@ -23,7 +21,7 @@ public class DiscordMessageHandler extends MessageHandler implements MessageCrea
 	 * The list of registered commands
 	 * @since 3.0.0
 	 */
-	private static ArrayList<DiscordCommand> commands;
+	private static ArrayList<DiscordCommand> discordCommands;
 
 	/**
 	 * The latest event that occurred
@@ -35,13 +33,14 @@ public class DiscordMessageHandler extends MessageHandler implements MessageCrea
 	 *
 	 * The primary class for handling messages in Discord
 	 *
-	 * @param commands an ArrayList of the loaded DiscordCommands
+	 * @param commands An ArrayList of all loaded commands
+	 * @param discordCommands an ArrayList of the loaded DiscordCommands
 	 * @since 3.0.0
 	 *
 	 */
-	public DiscordMessageHandler(ArrayList<DiscordCommand> commands) {
-		super(new ArrayList<Command>());
-		this.commands = commands;
+	public DiscordMessageHandler(ArrayList<Command> commands, ArrayList<DiscordCommand> discordCommands) {
+		super(commands);
+		this.discordCommands = discordCommands;
 	}
 
 	/**
@@ -64,7 +63,7 @@ public class DiscordMessageHandler extends MessageHandler implements MessageCrea
 		if (command.getEnabled()) {
 
 			if (command.getIsEmbedEnabled()) event.getChannel().sendMessage(command.getEmbed().generate());
-			else event.getChannel().sendMessage(VariableHandler.formatMessage(command.execute(getArgsByMessage(command, event.getMessage().getContent()))));
+			else event.getChannel().sendMessage(DiscordBotHandler.getVariableHandler().formatMessage(command.execute(getArgsByMessage(command, event.getMessage().getContent()))));
 
 		}
 		
@@ -73,9 +72,9 @@ public class DiscordMessageHandler extends MessageHandler implements MessageCrea
 	@Override
 	public DiscordCommand getCommandByMessage(String message) {
 
-		for (DiscordCommand command : commands) {
+		for (DiscordCommand command : discordCommands) {
 
-			if (message.startsWith(ConfigHandler.getString("prefix", "") + command.getName())) return command;
+			if (message.startsWith(DiscordBotHandler.getConfigHandler().getConfig().getString("prefix", "") + command.getName())) return command;
 
 		}
 

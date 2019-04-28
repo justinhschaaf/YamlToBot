@@ -5,8 +5,7 @@ import com.github.philippheuer.events4j.EventManager;
 import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.TwitchClientBuilder;
 import com.yamltobot.core.common.Module;
-import com.yamltobot.core.handler.BotHandler;
-import com.yamltobot.core.handler.ConfigHandler;
+import com.yamltobot.core.main.BotHandler;
 
 /**
  *
@@ -44,9 +43,9 @@ public class TwitchBotHandler extends BotHandler {
                 .withChatAccount(new OAuth2Credential("twitch", getAuth("token")))
                 .build();
 
-        bot.getEventManager().registerListener((TwitchMessageHandler) getMessageHandler());
+        bot.getEventManager().registerListener(new TwitchMessageHandler(getCommands(), eventManager));
 
-        for (String channel : ConfigHandler.getArray("channels")) {
+        for (String channel : getConfigHandler().getConfig().getArray("channels")) {
             bot.getChat().joinChannel(channel.toLowerCase());
         }
 

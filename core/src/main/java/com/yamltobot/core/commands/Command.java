@@ -1,5 +1,6 @@
 package com.yamltobot.core.commands;
 
+import com.yamltobot.core.config.ConfigObject;
 import com.yamltobot.scripts.Script;
 
 import java.util.ArrayList;
@@ -45,6 +46,12 @@ public class Command {
     private Script script;
 
     /**
+     * The {@link ConfigObject} of the command
+     * @since 4.0.0
+     */
+    private ConfigObject object;
+
+    /**
      *
      * Define a command
      *
@@ -53,15 +60,17 @@ public class Command {
      * @param msg The message the command returns
      * @param enabled Whether or not the command is enabled
      * @param script The script to be executed
+     * @param object The {@link ConfigObject} associated with the command
      * @since 3.0.0
      *
      */
-    public Command(String name, String desc, ArrayList<String> msg, Boolean enabled, Script script) {
+    public Command(String name, String desc, ArrayList<String> msg, Boolean enabled, Script script, ConfigObject object) {
         this.name = name;
         this.desc = desc;
         this.msg = msg;
         this.enabled = enabled;
         this.script = script;
+        this.object = object;
     }
 
     /**
@@ -185,4 +194,19 @@ public class Command {
         this.script = script;
     }
 
+    /**
+     * @return The {@link ConfigObject} of the command
+     * @since 4.0.0
+     */
+    public ConfigObject getObject() {
+        return object;
+    }
+
+    /**
+     * @param object The new {@link ConfigObject} of the command
+     * @since 4.0.0
+     */
+    public void setObject(ConfigObject object) {
+        this.object = object;
+    }
 }

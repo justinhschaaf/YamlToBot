@@ -1,7 +1,7 @@
 package com.yamltobot.scripts;
 
-import com.yamltobot.core.handler.BotHandler;
-import com.yamltobot.core.handler.MessageHandler;
+import com.yamltobot.core.main.BotHandler;
+import com.yamltobot.core.main.MessageHandler;
 
 import java.util.ArrayList;
 

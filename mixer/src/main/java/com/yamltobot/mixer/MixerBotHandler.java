@@ -11,8 +11,8 @@ import com.mixer.api.resource.chat.ws.MixerChatConnectable;
 import com.mixer.api.services.impl.ChatService;
 import com.mixer.api.services.impl.UsersService;
 import com.yamltobot.core.common.Module;
-import com.yamltobot.core.handler.BotHandler;
-import com.yamltobot.core.handler.LogHandler;
+import com.yamltobot.core.main.BotHandler;
+import com.yamltobot.core.main.LogHandler;
 
 /**
  *
@@ -63,7 +63,7 @@ public class MixerBotHandler extends BotHandler {
             authenticateChat();
 
             // Message Handler
-            getChatConnectable().on(IncomingMessageEvent.class, event -> ((MixerMessageHandler) getMessageHandler()).onIncomingMessage(event));
+            getChatConnectable().on(IncomingMessageEvent.class, event -> (new MixerMessageHandler(getCommands(), chatConnectable)).onIncomingMessage(event));
 
         } catch (Exception e) {
 

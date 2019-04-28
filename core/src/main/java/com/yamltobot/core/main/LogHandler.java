@@ -1,4 +1,4 @@
-package com.yamltobot.core.handler;
+package com.yamltobot.core.main;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

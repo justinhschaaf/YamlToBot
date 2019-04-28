@@ -5,7 +5,7 @@ import com.mixer.api.resource.chat.methods.ChatSendMethod;
 import com.mixer.api.resource.chat.ws.MixerChatConnectable;
 import com.yamltobot.core.commands.Command;
 import com.yamltobot.core.common.Module;
-import com.yamltobot.core.handler.MessageHandler;
+import com.yamltobot.core.main.MessageHandler;
 
 import java.util.ArrayList;
 

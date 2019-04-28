@@ -1,19 +1,18 @@
-package com.yamltobot.core.handler;
+package com.yamltobot.core.main;
 
-import com.amihaiemil.eoyaml.Yaml;
+import com.justinschaaf.yaosja.FileManager;
 import com.yamltobot.core.commands.Command;
 import com.yamltobot.core.common.Module;
 import com.yamltobot.core.common.Reference;
 import com.yamltobot.core.common.VersionChecker;
-import com.yamltobot.core.setup.SetupDefaultConfig;
-import com.yamltobot.core.setup.Window;
+import com.yamltobot.core.config.ConfigHandler;
+import com.yamltobot.core.config.ConfigObject;
+import com.yamltobot.core.config.SetupDefaultConfig;
+import com.yamltobot.core.config.VariableHandler;
+import com.yamltobot.core.gui.Window;
 import com.yamltobot.scripts.Script;
-import net.jusanov.utils.io.FileManager;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -62,7 +61,19 @@ public abstract class BotHandler {
      */
     private static MessageHandler messageHandler;
 
-	/**
+    /**
+     * The {@link ConfigHandler} of the bot
+     * @since 4.0.0
+     */
+    private static ConfigHandler configHandler;
+
+    /**
+     * The {@link VariableHandler} of the bot
+     * @since 4.0.0
+     */
+    private static VariableHandler variableHandler;
+
+    /**
 	 * Setup the bot
 	 * @since 2.0.0
 	 */
@@ -76,7 +87,7 @@ public abstract class BotHandler {
 		setupLogs();
 		setupConfig();
 		setCommands(loadCommands()); // Discord uses their own command variable
-        VariableHandler.loadVariables();
+        setupVariables();
 		setupWindow();
         logClientInfo();
 		
@@ -181,7 +192,7 @@ public abstract class BotHandler {
      */
 
     /**
-     * Load the config for YamlToBot and setup the default config based on module, if necessary
+     * Load the config for YamlToBot and gui the default config based on module, if necessary
      * @since 2.0.0
      */
     private static void setupConfig() {
@@ -202,8 +213,8 @@ public abstract class BotHandler {
 
         }
 
-        if (generalConfig.exists() == true) ConfigHandler.setConfig(generalConfig);
-        else ConfigHandler.setConfig(config);
+        if (generalConfig.exists() == true) configHandler = new ConfigHandler(generalConfig);
+        else configHandler = new ConfigHandler(config);
 
         LogHandler.debug("Setup config in " + (System.currentTimeMillis() - starttime) + " milliseconds!");
 
@@ -221,18 +232,21 @@ public abstract class BotHandler {
 
         long starttime = System.currentTimeMillis();
 
-        ArrayList<String> commandKeys = ConfigHandler.getCommands();
+        ArrayList<String> commandKeys = getConfigHandler().getCommands();
         ArrayList<Command> commands = new ArrayList<Command>();
         setScriptLoader(loadScriptLoader(Module.SCRIPT.getDir()));
 
         for (String commandName : commandKeys) {
 
+            ConfigObject command = getConfigHandler().getCommand(commandName);
+
             commands.add(new Command(
                     commandName,
-                    ConfigHandler.getCommandString(commandName, "description", "Generic Command"),
-                    ConfigHandler.getCommandArray(commandName,"message"),
-                    ConfigHandler.getCommandBoolean(commandName, "enabled", true),
-                    loadScript(getScriptLoader(), ConfigHandler.getCommandString(commandName, "script", null))));
+                    command.getString("description", "Generic Command"),
+                    command.getArray("message"),
+                    command.getBoolean("enabled", true),
+                    loadScript(getScriptLoader(), command.getString("script", null)),
+                    command));
 
         }
 
@@ -307,6 +321,12 @@ public abstract class BotHandler {
 
     }
 
+    public static void setupVariables() {
+
+        setVariableHandler(new VariableHandler(getConfigHandler().getConfig().getConfigArray("variables")));
+
+    }
+
 	/*
 	 *
 	 * █▀▀█ █▀▀ ▀▀█▀▀ 　 ▄▀▀▄ 　 █▀▀▀█ █▀▀ ▀▀█▀▀
@@ -326,20 +346,8 @@ public abstract class BotHandler {
      */
     public static String getAuth(String key) {
 
-        try {
+        return new ConfigHandler(new File(getModule().getDir() + "config.yml")).getConfig().getString(key);
 
-            String value = Yaml.createYamlInput(new FileInputStream(getModule().getDir() + "config.yml")).readYamlMapping().string(key);
-
-            if (value != null) return value.replace("\"", "");
-            else return null;
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
 
     }
 
@@ -408,5 +416,37 @@ public abstract class BotHandler {
     public static MessageHandler getMessageHandler() {
         return messageHandler;
     }
-	
+
+    /**
+     * @return This bot's {@link ConfigHandler}
+     * @since 4.0.0
+     */
+    public static ConfigHandler getConfigHandler() {
+        return configHandler;
+    }
+
+    /**
+     * @param configHandler The bot's new {@link ConfigHandler}
+     * @since 4.0.0
+     */
+    public static void setConfigHandler(ConfigHandler configHandler) {
+        BotHandler.configHandler = configHandler;
+    }
+
+    /**
+     * @return This bot's {@link VariableHandler}
+     * @since 4.0.0
+     */
+    public static VariableHandler getVariableHandler() {
+        return variableHandler;
+    }
+
+    /**
+     * @param variableHandler The bot's new {@link VariableHandler}
+     * @since 4.0.0
+     */
+    public static void setVariableHandler(VariableHandler variableHandler) {
+        BotHandler.variableHandler = variableHandler;
+    }
+
 }

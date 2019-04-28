@@ -1,9 +1,9 @@
-package com.yamltobot.core.setup;
+package com.yamltobot.core.gui;
 
 import com.yamltobot.core.common.Module;
 import com.yamltobot.core.common.Reference;
 import com.yamltobot.core.common.VersionChecker;
-import com.yamltobot.core.handler.ConfigHandler;
+import com.yamltobot.core.main.BotHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -71,7 +71,7 @@ public class Window extends JFrame {
 
         tabs.remove(1);
 
-        setTitle("YamlToBot | " + ConfigHandler.getString("name", module.getName()));
+        setTitle("YamlToBot | " + BotHandler.getConfigHandler().getConfig().getString("name", module.getName()));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(main);
         setIconImage(Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("assets/logo/logo64.png")));

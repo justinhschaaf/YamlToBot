@@ -1,6 +1,7 @@
 package com.yamltobot.discord;
 
 import com.yamltobot.core.commands.Command;
+import com.yamltobot.core.config.ConfigObject;
 import com.yamltobot.scripts.Script;
 
 import java.util.ArrayList;
@@ -30,12 +31,13 @@ public class DiscordCommand extends Command {
      * @param msg The message the command returns
      * @param enabled Whether or not the command is enabled
      * @param script The script to be executed
+     * @param object The {@link ConfigObject} associated with the command
      * @param embed The embed to return
      * @since 3.0.0
      *
      */
-    public DiscordCommand(String name, String desc, ArrayList<String> msg, Boolean enabled, Script script, DiscordEmbed embed) {
-        super(name, desc, msg, enabled, script);
+    public DiscordCommand(String name, String desc, ArrayList<String> msg, Boolean enabled, Script script, ConfigObject object, DiscordEmbed embed) {
+        super(name, desc, msg, enabled, script, object);
         this.embed = embed;
     }
 

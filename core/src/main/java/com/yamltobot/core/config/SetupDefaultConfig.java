@@ -1,8 +1,9 @@
-package com.yamltobot.core.setup;
+package com.yamltobot.core.config;
 
 import com.amihaiemil.eoyaml.YamlMapping;
 import com.amihaiemil.eoyaml.YamlMappingBuilder;
 import com.amihaiemil.eoyaml.Yaml;
+import com.yamltobot.core.common.Module;
 
 import java.io.*;
 
@@ -131,9 +132,31 @@ public class SetupDefaultConfig {
 				.add("token", "123456789012345678")
 				.add("prefix", "\"::\"")
 				.add("commands", Yaml.createYamlSequenceBuilder().add(commandPing).add(commandHelp).build());
-		
+
+		generateScriptDirectory();
+
 		return yaml;
 		
+	}
+
+	private static void generateScriptDirectory() {
+
+		try {
+
+			File testFile = new File(Module.SCRIPT.getDir() + "test.txt");
+
+			BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(testFile)));
+			bufferedWriter.write("I exist to create the '/scripts' directory!");
+			bufferedWriter.close();
+
+			testFile.delete();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 	
 }

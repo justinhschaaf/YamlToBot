@@ -1,4 +1,4 @@
-package com.yamltobot.core.setup;
+package com.yamltobot.core.gui;
 
 import com.yamltobot.core.common.Reference;
 
